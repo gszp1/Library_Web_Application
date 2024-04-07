@@ -36,4 +36,8 @@ public class User {
 
     @Column(nullable = false)
     private LocalDate joinDate;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 }
