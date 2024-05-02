@@ -1,9 +1,6 @@
 package org.example.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -11,9 +8,19 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
+@Table(name = "resources")
 public class Resource {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "resource_id")
+    private int resourceId;
+
+    @Column(length = 100, nullable = false, unique = true)
+    private String title;
+
+    @Column(length = 20, nullable = false, unique = true)
+    private String identifier;
+
+    private String description;
 }
