@@ -1,19 +1,40 @@
 package org.example.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import org.example.backend.model.jointable.AuthorResource;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
+@Table(name = "resources")
 public class Resource {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "resource_id")
+    private int resourceId;
+
+    @Column(length = 100, nullable = false, unique = true)
+    private String title;
+
+    @Column(length = 20, nullable = false, unique = true)
+    private String identifier;
+
+    private String description;
+
+    @OneToMany(mappedBy = "resource")
+    private List<ResourceInstance> resourceInstances = new ArrayList<>();
+
+    @OneToMany(mappedBy = "resource")
+    private List<AuthorResource> authors = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "FK_publisher")
+    private Publisher publisher;
 }

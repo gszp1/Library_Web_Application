@@ -3,6 +3,10 @@ package org.example.backend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.backend.model.jointable.AuthorResource;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,4 +27,7 @@ public class Author {
 
     @Column (length = 20, nullable = false)
     private String surname;
+
+    @OneToMany(mappedBy = "author")
+    private List<AuthorResource> resources = new ArrayList<>();
 }
