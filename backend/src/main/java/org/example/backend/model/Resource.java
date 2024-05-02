@@ -2,6 +2,7 @@ package org.example.backend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.backend.model.jointable.AuthorResource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class Resource {
     private List<ResourceInstance> resourceInstances = new ArrayList<>();
 
     @OneToMany(mappedBy = "resource")
-    private List<Author> authors = new ArrayList<>();
+    private List<AuthorResource> authors = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "FK_publisher")
