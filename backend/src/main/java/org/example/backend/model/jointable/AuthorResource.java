@@ -1,10 +1,10 @@
-package org.example.backend.model.jointables;
+package org.example.backend.model.jointable;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.backend.model.Author;
 import org.example.backend.model.Resource;
-import org.example.backend.model.keys.AuthorResourceKey;
+import org.example.backend.model.key.AuthorResourceKey;
 
 @Getter
 @Setter

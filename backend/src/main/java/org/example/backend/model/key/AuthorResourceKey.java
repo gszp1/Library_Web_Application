@@ -1,8 +1,7 @@
-package org.example.backend.model.keys;
+package org.example.backend.model.key;
 
 import jakarta.persistence.Embeddable;
 import lombok.*;
-import org.apache.commons.lang3.builder.HashCodeExclude;
 
 @Getter
 @Setter
