@@ -32,4 +32,8 @@ public class Resource {
 
     @OneToMany(mappedBy = "resource")
     private List<Author> authors = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "FK_publisher")
+    private Publisher publisher;
 }
