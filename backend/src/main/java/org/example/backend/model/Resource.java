@@ -29,4 +29,7 @@ public class Resource {
 
     @OneToMany(mappedBy = "resource")
     private List<ResourceInstance> resourceInstances = new ArrayList<>();
+
+    @OneToMany(mappedBy = "resource")
+    private List<Author> authors = new ArrayList<>();
 }
