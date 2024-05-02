@@ -3,6 +3,9 @@ package org.example.backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,4 +26,7 @@ public class Resource {
     private String identifier;
 
     private String description;
+
+    @OneToMany(mappedBy = "resource")
+    private List<ResourceInstance> resourceInstances = new ArrayList<>();
 }

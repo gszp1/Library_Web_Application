@@ -15,4 +15,8 @@ public class ResourceInstance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "resource_instance_id")
     private int resourceInstanceId;
+
+    @ManyToOne
+    @JoinColumn(name = "FK_resource", nullable = false)
+    private Resource resource;
 }
