@@ -20,6 +20,10 @@ Main goal of this project is to implement library web application which will all
 
 - Run user application: npm start
 
+### Possible run problems and solutions ###
+
+- react-scripts: command not found -> enter frontend directory and run: **npm install**
+  
 ## Technical specifications ##
 
 ### Database ###
