@@ -2,6 +2,7 @@ package org.example.backend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.backend.util.Role;
 
 import java.time.LocalDate;
 
@@ -38,7 +39,6 @@ public class User {
     @Column(nullable = false)
     private LocalDate joinDate;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
+    @Enumerated(EnumType.STRING)
     private Role role;
 }
