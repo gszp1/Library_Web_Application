@@ -27,6 +27,8 @@ public class Resource {
     private String identifier;
 
     private String description;
+    
+    private String imagePath;
 
     @OneToMany(mappedBy = "resource")
     private List<ResourceInstance> resourceInstances = new ArrayList<>();
