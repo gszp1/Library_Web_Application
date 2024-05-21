@@ -30,5 +30,6 @@ public class Author {
     private String surname;
 
     @OneToMany(mappedBy = "author")
+    @Builder.Default
     private List<AuthorResource> resources = new ArrayList<>();
 }

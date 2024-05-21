@@ -27,5 +27,6 @@ public class Publisher {
     private String address;
 
     @OneToMany(mappedBy = "publisher")
+    @Builder.Default
     private List<Resource> resources = new ArrayList<>();
 }

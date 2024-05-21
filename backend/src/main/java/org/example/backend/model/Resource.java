@@ -32,9 +32,11 @@ public class Resource {
     private String imagePath;
 
     @OneToMany(mappedBy = "resource")
+    @Builder.Default
     private List<ResourceInstance> resourceInstances = new ArrayList<>();
 
     @OneToMany(mappedBy = "resource")
+    @Builder.Default
     private List<AuthorResource> authors = new ArrayList<>();
 
     @ManyToOne
