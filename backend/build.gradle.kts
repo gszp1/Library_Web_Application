@@ -27,14 +27,20 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	compileOnly("org.projectlombok:lombok")
-	developmentOnly("org.springframework.boot:spring-boot-devtools")
-	runtimeOnly("org.postgresql:postgresql")
-	annotationProcessor("org.projectlombok:lombok")
-	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
+
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+	annotationProcessor("org.projectlombok:lombok")
+
+	compileOnly("org.projectlombok:lombok")
+
+	runtimeOnly("org.postgresql:postgresql")
+
+	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 }
 
 tasks.withType<Test> {
