@@ -7,6 +7,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "resources_instances")
 public class ResourceInstance {

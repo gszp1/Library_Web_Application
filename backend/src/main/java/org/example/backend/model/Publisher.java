@@ -10,6 +10,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "publishers")
 public class Publisher {

@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor()
 @ToString
+@Builder
 @Entity
 @Table(name = "roles")
 public class Role {
