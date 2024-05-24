@@ -17,6 +17,8 @@ public class ResourceInstance {
     @Column(name = "resource_instance_id")
     private Integer resourceInstanceId;
 
+    private boolean isBorrowed;
+
     @ManyToOne
     @JoinColumn(name = "FK_resource", nullable = false)
     private Resource resource;
