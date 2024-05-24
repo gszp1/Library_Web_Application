@@ -18,7 +18,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column()
+    @Column(name = "user_id")
     private Integer userId;
 
     @Column(length = 40, unique = true, nullable = false)
@@ -36,7 +36,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(name = "join_date", nullable = false)
     private LocalDate joinDate;
 
     @Enumerated(EnumType.STRING)

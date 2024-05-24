@@ -15,7 +15,7 @@ public class ResourceInstance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "resource_instance_id")
-    private int resourceInstanceId;
+    private Integer resourceInstanceId;
 
     @ManyToOne
     @JoinColumn(name = "FK_resource", nullable = false)

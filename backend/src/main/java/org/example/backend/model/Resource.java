@@ -19,7 +19,7 @@ public class Resource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "resource_id")
-    private int resourceId;
+    private Integer resourceId;
 
     @Column(length = 100, nullable = false, unique = true)
     private String title;
@@ -29,6 +29,7 @@ public class Resource {
 
     private String description;
 
+    @Column(name = "image_path")
     private String imagePath;
 
     @OneToMany(mappedBy = "resource")

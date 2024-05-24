@@ -23,11 +23,11 @@ public class Author {
     @Column (name = "author_id")
     private Integer authorId;
 
-    @Column (length = 20, nullable = false)
-    private String name;
+    @Column (name = "first_name", length = 20, nullable = false)
+    private String firstName;
 
-    @Column (length = 20, nullable = false)
-    private String surname;
+    @Column (name = "last_name", length = 20, nullable = false)
+    private String lastName;
 
     @OneToMany(mappedBy = "author")
     @Builder.Default
