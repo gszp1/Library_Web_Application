@@ -4,27 +4,29 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import java.util.Set;
 
+import static org.example.backend.auth.Permission.*;
+
 @Getter
 @RequiredArgsConstructor
 public enum Role {
     USER(
             Set.of(
-                    Permission.USER_CREATE,
-                    Permission.USER_READ,
-                    Permission.USER_UPDATE,
-                    Permission.USER_DELETE
+                    USER_CREATE,
+                    USER_READ,
+                    USER_UPDATE,
+                    USER_DELETE
             )
     ),
     ADMIN(
             Set.of(
-                    Permission.ADMIN_CREATE,
-                    Permission.ADMIN_READ,
-                    Permission.ADMIN_UPDATE,
-                    Permission.ADMIN_DELETE,
-                    Permission.USER_CREATE,
-                    Permission.USER_READ,
-                    Permission.USER_UPDATE,
-                    Permission.USER_DELETE
+                    ADMIN_CREATE,
+                    ADMIN_READ,
+                    ADMIN_UPDATE,
+                    ADMIN_DELETE,
+                    USER_CREATE,
+                    USER_READ,
+                    USER_UPDATE,
+                    USER_DELETE
             )
     );
 
