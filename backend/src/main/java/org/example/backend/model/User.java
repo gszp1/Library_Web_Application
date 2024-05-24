@@ -2,7 +2,7 @@ package org.example.backend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.backend.util.Role;
+import org.example.backend.auth.Role;
 
 import java.time.LocalDate;
 
