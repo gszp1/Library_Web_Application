@@ -24,10 +24,10 @@ public class User {
     @Column(length = 40, unique = true, nullable = false)
     private String email;
 
-    @Column(length = 20, nullable = true)
+    @Column(length = 20, nullable = false)
     private String name;
 
-    @Column(length = 20, nullable = true)
+    @Column(length = 20, nullable = false)
     private String surname;
 
     @Column(name = "phone_number", length = 12, nullable = false)
