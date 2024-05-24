@@ -1,4 +1,4 @@
-package org.example.backend.temp;
+package org.example.backend.demo;
 
 //TODO : REMOVE THIS CLASS WHEN DATABASE STRUCTURE IS FINISHED
 
@@ -11,7 +11,6 @@ import org.example.backend.repository.AuthorRepository;
 import org.example.backend.repository.AuthorResourceRepository;
 import org.example.backend.repository.PublisherRepository;
 import org.example.backend.repository.ResourceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -28,7 +27,7 @@ public class SampleDataInitializer {
         AuthorResourceRepository authorResourceRepository
     ) {
         return args -> {
-            Author author = Author.builder().name("name1").surname("surname1").build();
+            Author author = Author.builder().firstName("name1").lastName("surname1").build();
             author = authorRepository.save(author);
             Publisher publisher = Publisher.builder().name("name2").address("address2").build();
             publisher = publisherRepository.save(publisher);
