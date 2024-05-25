@@ -8,7 +8,7 @@ import org.example.backend.model.key.AuthorResourceKey;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Builder
