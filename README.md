@@ -15,6 +15,7 @@ Main goal of this project is to implement library web application which will all
 7. PostgreSQL - Relational database management system.
 8. React - Frontend framework.
 9. Material UI - CSS/React framework.
+10. JSON Web Token.
 
 ### How to run ###
 
@@ -30,17 +31,29 @@ Main goal of this project is to implement library web application which will all
 
 1. Database Name
 
-   - library_db - connection parameters specified in application.properties file:
+   - library_db - connection parameters specified in application.yml file:
 
    ```yaml
-    spring.application.name=backend
-    spring.jpa.open-in-view=false
-    spring.jpa.show-sql=false
-    server.port=8080
-    spring.datasource.url=jdbc:postgresql://localhost:5432/library_db
-    spring.datasource.username=postgres
-    spring.datasource.password=postgres
-    spring.jpa.hibernate.ddl-auto=create-drop
+   spring:
+   application:
+      name: backend
+   jpa:
+      database: postgresql
+      open-in-view: false
+      show-sql: false
+      hibernate:
+         ddl-auto: create-drop
+      properties:
+         hibernate:
+         format_sql: true
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+   datasource:
+      url: jdbc:postgresql://localhost:5432/library_db
+      username: postgres
+      password: postgres
+      driver-class-name: org.postgresql.Driver
+   server:
+   port: 9090
    ```
 
 2. Tables (Entity)

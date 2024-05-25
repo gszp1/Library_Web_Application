@@ -11,6 +11,7 @@ import org.example.backend.model.key.AuthorResourceKey;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "authors_resources")
 public class AuthorResource {
 

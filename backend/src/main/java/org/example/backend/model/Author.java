@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor()
 @ToString
+@Builder
 @Entity
 @Table(name = "authors")
 public class Author {
@@ -22,12 +23,13 @@ public class Author {
     @Column (name = "author_id")
     private Integer authorId;
 
-    @Column (length = 20, nullable = false)
-    private String name;
+    @Column (name = "first_name", length = 20, nullable = false)
+    private String firstName;
 
-    @Column (length = 20, nullable = false)
-    private String surname;
+    @Column (name = "last_name", length = 20, nullable = false)
+    private String lastName;
 
     @OneToMany(mappedBy = "author")
+    @Builder.Default
     private List<AuthorResource> resources = new ArrayList<>();
 }
