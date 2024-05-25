@@ -3,6 +3,8 @@ package org.example.backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,4 +24,7 @@ public class ResourceInstance {
     @ManyToOne
     @JoinColumn(name = "FK_resource", nullable = false)
     private Resource resource;
+
+    @OneToMany(mappedBy = "resourceInstance")
+    private List<Reservation> reservations;
 }

@@ -30,4 +30,12 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     @Column(name = "reservation_status", nullable = false)
     private ReservationStatus reservationStatus;
+
+    @ManyToOne
+    @JoinColumn(name = "FK_user")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "FK_resource_instance")
+    private ResourceInstance resourceInstance;
 }
