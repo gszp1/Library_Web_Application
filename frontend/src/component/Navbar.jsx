@@ -1,5 +1,15 @@
 import React from 'react'
 
 export default function Navbar() {
-    return <div></div>
+    return (
+        <nav className="navbar">
+            <a href = "/" className="siteTitle"> LibraryApp</a>
+            <ul>
+                <li>
+                    <a href="../page/Resources">Resources</a>
+                    <a href="../page/UserAccount">Account</a>
+                </li>
+            </ul>
+        </nav>
+    )
 }
