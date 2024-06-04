@@ -6,9 +6,13 @@ export default function Navbar() {
             <a href = "/" className="siteTitle"> LibraryApp</a>
             <ul>
                 <li>
-                    <a href="../page/resources/Resources">Resources</a>
-                    <a href="../page/useraccount/UserAccount">Account</a>
-                    <a href="../page/contact/Contact">Contact</a>
+                    <a href="/Resources">Resources</a>
+                </li>
+                <li>
+                    <a href="/UserAccount">Account</a>
+                </li>
+                <li>
+                    <a href="/Contact">Contact</a>
                 </li>
             </ul>
         </nav>
