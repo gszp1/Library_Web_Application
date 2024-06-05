@@ -11,6 +11,9 @@ const NavigationBar = () => {
         <li>
           <Link to="/contact">Contact</Link>
         </li>
+        <li>
+          <Link to="/resources">Resources</Link>
+        </li>
       </ul>
     </nav>
   );
