@@ -1,0 +1,9 @@
+.navigationBar {
+    width: 100rem;
+    height: 8rem;
+    border-radius: 1.5rem;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    
+}
