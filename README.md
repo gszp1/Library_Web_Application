@@ -71,3 +71,13 @@ Main goal of this project is to implement library web application which will all
    - users - roles (ManyToOne) - multiple users with given role, but one role per user.
    - authors - resources (ManyToMany) - multiple authors could partake in creation of given reosurce, and given author could create many resources.
    - resources - publishers (ManyToOne) - resource can have only one publisher, but given publisher can publish many resources.
+
+### Frontend ###
+
+1. Pages
+
+   - Home page - first page that is loaded for user. Contains basic data.
+   - Contact page - Page contains data about library like phone number, time when library is open.
+   - Resources page - contains list of resources that user can search through.
+   - Account page - contains data about currently logged in user.
+   - Admin page - exclusive with account page, accessible only by administrator account, gives access to admin tools in admin panel.
