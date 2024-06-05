@@ -7,7 +7,7 @@ import ResourcesPage from './page/resourcesPage/ResourcesPage';
 import AdminPanelPage from './page/AdminPanelPage/AdminPanelPage';
 import AccountPage from './page/AccountPage/AccountPage';
 
-const App = () => {
+function App() {
   return (
     <Router>
       <div>
