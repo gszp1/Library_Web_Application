@@ -1,7 +1,7 @@
 import React from 'react';
 import './ContactPageStyles.css';
 
-const ContactPage = () => {
+function ContactPage() {
   return (
     <div>
       <h1>Contact Page</h1>

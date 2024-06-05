@@ -1,7 +1,7 @@
 import React from 'react';
 import './HomePageStyles.css';
 
-const HomePage = () => {
+function HomePage() {
   return (
     <div className='HomePage'>
       <h1>Home Page</h1>
