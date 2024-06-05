@@ -6,11 +6,12 @@ import ContactPage from './page/contactPage/ContactPage';
 import ResourcesPage from './page/resourcesPage/ResourcesPage';
 import AdminPanelPage from './page/AdminPanelPage/AdminPanelPage';
 import AccountPage from './page/AccountPage/AccountPage';
+import "./AppStyles.css";
 
 function App() {
   return (
     <Router>
-      <div>
+      <div className='appBackground'>
         <NavigationBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
