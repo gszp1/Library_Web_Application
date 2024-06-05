@@ -1,12 +1,10 @@
 import React from 'react';
 import './ContactPageStyles.css';
+import PageContent from './PageContent';
 
 function ContactPage() {
   return (
-    <div>
-      <h1>Contact Page</h1>
-      <p>Welcome to the Contact Page!</p>
-    </div>
+    <PageContent />
   );
 };
 
