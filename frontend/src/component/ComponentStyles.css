@@ -2,7 +2,7 @@
     width: 100rem;
     height: 8rem;
     border-radius: 1.5rem;
-    padding: 0.5rem, 1rem;
+    padding: 0.5rem 1rem;
     margin-top: 1rem;
     background-color: white;
     display: flex;
@@ -38,7 +38,7 @@
 
 .searchBar input {
     width: 41rem;
-    height: 2rem;
+    height: 2.5rem;
     font-size: 1rem;
     border: 2px solid black;
     border-radius: 10px;
