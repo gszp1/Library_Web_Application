@@ -2,8 +2,81 @@
     width: 100rem;
     height: 8rem;
     border-radius: 1.5rem;
+    padding: 0.5rem, 1rem;
+    margin-top: 1rem;
     background-color: white;
     display: flex;
     flex-direction: row;
-    
+    justify-content: space-evenly;
+    align-items: center;
+    box-shadow: 0 2px 4px rgb(48, 43, 43);
+}
+
+.appLogo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 2.5rem;
+}
+
+.appLogoIcon {
+    color: orange
+}
+
+.appLogo a {
+    text-decoration: none;
+    color: hsl(0, 0%, 0%);
+    font-weight: bold;
+}
+
+
+.searchBar {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+
+.searchBar input {
+    width: 41rem;
+    height: 2rem;
+    font-size: 1rem;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.pageLinks {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    list-style: none;
+    padding: 0;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.pageLinks li {
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.pageLinks a {
+    text-decoration: none;
+    color: hsl(0, 0%, 0%);
+    font-weight: bold;
+}
+
+.pageLinks a:hover {
+    color: hsl(0, 0%, 30%);
+}
+
+.pageLinks a:active {
+    color: hsl(0, 0%, 50%);
+}
+
+.icon {
+    color: orange;
+    font-size: 2rem;
 }

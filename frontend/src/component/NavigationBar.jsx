@@ -1,22 +1,39 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import "./ComponentStyles.css"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBook, faFolder, faUser, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 const NavigationBar = () => {
   return (
     <nav className='navigationBar'>
-      <ul>
+      <div className="appLogo">
+        <Link to="/">
+            <FontAwesomeIcon icon={faBook} className='appLogoIcon'/>
+            {" WebLibrary"}
+        </Link>
+      </div>
+      <div className='searchBar'>
+        <input type="text" placeholder="Search..."/>
+      </div>
+      <ul className='pageLinks'>
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/resources">
+            <FontAwesomeIcon icon={faFolder} className='icon'/>
+              {" Resources"}
+          </Link>
         </li>
         <li>
-          <Link to="/contact">Contact</Link>
+          <Link to="/account">
+            <FontAwesomeIcon icon={faUser} className='icon'/>
+            {" Account"}
+          </Link>
         </li>
         <li>
-          <Link to="/resources">Resources</Link>
-        </li>
-        <li>
-          <Link to="/account">Account</Link>
+          <Link to="/contact">
+            <FontAwesomeIcon icon={faEnvelope} className='icon'/>
+            {" Contact"}
+          </Link>
         </li>
       </ul>
     </nav>
