@@ -15,7 +15,8 @@
     "npm": "^10.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.23.1"
+    "react-router-dom": "^6.23.1",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "babel-preset-nano-react-app": "^0.1.0",

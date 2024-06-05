@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8">
+<data>
+    <phone>+48 111 222 333</phone>
+    <email>WebLibrary@mail.com</email>
+    <Address>
+        <city>Łódź</city>
+        <street>Wólczańska</street>
+        <buildingNumber>223</buildingNumber>
+    </Address>
+</data>
