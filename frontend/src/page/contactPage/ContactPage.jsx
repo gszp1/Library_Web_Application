@@ -14,7 +14,11 @@ function ContactPage() {
       street: '',
       buildingNumber: ''
     },
-    coordinates: null
+    coordinates: null,
+    openHours: {
+      days: "",
+      hours: ""
+    }
   });
 
   useEffect(() => {
@@ -45,6 +49,10 @@ function ContactPage() {
           coordinates: {
             longitude: parseFloat(data.coordinates.longitude),
             latitude: parseFloat(data.coordinates.latitude)
+          },
+          openHours: {
+            days: data.openHours.day,
+            hours: data.openHours.hours
           }
         });
       } catch (error) {
@@ -61,6 +69,8 @@ function ContactPage() {
         phoneNumber={contactData.phone}
         address={`${contactData.address.city} ${contactData.address.street} ${contactData.address.buildingNumber}`}
         email={contactData.email}
+        days={contactData.openHours.days}
+        hours={contactData.openHours.hours}
       />
       {contactData.coordinates && (
         <LocationMap

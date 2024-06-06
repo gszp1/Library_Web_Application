@@ -1,4 +1,4 @@
-<!ELEMENT cData (phone,email,address,coordinates)>
+<!ELEMENT cData (phone,email,address,coordinates, openHours)>
 <!ELEMENT phone (#PCDATA)>
 <!ELEMENT email (#PCDATA)>
 <!ELEMENT address (city,street,buildingNumber)>
