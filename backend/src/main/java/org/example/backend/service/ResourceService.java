@@ -3,6 +3,7 @@ package org.example.backend.service;
 import org.example.backend.dto.AuthorDto;
 import org.example.backend.dto.ResourceDto;
 import org.example.backend.model.Resource;
+import org.example.backend.repository.AuthorRepository;
 import org.example.backend.repository.ResourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,16 @@ public class ResourceService {
 
     private final ResourceRepository resourceRepository;
 
+    private final AuthorRepository authorRepository;
+
     @Autowired
-    public ResourceService(ResourceRepository resourceRepository) {
+    public ResourceService(ResourceRepository resourceRepository, AuthorRepository authorRepository) {
         this.resourceRepository = resourceRepository;
+        this.authorRepository = authorRepository;
     }
 
-    public List<ResourceDto> getAll() {
-        List<Resource> resources = resourceRepository.findAll();
+    public List<ResourceDto> getAllWithAuthors() {
+        List<Resource> resources = resourceRepository.findAllWithAuthors();
         return resources.stream().map(this::mapToDto).collect(Collectors.toList());
     }
 

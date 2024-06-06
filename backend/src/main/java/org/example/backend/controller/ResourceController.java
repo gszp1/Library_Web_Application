@@ -23,7 +23,7 @@ public class ResourceController {
 
     @GetMapping("/all")
     public List<ResourceDto> getAll() {
-        return resourceService.getAll();
+        return resourceService.getAllWithAuthors();
     }
 
 }
