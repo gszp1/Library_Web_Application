@@ -1,0 +1,10 @@
+<!ELEMENT cData (phone,email,address,coordinates)>
+<!ELEMENT phone (#PCDATA)>
+<!ELEMENT email (#PCDATA)>
+<!ELEMENT address (city,street,buildingNumber)>
+<!ELEMENT city (#PCDATA)>
+<!ELEMENT street (#PCDATA)>
+<!ELEMENT buildingNumber (#PCDATA)>
+<!ELEMENT coordinates (longitude,latitude)>
+<!ELEMENT longitude (#PCDATA)>
+<!ELEMENT latitude (#PCDATA)>

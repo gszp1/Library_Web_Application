@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8">
-<data>
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="contactData.dtd"?>
+<cData>
     <phone>+48 111 222 333</phone>
     <email>WebLibrary@mail.com</email>
     <address>
@@ -11,4 +12,4 @@
         <longitude>19.454487459806266</longitude>
         <latitude>51.745599409156924</latitude>
     </coordinates>
-</data>
+</cData>

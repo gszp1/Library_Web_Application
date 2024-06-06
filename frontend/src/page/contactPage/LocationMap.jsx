@@ -9,7 +9,7 @@ function LocationMap({latitude, longitude, zoomLevel, markers}) {
 
     const customIcon = new Icon({
         iconUrl: mapPin,
-        iconSize: [38, 38]
+        iconSize: [30, 30]
     })
 
     return (
