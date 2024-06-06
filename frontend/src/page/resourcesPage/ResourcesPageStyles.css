@@ -7,3 +7,31 @@
     padding-top: 2rem;
     padding-bottom: 2rem;
 }
+
+.resource {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.resourceImage {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.resourceTitle {
+    margin: 1rem 0 0.5rem;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.authors{
+    margin: 0;
+    font-size: 1rem;
+    text-align: center;
+    color: #555;
+}
