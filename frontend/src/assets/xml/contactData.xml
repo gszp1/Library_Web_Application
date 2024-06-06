@@ -2,9 +2,13 @@
 <data>
     <phone>+48 111 222 333</phone>
     <email>WebLibrary@mail.com</email>
-    <Address>
+    <address>
         <city>Łódź</city>
         <street>Wólczańska</street>
         <buildingNumber>223</buildingNumber>
-    </Address>
+    </address>
+    <coordinates>
+        <longitude>19.454487459806266</longitude>
+        <latitude>51.745599409156924</latitude>
+    </coordinates>
 </data>

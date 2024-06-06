@@ -35,13 +35,10 @@
     font-weight: bold;
 }
 
-.contactItem {
-    margin-bottom: 1.5rem;
-}
-
 .contactItem strong {
     display: block;
     font-size: 1.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .contactItem span {
