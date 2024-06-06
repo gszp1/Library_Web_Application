@@ -1,5 +1,6 @@
 package org.example.backend.controller;
 
+import org.example.backend.dto.ResourceDto;
 import org.example.backend.model.Resource;
 import org.example.backend.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +21,9 @@ public class ResourceController {
         this.resourceService = resourceService;
     }
 
+    @GetMapping("/all")
+    public List<ResourceDto> getAll() {
+        return resourceService.getAll();
+    }
 
 }
