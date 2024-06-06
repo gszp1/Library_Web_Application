@@ -8,3 +8,6 @@
 <!ELEMENT coordinates (longitude,latitude)>
 <!ELEMENT longitude (#PCDATA)>
 <!ELEMENT latitude (#PCDATA)>
+<!ELEMENT openHours (day, hours)>
+<!ELEMENT day (#PCDATA)>
+<!ELEMENT hours (#PCDATA)>
