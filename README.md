@@ -78,6 +78,7 @@ Main goal of this project is to implement library web application which will all
 
    - Home page - first page that is loaded for user. Contains basic data.
    - Contact page - Page contains data about library like phone number, time when library is open.
+      ![image](ContactPage.png)
    - Resources page - contains list of resources that user can search through.
    - Account page - contains data about currently logged in user.
    - Admin page - exclusive with account page, accessible only by administrator account, gives access to admin tools in admin panel.
