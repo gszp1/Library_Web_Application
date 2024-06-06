@@ -1,9 +1,13 @@
 package org.example.backend.dto;
 
+import java.util.List;
+
 public record ResourceDto(
-        String title,
-        String description,
-        String imagePath,
-        String identifier
-) {
-}
+    int id,
+    String title,
+    String identifier,
+    String description,
+    String path,
+    String publisher,
+    List<AuthorDto> authors
+) { }
