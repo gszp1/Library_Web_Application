@@ -3,7 +3,9 @@ import './ResourcesPageStyles.css';
 
 function ResourcesPage() {
     return (
-        <div></div>
+        <div className="pageContent">
+
+        </div>
     );
 }
 

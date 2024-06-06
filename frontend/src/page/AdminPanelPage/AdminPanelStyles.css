@@ -1,0 +1,9 @@
+.pageContent {
+    width: 95rem;
+    height: auto;
+    background-color: rgba(255,255,255, 0.9);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
