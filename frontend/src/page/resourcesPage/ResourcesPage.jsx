@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import './ResourcesPageStyles.css';
 import Resource from "./Resource";
-
+import useDebounce from "../../customHooks/useDebounce";
 import axios from "axios";
 
-function ResourcesPage() {
+function ResourcesPage({searchKeyword}) {
     const [resources, setResources] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const debouncedSearchKeyword = useDebounce(searchKeyword, 1000);
     useEffect(() => {
         const fetchResources = async () => {
             try {
-                const response = await axios.get('http://localhost:9090/api/resources/all');
+                let url = searchKeyword === ''
+                  ? `http://localhost:9090/api/resources/all`
+                  : `http://localhost:9090/api/resources/all/${searchKeyword}`;
+                const response = await axios.get(url);
                 setResources(response.data);
                 setLoading(false);
             } catch (error) {
@@ -21,7 +24,7 @@ function ResourcesPage() {
             }
         };
         fetchResources();
-    }, []);
+    }, [debouncedSearchKeyword]);
 
     console.log(resources);
 

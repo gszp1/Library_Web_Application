@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import NavigationBar from './component/NavigationBar';
 import HomePage from './page/homePage/HomePage';
@@ -9,14 +9,16 @@ import AccountPage from './page/AccountPage/AccountPage';
 import "./AppStyles.css";
 
 function App() {
+  const [searchKeyword, setSearchKeyword] = useState("");
+
   return (
     <Router>
       <div className='appBackground'>
-        <NavigationBar />
+        <NavigationBar searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword}/>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/resources" element={<ResourcesPage />} />
+          <Route path="/resources" element={<ResourcesPage searchKeyword={searchKeyword}/>} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/adminPanel" element={<AdminPanelPage />} />
         </Routes>

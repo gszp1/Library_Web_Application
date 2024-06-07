@@ -30,7 +30,7 @@ public class ResourceController {
 
     @GetMapping("/all/{keyword}")
     public List<ResourceDto> getAllWithKeyword(@PathVariable(name="keyword") String keyword) {
-        return resourceService.getResourcesWithKeywordInTitle("keyword");
+        return resourceService.getResourcesWithKeywordInTitle(keyword);
     }
 
     @GetMapping("/{id}/description")

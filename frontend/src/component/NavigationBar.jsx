@@ -4,7 +4,7 @@ import "./ComponentStyles.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faFolder, faUser, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
-const NavigationBar = () => {
+const NavigationBar = ({searchKeyword, setSearchKeyword}) => {
   return (
     <nav className='navigationBar'>
       <div className="appLogo">
@@ -14,7 +14,12 @@ const NavigationBar = () => {
         </Link>
       </div>
       <div className='searchBar'>
-        <input type="text" placeholder="Search..."/>
+        <input
+          type="text"
+          value={searchKeyword}
+          placeholder="Search..."
+          onChange={e => setSearchKeyword(e.target.value)}
+        />
       </div>
       <ul className='pageLinks'>
         <li>
