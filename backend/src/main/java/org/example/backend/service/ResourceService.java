@@ -39,6 +39,14 @@ public class ResourceService {
         );
     }
 
+    public List<ResourceDto> getResourcesWithKeywordInTitle(String keyword) {
+        return resourceRepository
+                .findAllByTitleKeyword(keyword)
+                .stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
     private ResourceDto mapToDto(Resource resource) {
         String publisher = resource.getPublisher() == null ? "" : resource.getPublisher().getName();
         List<AuthorDto> authors = resource.getAuthors()

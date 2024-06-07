@@ -28,9 +28,13 @@ public class ResourceController {
         return resourceService.getAllWithAuthors();
     }
 
+    @GetMapping("/all/{keyword}")
+    public List<ResourceDto> getAllWithKeyword(@PathVariable(name="keyword") String keyword) {
+        return resourceService.getResourcesWithKeywordInTitle("keyword");
+    }
+
     @GetMapping("/{id}/description")
     public ResourceDescriptionDto getDescription(@PathVariable(name = "id") Integer id) {
         return resourceService.getResourceDescription(id);
     }
-
 }

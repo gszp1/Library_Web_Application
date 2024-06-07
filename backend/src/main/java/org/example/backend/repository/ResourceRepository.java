@@ -16,4 +16,7 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
     List<Resource> findAllWithAuthors();
 
     Optional<Resource> findByResourceId(Integer id);
+
+    @Query("SELECT r FROM Resource r WHERE LOWER(r.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<Resource> findAllByTitleKeyword(String keyword);
 }
