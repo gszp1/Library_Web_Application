@@ -37,7 +37,7 @@ function ResourcesPage() {
             resources.map((resource, index) => (
               <Resource
                 key={index}
-                image={resource.image}
+                imageUrl={resource.imageUrl}
                 title={resource.title}
                 authors={resource.authors}
               />
