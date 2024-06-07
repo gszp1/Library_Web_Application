@@ -23,6 +23,8 @@ function ResourcesPage() {
         fetchResources();
     }, []);
 
+    console.log(resources);
+
     return (
         <div className="pageContent">
           {loading ? (
@@ -33,7 +35,12 @@ function ResourcesPage() {
             <div>No library resources available.</div>
           ) : (
             resources.map((resource, index) => (
-              <Resource key={index} image={resource.image} title={resource.title} authors={resource.authors} />
+              <Resource
+                key={index}
+                image={resource.image}
+                title={resource.title}
+                authors={resource.authors}
+              />
             ))
           )}
         </div>
