@@ -16,6 +16,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 @Component
@@ -45,9 +47,14 @@ public class SampleDataInitializer {
     ) {
         return args -> {
             Author author = Author.builder().firstName("name1").lastName("surname1").build();
+            Author author2 = Author.builder().firstName("name2").lastName("surname2").build();
+            Author author3 = Author.builder().firstName("name3").lastName("surname3").build();
             author = authorRepository.save(author);
+            author2 = authorRepository.save(author2);
+            author3 = authorRepository.save(author3);
             Publisher publisher = Publisher.builder().name("name2").address("address2").build();
             publisher = publisherRepository.save(publisher);
+
             Resource resource = Resource.builder()
                     .identifier("x--x")
                     .title("title")
@@ -57,6 +64,7 @@ public class SampleDataInitializer {
                     .build();
             resource = resourceRepository.save(resource);
             publisher = publisherRepository.save(publisher);
+
             AuthorResourceKey ARKey = new AuthorResourceKey(author.getAuthorId(), resource.getResourceId());
             AuthorResource authorResource = AuthorResource
                     .builder()
@@ -64,11 +72,24 @@ public class SampleDataInitializer {
                     .resource(resource)
                     .id(ARKey)
                     .build();
-            authorResource = authorResourceRepository.save(authorResource);
-            author.getResources().add(authorResource);
-            resource.getAuthors().add(authorResource);
-            author = authorRepository.save(author);
+            AuthorResourceKey ARKey2 = new AuthorResourceKey(author2.getAuthorId(), resource.getResourceId());
+            AuthorResource authorResource2 = AuthorResource.builder()
+                    .author(author2)
+                    .resource(resource)
+                    .id(ARKey2)
+                    .build();
+            AuthorResourceKey ARKey3 = new AuthorResourceKey(author3.getAuthorId(), resource.getResourceId());
+            AuthorResource authorResource3 = AuthorResource.builder()
+                    .author(author3)
+                    .resource(resource)
+                    .id(ARKey3)
+                    .build();
+            List<AuthorResource> authorResourceList = authorResourceRepository.saveAll(Arrays.asList(authorResource, authorResource2, authorResource3));
+            author.getResources().addAll(authorResourceList);
+            resource.getAuthors().addAll(authorResourceList);
+            List<Author> authors = authorRepository.saveAll(Arrays.asList(author, author2, author3));
             resource = resourceRepository.save(resource);
+
             generateMultipleResources(5);
         };
     }
@@ -101,7 +122,6 @@ public class SampleDataInitializer {
                 .id(ARKey)
                 .build();
         authorResource = authorResourceRepository.save(authorResource);
-
         author.getResources().add(authorResource);
         resource.getAuthors().add(authorResource);
 
