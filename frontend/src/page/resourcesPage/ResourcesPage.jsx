@@ -14,7 +14,7 @@ function ResourcesPage({searchKeyword}) {
             try {
                 let url = searchKeyword === ''
                   ? `http://localhost:9090/api/resources/all`
-                  : `http://localhost:9090/api/resources/all/${searchKeyword}`;
+                  : `http://localhost:9090/api/resources/all/${debouncedSearchKeyword}`;
                 const response = await axios.get(url);
                 setResources(response.data);
                 setLoading(false);
