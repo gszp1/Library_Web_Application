@@ -20,29 +20,24 @@ function ResourcesPage() {
                 setLoading(false);
             }
         };
-        
         fetchResources();
     }, []);
 
-    if (loading) {
-        return <div> Loading library resources...</div>;
-    }
-
-    if (error) {
-        return <div> Failed to load library resources.</div>;
-    }
-
-    console.log(resources.length);
-    if (resources.length === 0) {
-        return <div> No library resources available.</div>;
-    }
-
-    
     return (
         <div className="pageContent">
-            <Resource image="" title="book" authors={["philip", "jan"]} />
+          {loading ? (
+            <div>Loading library resources...</div>
+          ) : error ? (
+            <div>Failed to load library resources.</div>
+          ) : resources.length === 0 ? (
+            <div>No library resources available.</div>
+          ) : (
+            resources.map((resource, index) => (
+              <Resource key={index} image={resource.image} title={resource.title} authors={resource.authors} />
+            ))
+          )}
         </div>
-    );
+      );
 }
 
 export default ResourcesPage;
