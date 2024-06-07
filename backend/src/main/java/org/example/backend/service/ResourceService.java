@@ -1,6 +1,7 @@
 package org.example.backend.service;
 
 import org.example.backend.dto.AuthorDto;
+import org.example.backend.dto.ResourceDescriptionDto;
 import org.example.backend.dto.ResourceDto;
 import org.example.backend.model.Resource;
 import org.example.backend.repository.AuthorRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +29,14 @@ public class ResourceService {
     public List<ResourceDto> getAllWithAuthors() {
         List<Resource> resources = resourceRepository.findAllWithAuthors();
         return resources.stream().map(this::mapToDto).collect(Collectors.toList());
+    }
+
+    public ResourceDescriptionDto getResourceDescription(Integer id) {
+        Optional<Resource> resource = resourceRepository.findByResourceId(id);
+        return new ResourceDescriptionDto(resource
+                .map(Resource::getDescription)
+                .orElse(null)
+        );
     }
 
     private ResourceDto mapToDto(Resource resource) {
