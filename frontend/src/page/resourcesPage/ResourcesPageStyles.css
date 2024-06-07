@@ -14,18 +14,20 @@
 .resource {
     flex: 0 1 calc(25% - 2rem);
     box-sizing: border-box;
+    height: 25rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     border: 1px solid #ccc;
     padding: 1rem;
     margin: 1rem;
+    border-radius: 2rem;
 }
 
 .resourceImage {
     width: 100%;
-    height: auto;
-    object-fit: cover;
+    height: 100%;
+    object-fit: contain;
 }
 
 .resourceTitle {
@@ -38,5 +40,5 @@
     margin: 0;
     font-size: 1rem;
     text-align: center;
-    color: #555;
+    color: gray;
 }
