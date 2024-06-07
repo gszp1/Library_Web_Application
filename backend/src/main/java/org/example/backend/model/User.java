@@ -37,8 +37,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(name="image_path")
-    private String imagePath;
+    @Column(name="image_url")
+    private String imageUrl;
 
     @Column(name = "join_date", nullable = false)
     private LocalDate joinDate;

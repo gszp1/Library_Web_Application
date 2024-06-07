@@ -49,7 +49,7 @@ public class ResourceService {
             resource.getResourceId(),
             resource.getTitle(),
             resource.getIdentifier(),
-            resource.getImagePath(),
+            resource.getImageUrl(),
             publisher,
             authors
         );

@@ -29,8 +29,8 @@ public class Resource {
 
     private String description;
 
-    @Column(name = "image_path")
-    private String imagePath;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @OneToMany(mappedBy = "resource")
     @Builder.Default

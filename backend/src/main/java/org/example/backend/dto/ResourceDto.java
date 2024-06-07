@@ -6,7 +6,7 @@ public record ResourceDto(
     int id,
     String title,
     String identifier,
-    String path,
+    String imageUrl,
     String publisher,
     List<AuthorDto> authors
 ) { }
