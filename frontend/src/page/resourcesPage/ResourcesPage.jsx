@@ -3,6 +3,7 @@ import './ResourcesPageStyles.css';
 import Resource from "./Resource";
 import useDebounce from "../../customHooks/useDebounce";
 import axios from "axios";
+import ResourcePage from "./ResourcePage";
 
 function ResourcesPage({searchKeyword}) {
     const [resources, setResources] = useState([]);
@@ -26,8 +27,6 @@ function ResourcesPage({searchKeyword}) {
         fetchResources();
     }, [debouncedSearchKeyword]);
 
-    console.log(resources);
-
     return (
         <div className="pageContent">
           {loading ? (
@@ -37,13 +36,15 @@ function ResourcesPage({searchKeyword}) {
           ) : resources.length === 0 ? (
             <div>No library resources available.</div>
           ) : (
-            resources.map((resource, index) => (
-              <Resource
-                key={index}
-                imageUrl={resource.imageUrl}
-                title={resource.title}
-                authors={resource.authors}
-              />
+            resources.map((resource) => (
+              <div key={resource.id}>
+                {/* <Resource
+                  imageUrl={resource.imageUrl}
+                  title={resource.title}
+                  authors={resource.authors}
+                /> */}
+                <ResourcePage resource={resource}/>
+              </div>
             ))
           )}
         </div>

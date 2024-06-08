@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./ResourcesPageStyles.css";
 import axios from "axios";
+import bookPlaceholder from "../../assets/image/bookPlaceholder.jpg";
 
 function ResourcePage({resource}){
     const [description, setDescription] = useState('');
@@ -23,6 +24,8 @@ function ResourcePage({resource}){
 
     let authorsFullNames = resource.authors.map(author => `${author.firstName} ${author.lastName}`);
     let authorsFullNamesJoined = authorsFullNames.join(', ');
+
+    console.log(description);
 
     return (
         <div>
@@ -48,7 +51,7 @@ function ResourcePage({resource}){
             ) : error ? (
                 <p>Failed to load description.</p>
             ) : (
-                <p>{description}</p>
+                <p>{description.description}</p>
             )}
             <button>
                 Reserve
