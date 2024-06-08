@@ -3,7 +3,6 @@ import './ResourcesPageStyles.css';
 import Resource from "./Resource";
 import useDebounce from "../../customHooks/useDebounce";
 import axios from "axios";
-import ResourcePage from "./ResourcePage";
 
 function ResourcesPage({searchKeyword}) {
     const [resources, setResources] = useState([]);
@@ -39,9 +38,8 @@ function ResourcesPage({searchKeyword}) {
             resources.map((resource) => (
               <div key={resource.id}>
                 <Resource
-                  imageUrl={resource.imageUrl}
-                  title={resource.title}
-                  authors={resource.authors}
+                  id={resource.id}
+                  resource={resource}
                 />
               </div>
             ))

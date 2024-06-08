@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import {useLocation} from "react-router-dom"
 import "./ResourcesPageStyles.css";
 import axios from "axios";
 import bookPlaceholder from "../../assets/image/bookPlaceholder.jpg";
 
-function ResourcePage({resource}){
+function ResourcePage(){
+    const location = useLocation();
+    const {resource} = location.state;
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -20,7 +23,7 @@ function ResourcePage({resource}){
             }
         }
         fetchDescription();
-    }, []);
+    }, [resource.id]);
 
     let authorsFullNames = resource.authors.map(author => `${author.firstName} ${author.lastName}`);
     let authorsFullNamesJoined = authorsFullNames.join(', ');
