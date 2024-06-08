@@ -4,7 +4,7 @@ import "./ComponentStyles.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faFolder, faUser, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
-const NavigationBar = ({searchKeyword, setSearchKeyword}) => {
+function NavigationBar({searchKeyword, setSearchKeyword}) {
   return (
     <nav className='navigationBar'>
       <div className="appLogo">
