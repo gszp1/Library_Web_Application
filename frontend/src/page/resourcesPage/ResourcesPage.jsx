@@ -38,12 +38,11 @@ function ResourcesPage({searchKeyword}) {
           ) : (
             resources.map((resource) => (
               <div key={resource.id}>
-                {/* <Resource
+                <Resource
                   imageUrl={resource.imageUrl}
                   title={resource.title}
                   authors={resource.authors}
-                /> */}
-                <ResourcePage resource={resource}/>
+                />
               </div>
             ))
           )}

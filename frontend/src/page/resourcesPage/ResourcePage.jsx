@@ -28,24 +28,29 @@ function ResourcePage({resource}){
     console.log(description);
 
     return (
-        <div>
-            <div>
-                <img src={resource.imageUrl || bookPlaceholder}/>
-                <ul>
+        <div className = "resourcePageContent">
+            <div className = "resourceData">
+                <img className="resourcePageImage" src={resource.imageUrl || bookPlaceholder}/>
+                <ul className="resourceInformation">
                     <li>
-                        {`Title: ${resource.title}`}
+                        <h2>Title:</h2>
+                        {`${resource.title}`}
                     </li>
                     <li>
-                        {`Authors: ${authorsFullNamesJoined}`}
+                        <h2>Authors:</h2>
+                        {`${authorsFullNamesJoined}`}
                     </li>
                     <li>
-                        {`Publisher: ${resource.publisher}`}
+                        <h2>Publisher:</h2>
+                        {`${resource.publisher}`}
                     </li>
                     <li>
-                        {`Identifier: ${resource.identifier}`}
+                        <h2>Identifier:</h2>
+                        {`${resource.identifier}`}
                     </li>
                 </ul>
             </div>
+            <h1>{'Description: '}</h1>
             {loading ? (
                 <p>Loading description...</p>
             ) : error ? (
