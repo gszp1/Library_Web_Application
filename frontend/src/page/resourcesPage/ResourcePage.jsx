@@ -33,37 +33,45 @@ function ResourcePage(){
     return (
         <div className = "resourcePageContent">
             <div className = "resourceData">
-                <img className="resourcePageImage" src={resource.imageUrl || bookPlaceholder}/>
+                <div className="imageContainer">
+                    <img className="resourcePageImage" src={resource.imageUrl || bookPlaceholder}/>
+                </div>
                 <ul className="resourceInformation">
                     <li>
-                        <h2>Title:</h2>
-                        {`${resource.title}`}
+                        <h2>Title</h2>
+                        <p> {`${resource.title}`} </p>
                     </li>
                     <li>
-                        <h2>Authors:</h2>
-                        {`${authorsFullNamesJoined}`}
+                        <h2>Authors</h2>
+                        <p> {`${authorsFullNamesJoined}`} </p>
                     </li>
                     <li>
-                        <h2>Publisher:</h2>
-                        {`${resource.publisher}`}
+                        <h2>Publisher</h2>
+                        <p> {`${resource.publisher}`} </p>
                     </li>
                     <li>
-                        <h2>Identifier:</h2>
-                        {`${resource.identifier}`}
+                        <h2>Identifier</h2>
+                        <p> {`${resource.identifier}`} </p>
                     </li>
                 </ul>
             </div>
-            <h1>{'Description: '}</h1>
-            {loading ? (
-                <p>Loading description...</p>
-            ) : error ? (
-                <p>Failed to load description.</p>
-            ) : (
-                <p>{description.description}</p>
-            )}
-            <button>
-                Reserve
-            </button>
+            <div className="descriptionreservationContainer">
+                <div className="descriptionContainer">
+                    <h1>{'Description: '}</h1>
+                    {loading ? (
+                        <p>Loading description...</p>
+                    ) : error ? (
+                        <p>Failed to load description.</p>
+                    ) : (
+                        <p>{description.description}</p>
+                    )}
+                </div>
+                <div className="buttonContainer">
+                    <button className="reservationButton">
+                        Reserve
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }

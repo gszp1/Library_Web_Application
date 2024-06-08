@@ -7,6 +7,7 @@
     background-color: white;
     display: flex;
     flex-direction: row;
+    flex-shrink: 0;
     justify-content: space-evenly;
     align-items: center;
     box-shadow: 0 2px 4px rgb(48, 43, 43);
