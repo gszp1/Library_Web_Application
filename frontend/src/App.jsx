@@ -8,6 +8,7 @@ import AdminPanelPage from './page/AdminPanelPage/AdminPanelPage';
 import AccountPage from './page/AccountPage/AccountPage';
 import ResourcePage from './page/resourcesPage/ResourcePage';
 import "./AppStyles.css";
+import RegistrationPage from './page/RegistrationPage/RegistrationPage';
 function App() {
   const [searchKeyword, setSearchKeyword] = useState("");
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/resources" element={<ResourcesPage searchKeyword={searchKeyword}/>} />
           <Route path="/resources/:resourceId" element={<ResourcePage />}/>
+          <Route path="/register" element={<RegistrationPage/>}/>
           <Route path="/account" element={<AccountPage />} />
           <Route path="/adminPanel" element={<AdminPanelPage />} />
         </Routes>

@@ -1,0 +1,95 @@
+.registrationForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(255,255,255, 0.9);
+    border-radius: 1.5rem;
+    width: 95rem;
+    height: auto;
+    overflow: visible;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.registrationForm h1 {
+    font-size: 2.5rem;
+    margin-top: 0;
+}
+
+.registrationForm h2 {
+    font-size: 2.5rem;
+    margin-top: 0;
+    color:orange
+}
+
+.registrationForm button {
+    width: 30%;
+    height: 2.5rem;
+    font-size: 1.5rem;
+    border: 2px black solid;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgb(48, 43, 43);
+    background-color: hsl(34, 100%, 50%);
+    transition: background-color 0.3s;
+}
+
+.registrationForm button:hover {
+    background-color: hsl(34, 100%, 40%);
+}
+
+.registrationForm button:active {
+    background-color: hsl(34, 100%, 30%);
+}
+
+.inputs {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    margin-bottom: 3rem;
+}
+
+.inputs label {
+    font-size: 1.5rem;
+    margin-bottom: 1%;
+}
+
+.inputs input {
+    margin-bottom: 3%;
+    border: 3px black solid;
+    border-radius: 15px;
+    height: 3rem;
+    width: 50%;
+    font-size: 1.5rem;
+    box-shadow: 0 3px 5px rgb(48, 43, 43);
+    background-color: white
+}
+
+.inputs input:focus {
+    border-color: orange;
+    outline: none;
+}
+
+.requiredInputs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 40%;
+    margin-left: 10%;
+}
+
+.optionalInputs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 40%;
+}
+
+.inputs h2 {
+    font-size: 2rem;
+}
