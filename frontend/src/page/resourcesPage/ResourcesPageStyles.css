@@ -20,10 +20,25 @@
     flex-direction: column;
     align-items: center;
     border: 1px solid #ccc;
+    background-color: hsl(0, 0%, 100%);
     padding: 1rem;
     margin: 1rem;
     border-radius: 2rem;
     cursor: pointer;
+    text-decoration: none;
+    color: black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.4s, box-shadow 0.5s, border-color 0.5s;
+}
+
+.resource:hover {
+    background-color: hsl(0, 0%, 80%);
+    border-color: orange;
+}
+
+.resource:active {
+    background-color: hsl(0, 0%, 60%);
+    border-color: orange;
 }
 
 .resourceImage {
@@ -147,6 +162,8 @@
     cursor: pointer;
     box-shadow: 0 2px 4px rgb(48, 43, 43);
     background-color: hsl(34, 100%, 50%);
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 .reservationButton:hover {

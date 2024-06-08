@@ -90,7 +90,7 @@ public class SampleDataInitializer {
             List<Author> authors = authorRepository.saveAll(Arrays.asList(author, author2, author3));
             resource = resourceRepository.save(resource);
 
-            generateMultipleResources(5);
+//            generateMultipleResources(5);
         };
     }
 

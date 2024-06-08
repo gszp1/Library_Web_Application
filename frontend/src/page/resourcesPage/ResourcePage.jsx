@@ -57,7 +57,7 @@ function ResourcePage(){
             </div>
             <div className="descriptionreservationContainer">
                 <div className="descriptionContainer">
-                    <h1>{'Description: '}</h1>
+                    <h1>{'Description'}</h1>
                     {loading ? (
                         <p>Loading description...</p>
                     ) : error ? (
