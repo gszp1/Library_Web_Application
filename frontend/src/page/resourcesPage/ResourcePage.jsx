@@ -1,20 +1,22 @@
 import React from "react";
 
-function ResourcePage(){
-    <div>
+function ResourcePage({resource}){
+
+    return (
         <div>
-            <img></img>
-            <li>
-                
-            </li>
+            <div>
+                <img />
+                <ul>
+                </ul>
+            </div>
+            <p>
+
+            </p>
+            <button>
+                Reserve
+            </button>
         </div>
-        <p>
-
-        </p>
-        <button>
-
-        </button>
-    </div>
+    );
 }
 
 export default ResourcePage;
