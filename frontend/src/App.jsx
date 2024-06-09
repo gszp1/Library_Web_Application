@@ -40,10 +40,10 @@ function App() {
   return (
     <Router>
       <div className='appBackground'>
-        <NavigationBar 
-          searchKeyword={searchKeyword} 
-          setSearchKeyword={setSearchKeyword} 
-          openLoginWindow={openLoginWindow} 
+        <NavigationBar
+          searchKeyword={searchKeyword}
+          setSearchKeyword={setSearchKeyword}
+          openLoginWindow={openLoginWindow}
         />
         <Routes>
           <Route path="/" element={<HomePage />} />
