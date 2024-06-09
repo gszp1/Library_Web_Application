@@ -31,7 +31,7 @@ function NavigationBar({searchKeyword, setSearchKeyword, openLoginWindow}) {
         <li>
           <Link to="/account" onClick={openLoginWindow}>
             <FontAwesomeIcon icon={faUser} className='icon'/>
-            {" Account"}
+            {" Login"}
           </Link>
         </li>
         <li>
