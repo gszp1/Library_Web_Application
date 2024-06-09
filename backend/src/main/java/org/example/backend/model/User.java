@@ -7,11 +7,9 @@ import org.example.backend.auth.Role;
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Builder
 @Entity
 @Table(name = "users")
