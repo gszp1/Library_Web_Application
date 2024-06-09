@@ -84,6 +84,9 @@
 
 .loginWindow {
     position: fixed;
+    top: calc(50% - 10rem);
+    left: calc(50% - 15rem);
+    z-index: 1000;
     display: flex;
     flex-direction: column;
     align-items: center;
