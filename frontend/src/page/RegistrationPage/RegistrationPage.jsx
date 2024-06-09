@@ -104,7 +104,6 @@ function RegistrationPage() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        let isValid = true;
         let validationPrompts = {
             email: {
                 message: '',
