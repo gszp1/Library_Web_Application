@@ -4,7 +4,7 @@ import "./ComponentStyles.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faFolder, faUser, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
-function NavigationBar({searchKeyword, setSearchKeyword}) {
+function NavigationBar({searchKeyword, setSearchKeyword, openLoginWindow}) {
   return (
     <nav className='navigationBar'>
       <div className="appLogo">
@@ -29,7 +29,7 @@ function NavigationBar({searchKeyword, setSearchKeyword}) {
           </Link>
         </li>
         <li>
-          <Link to="/account">
+          <Link to="/account" onClick={openLoginWindow}>
             <FontAwesomeIcon icon={faUser} className='icon'/>
             {" Account"}
           </Link>

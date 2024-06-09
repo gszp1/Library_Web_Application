@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { forwardRef,useState } from "react";
 import { Link } from "react-router-dom";
 
-function LoginWindow() {
+const LoginWindow = forwardRef(({ closeLoginWindow }, ref) => {
     const [credentials, setCredentials] = useState({
         email: '',
         password: ''
@@ -58,7 +58,7 @@ function LoginWindow() {
 
 
     return (
-        <div className="loginWindow">
+        <div className="loginWindow" ref={ref}>
             <form className="credentialsForm" onSubmit={handleSubmit} noValidate>
                 <label>E-Mail</label>
                 <input
@@ -81,11 +81,11 @@ function LoginWindow() {
                     Submit
                 </button>
             </form>
-            <Link to={'/register'} className="registerButton">
+            <Link to={'/register'} className="registerButton" onClick={closeLoginWindow}>
                 Register
             </Link>
         </div>
     );
-}
+});
 
 export default LoginWindow;
