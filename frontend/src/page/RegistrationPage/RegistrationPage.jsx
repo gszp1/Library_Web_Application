@@ -58,32 +58,8 @@ function RegistrationPage() {
         return passwordRegex.test(password);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
+    const validateCredentials = (validationPrompts) => {
         let isValid = true;
-        let validationPrompts = {
-            email: {
-                message: '',
-                color: 'black'
-            },
-            emailConfirmation: {
-                message: '',
-                color: 'black'
-            },
-            password: {
-                message: '',
-                color: 'black'
-            },
-            passwordConfirmation: {
-                message: '',
-                color: 'black'
-            },
-            phone: {
-                message: '',
-                color: 'black'
-            },
-        };
 
         if (credentials.email === '') {
             validationPrompts.email.message = 'Email is required!\n';
@@ -122,8 +98,37 @@ function RegistrationPage() {
             validationPrompts.phone.color = 'red';
             isValid = false;
         }
+        return isValid;
+    }
 
-        if (!isValid) {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        let isValid = true;
+        let validationPrompts = {
+            email: {
+                message: '',
+                color: 'black'
+            },
+            emailConfirmation: {
+                message: '',
+                color: 'black'
+            },
+            password: {
+                message: '',
+                color: 'black'
+            },
+            passwordConfirmation: {
+                message: '',
+                color: 'black'
+            },
+            phone: {
+                message: '',
+                color: 'black'
+            },
+        };
+
+        if (!validateCredentials(validationPrompts)) {
             setPrompts(validationPrompts);
             return;
         }
