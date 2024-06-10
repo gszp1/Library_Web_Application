@@ -35,7 +35,6 @@ function ContactPage() {
 
         const xmlData = response.data;
         const result = parseXML(xmlData);
-        console.log('Parsed XML Data:', result);
 
         const data = result.cData;
         setContactData({
