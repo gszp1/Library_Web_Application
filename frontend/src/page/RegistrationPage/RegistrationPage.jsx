@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./RegistrationPageStyles.css";
+import axios from "axios";
 
 function RegistrationPage() {
     const [credentials, setCredentials] = useState({
@@ -33,6 +34,10 @@ function RegistrationPage() {
             message: '',
             color: 'black'
         },
+        registerResult: {
+            message: '',
+            color: 'black'
+        }
     });
 
     const handleChange = (e) => {
@@ -101,7 +106,7 @@ function RegistrationPage() {
         return isValid;
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         let validationPrompts = {
@@ -125,9 +130,15 @@ function RegistrationPage() {
                 message: '',
                 color: 'black'
             },
+            registerResult: {
+                message: '',
+                color: 'black'
+            }
         };
 
         if (!validateCredentials(validationPrompts)) {
+            validationPrompts.registerResult.message='Failed to register user due to invalid credentials!';
+            validationPrompts.registerResult.color='red';
             setPrompts(validationPrompts);
             return;
         }
@@ -140,6 +151,20 @@ function RegistrationPage() {
             phoneNumber: credentials.phoneNumber,
             email: credentials.email,
             password: credentials.password
+        }
+
+        const url = 'http://localhost:9090/api/auth/register'
+        try {
+            const response = await axios.post(url, userCredentials, {
+                headers: {'Content-Type': 'application/json'}
+            });
+            validationPrompts.registerResult.message = 'Account successfully created.';
+            validationPrompts.registerResult.color = 'green';
+        } catch (error) {
+            validationPrompts.registerResult.message = 'Failed to create account!';
+            validationPrompts.registerResult.color = 'red';
+        } finally {
+            setPrompts(validationPrompts);
         }
     };
 
@@ -221,6 +246,9 @@ function RegistrationPage() {
             <button type="submit">
                 Create account
             </button>
+            <p style={{color: prompts.registerResult.color, fontWeight: "bold"}}>
+                {prompts.registerResult.message}
+            </p>
         </form>
     );
 }
