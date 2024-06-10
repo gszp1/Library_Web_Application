@@ -1,5 +1,6 @@
 import React, { forwardRef,useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const LoginWindow = forwardRef(({ closeLoginWindow }, ref) => {
     const [credentials, setCredentials] = useState({
@@ -36,7 +37,7 @@ const LoginWindow = forwardRef(({ closeLoginWindow }, ref) => {
         return validateEmail(credentials.email) && validatePassword(credentials.password);
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const outputPrompts = {
@@ -52,8 +53,22 @@ const LoginWindow = forwardRef(({ closeLoginWindow }, ref) => {
             return;
         }
 
+        const url = 'http://localhost:9090/api/auth/authenticate'
+
+        try {
+            let response = await axios.post(url, credentials, {
+                headers: {'Content-Type': 'application/json'}
+            })
+            console.log(response.data);
+            prompts.login.message="Login successful!";
+            prompts.login.color="green";
+            localStorage.setItem("WebLibToken", response.data);
+        } catch (error) {
+            prompts.login.message="Provided credentials are invalid.";
+            prompts.login.color='red';
+        }
+
         setPrompts(outputPrompts);
-        console.log(credentials)
     }
 
 

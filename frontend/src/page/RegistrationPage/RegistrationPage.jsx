@@ -143,8 +143,6 @@ function RegistrationPage() {
             return;
         }
 
-        // Perform form submission logic here (e.g., send credentials to an API)
-        console.log("Form submitted", credentials);
         const userCredentials = {
             name: credentials.name,
             surname: credentials.surname,
@@ -160,6 +158,8 @@ function RegistrationPage() {
             });
             validationPrompts.registerResult.message = 'Account successfully created.';
             validationPrompts.registerResult.color = 'green';
+            console.log(response.data);
+            localStorage.setItem("WebLibToken", response.data);
         } catch (error) {
             validationPrompts.registerResult.message = 'Failed to create account!';
             validationPrompts.registerResult.color = 'red';
