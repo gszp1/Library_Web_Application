@@ -27,7 +27,7 @@ function ResourcesPage({searchKeyword}) {
     }, [debouncedSearchKeyword]);
 
     return (
-        <div className="pageContent">
+        <div className="resourcesPageContent">
           {loading ? (
             <div>Loading library resources...</div>
           ) : error ? (
