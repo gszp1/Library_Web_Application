@@ -60,12 +60,12 @@ const LoginWindow = forwardRef(({ closeLoginWindow }, ref) => {
                 headers: {'Content-Type': 'application/json'}
             })
             console.log(response.data);
-            prompts.login.message="Login successful!";
-            prompts.login.color="green";
+            outputPrompts.login.message="Login successful!";
+            outputPrompts.login.color="green";
             localStorage.setItem("WebLibToken", response.data);
         } catch (error) {
-            prompts.login.message="Provided credentials are invalid.";
-            prompts.login.color='red';
+            outputPrompts.login.message="Provided credentials are invalid.";
+            outputPrompts.login.color='red';
         }
 
         setPrompts(outputPrompts);
