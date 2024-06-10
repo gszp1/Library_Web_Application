@@ -39,7 +39,7 @@ public class AuthenticationService {
                 .build();
         userRepository.save(user);
         return AuthenticationResponse.builder()
-                .token(jwtService.generateToken(user))
+                .content(jwtService.generateToken(user))
                 .build();
     }
 
@@ -53,7 +53,7 @@ public class AuthenticationService {
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         userRepository.save(user);
         return AuthenticationResponse.builder()
-                .token(jwtService.generateToken(user))
+                .content(jwtService.generateToken(user))
                 .build();
     }
 }

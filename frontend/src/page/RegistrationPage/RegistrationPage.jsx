@@ -158,10 +158,20 @@ function RegistrationPage() {
             });
             validationPrompts.registerResult.message = 'Account successfully created.';
             validationPrompts.registerResult.color = 'green';
-            console.log(response.data);
-            localStorage.setItem("WebLibToken", response.data);
+            localStorage.setItem("WebLibToken", response.data.content);
         } catch (error) {
-            validationPrompts.registerResult.message = 'Failed to create account!';
+            console.log('Error response:', error.response);
+            if (error.response) {
+                if (error.response.status === 400) {
+                    validationPrompts.registerResult.message = error.response.data.content || 'Failed to create account!';
+                } else {
+                    validationPrompts.registerResult.message = 'An unexpected error occurred!';
+                }
+            } else if (error.request) {
+                validationPrompts.registerResult.message = 'Server does not respond. Try again later.';
+            } else {
+                validationPrompts.registerResult.message = 'Failed to send request.';
+            }
             validationPrompts.registerResult.color = 'red';
         }
 

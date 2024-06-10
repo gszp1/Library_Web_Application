@@ -65,10 +65,9 @@ const LoginWindow = forwardRef(({ closeLoginWindow }, ref) => {
             let response = await axios.post(url, credentials, {
                 headers: {'Content-Type': 'application/json'}
             })
-            console.log(response.data);
             outputPrompts.login.message="Login successful!";
             outputPrompts.login.color="green";
-            localStorage.setItem("WebLibToken", response.data);
+            localStorage.setItem("WebLibToken", response.data.content);
         } catch (error) {
             outputPrompts.login.message="Provided credentials are invalid.";
             outputPrompts.login.color='red';
