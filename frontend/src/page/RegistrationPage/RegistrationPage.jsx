@@ -163,9 +163,9 @@ function RegistrationPage() {
         } catch (error) {
             validationPrompts.registerResult.message = 'Failed to create account!';
             validationPrompts.registerResult.color = 'red';
-        } finally {
-            setPrompts(validationPrompts);
         }
+
+        setPrompts(validationPrompts);
     };
 
     return (
