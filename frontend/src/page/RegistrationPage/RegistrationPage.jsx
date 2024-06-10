@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "./RegistrationPageStyles.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function RegistrationPage() {
+    const navigate = useNavigate();
     const [credentials, setCredentials] = useState({
         email: '',
         emailConfirmation: '',
@@ -159,6 +161,9 @@ function RegistrationPage() {
             validationPrompts.registerResult.message = 'Account successfully created.';
             validationPrompts.registerResult.color = 'green';
             localStorage.setItem("WebLibToken", response.data.content);
+            setTimeout(() => {
+                navigate('/resources');
+            }, 500);
         } catch (error) {
             console.log('Error response:', error.response);
             if (error.response) {

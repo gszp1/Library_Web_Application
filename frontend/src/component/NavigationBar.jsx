@@ -29,7 +29,7 @@ function NavigationBar({searchKeyword, setSearchKeyword, openLoginWindow}) {
           </Link>
         </li>
         <li>
-          {localStorage.getItem("WebLibToken") !== null ? (
+          {localStorage.getItem('WebLibToken') !== null ? (
             <Link to="/account">
               <FontAwesomeIcon icon={faUser} className='icon'/>
               {" Account"}

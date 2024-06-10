@@ -67,7 +67,10 @@ const LoginWindow = forwardRef(({ closeLoginWindow }, ref) => {
             })
             outputPrompts.login.message="Login successful!";
             outputPrompts.login.color="green";
-            localStorage.setItem("WebLibToken", response.data.content);
+            localStorage.setItem('WebLibToken', response.data.content);
+            setTimeout(() => {
+                closeLoginWindow();
+            }, 500);
         } catch (error) {
             outputPrompts.login.message="Provided credentials are invalid.";
             outputPrompts.login.color='red';
