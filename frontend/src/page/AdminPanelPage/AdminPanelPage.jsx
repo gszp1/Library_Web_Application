@@ -1,7 +1,15 @@
 import React from "react";
+import './AdminPanelStyles.css';
 
 function AdminPanelPage() {
-    return <h1 className="pageContent">Admin page!</h1>
+    return (
+        <div className='pageContent'>
+            <ul>
+
+            </ul>
+            
+        </div>
+    )
 }
 
 export default AdminPanelPage;
