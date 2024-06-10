@@ -2,7 +2,7 @@ import React from "react";
 
 function ResourcesSection() {
     return (
-        <div className='section'>
+        <div className='adminPanelSection'>
             <p>Resources</p>
         </div>
     );

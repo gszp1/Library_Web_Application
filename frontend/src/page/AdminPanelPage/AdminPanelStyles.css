@@ -1,9 +1,25 @@
-.pageContent {
+.adminPanelContent {
+    display: flex;
+    flex-direction: row;
+    overflow:auto;
+    border-radius: 1.5rem;
     width: 95rem;
-    height: auto;
+    height: 100%;
     background-color: rgba(255,255,255, 0.9);
     margin-top: 1rem;
     margin-bottom: 1rem;
     padding-top: 2rem;
     padding-bottom: 2rem;
+}
+
+.adminPanelNavigation {
+    height: 100%;
+    width: 20%;
+    margin: 0;
+    padding: 0;
+}
+
+.adminPanelSection {
+    height: 100%;
+    width: 80%;
 }

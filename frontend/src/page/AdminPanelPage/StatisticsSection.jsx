@@ -2,7 +2,7 @@ import React from "react";
 
 function StatisticsSection() {
     return (
-        <div className="statistics">
+        <div className='adminPanelSection'>
             <p>Statistics</p>
         </div>
     );
