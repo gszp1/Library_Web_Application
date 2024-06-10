@@ -6,22 +6,28 @@ import ReservationsSection from "./ReservationsSection";
 function AccountPage() {
     const [selectedSection, setSelectedSection] = useState('Information');
 
+    const changeSection = (e) => {
+        setSelectedSection(e.currentTarget.id);
+    }
+
     const renderSection = () => {
         switch (selectedSection) {
             case 'Information':
-                return <InformationSection />
+                return <InformationSection />;
             case 'Reservations':
-                return <ReservationsSection />
+                return <ReservationsSection />;
+            default:
+                return <InformationSection />;
         }
     }
 
     return (
         <div className="pageContent">
             <ul className="navigation">
-                <li>
+                <li id='Information' onClick={changeSection}>
                     <p>Information</p>
                 </li>
-                <li>
+                <li id='Reservations' onClick={changeSection}>
                     <p>Reservations</p>
                 </li>
             </ul>
