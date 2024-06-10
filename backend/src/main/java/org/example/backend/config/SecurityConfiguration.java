@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                         authorisations->authorisations
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/resources/all").permitAll()
-                                .requestMatchers("/api/resources/{keyword}").permitAll()
+                                .requestMatchers("/api/resources/all/{keyword}").permitAll()
                                 .requestMatchers("/api/resources/{id}/description").permitAll()
                                 .requestMatchers("/api/images/{filename}").permitAll()
                                 .anyRequest()
