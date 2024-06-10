@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import './AccountPageStyles.css';
 
 function AccountPage() {
-    
+    const [selectedSection, setSelectedSection] = useState("Information")
 
     return (
         <div className="pageContent">
@@ -14,9 +14,6 @@ function AccountPage() {
                     <p>Reservations</p>
                 </li>
             </ul>
-            <div className="section">
-                
-            </div>
         </div>
     );
 }
