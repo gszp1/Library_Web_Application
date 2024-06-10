@@ -1,8 +1,9 @@
 import React from "react";
+import './AccountPageStyles.css';
 
 function ReservationsSection() {
     return (
-        <div>
+        <div className='section'>
             <h1> Reservations </h1>
         </div>
     );

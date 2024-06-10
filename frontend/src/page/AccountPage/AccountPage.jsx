@@ -17,7 +17,7 @@ function AccountPage() {
 
     return (
         <div className="pageContent">
-            <ul className="accountNavigation">
+            <ul className="navigation">
                 <li>
                     <p>Information</p>
                 </li>
