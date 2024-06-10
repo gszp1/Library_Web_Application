@@ -63,7 +63,7 @@ function ContactPage() {
   }, []);
 
   return (
-    <div className="pageContent">
+    <div className="contactPageContent">
       <ContactData
         phoneNumber={contactData.phone}
         address={`${contactData.address.city} ${contactData.address.street} ${contactData.address.buildingNumber}`}
