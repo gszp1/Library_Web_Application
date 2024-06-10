@@ -160,7 +160,7 @@ function RegistrationPage() {
             });
             validationPrompts.registerResult.message = 'Account successfully created.';
             validationPrompts.registerResult.color = 'green';
-            localStorage.setItem("WebLibToken", response.data.content);
+            localStorage.setItem('WebLibToken', response.data.content);
             setTimeout(() => {
                 navigate('/resources');
             }, 500);

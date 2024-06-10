@@ -32,6 +32,7 @@ public class SecurityConfiguration {
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
+                                
                 )
                 .sessionManagement(
                         session->session
