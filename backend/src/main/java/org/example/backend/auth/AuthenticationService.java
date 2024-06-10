@@ -9,6 +9,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -30,6 +33,7 @@ public class AuthenticationService {
                 .surname(((surname == null) || (surname.isBlank()) ? null : surname))
                 .phoneNumber(((phoneNumber == null) || (phoneNumber.isBlank()) ? null : phoneNumber))
                 .email(request.getEmail())
+                .joinDate(LocalDate.now())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
