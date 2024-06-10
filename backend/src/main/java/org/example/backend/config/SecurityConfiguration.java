@@ -27,12 +27,15 @@ public class SecurityConfiguration {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        authz->authz
-                                .requestMatchers("/api/auth/**")
-                                .permitAll()
+                        authorisations->authorisations
+                                .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/api/resources/all").permitAll()
+                                .requestMatchers("/api/resources/{keyword}").permitAll()
+                                .requestMatchers("/api/resources/{id}/description").permitAll()
+                                .requestMatchers("/api/images/{filename}").permitAll()
                                 .anyRequest()
                                 .authenticated()
-                                
+
                 )
                 .sessionManagement(
                         session->session
