@@ -22,9 +22,13 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        String name = request.getName();
+        String surname = request.getSurname();
+        String phoneNumber = request.getPhoneNumber();
         var user = User.builder()
-                .name(request.getName())
-                .surname(request.getSurname())
+                .name((name == null) || (name.isBlank()) ? null : name)
+                .surname(((surname == null) || (surname.isBlank()) ? null : surname))
+                .phoneNumber(((phoneNumber == null) || (phoneNumber.isBlank()) ? null : phoneNumber))
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
