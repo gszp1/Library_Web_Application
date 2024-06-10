@@ -134,6 +134,13 @@ function RegistrationPage() {
 
         // Perform form submission logic here (e.g., send credentials to an API)
         console.log("Form submitted", credentials);
+        const userCredentials = {
+            name: credentials.name,
+            surname: credentials.surname,
+            phoneNumber: credentials.phoneNumber,
+            email: credentials.email,
+            password: credentials.password
+        }
     };
 
     return (
