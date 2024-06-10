@@ -8,7 +8,7 @@ function AdminPanelPage() {
     const [section, setSection] = useState('Resources');
 
     const handleClick = (e) => {
-        setSection(e.Target.id);
+        setSection(e.currentTarget.id);
     }
 
     const renderSection = () => {
