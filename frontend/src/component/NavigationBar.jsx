@@ -29,10 +29,17 @@ function NavigationBar({searchKeyword, setSearchKeyword, openLoginWindow}) {
           </Link>
         </li>
         <li>
-          <Link to="/account" onClick={openLoginWindow}>
-            <FontAwesomeIcon icon={faUser} className='icon'/>
-            {" Login"}
-          </Link>
+          {localStorage.getItem("WebLibToken") == null ? (
+            <Link to="/account">
+              <FontAwesomeIcon icon={faUser} className='icon'/>
+              {" Account"}
+            </Link>
+          ) : (
+            <p onClick={openLoginWindow}>
+              <FontAwesomeIcon icon={faUser} className='icon'/>
+              {" Login"}
+            </p>
+          )}
         </li>
         <li>
           <Link to="/contact">

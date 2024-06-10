@@ -53,6 +53,12 @@ const LoginWindow = forwardRef(({ closeLoginWindow }, ref) => {
             return;
         }
 
+        if (localStorage.getItem("WebLibToken")) {
+            outputPrompts.login.message="You are already logged in.";
+            outputPrompts.login.color='red';
+            setPrompts(outputPrompts);
+            return;
+        }
         const url = 'http://localhost:9090/api/auth/authenticate'
 
         try {

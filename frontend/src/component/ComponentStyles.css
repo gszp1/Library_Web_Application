@@ -77,6 +77,21 @@
     color: hsl(0, 0%, 50%);
 }
 
+.pageLinks p {
+    text-decoration: none;
+    color: hsl(0, 0%, 0%);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pageLinks p:hover {
+    color: hsl(0, 0%, 30%);
+}
+
+.pageLinks p:active {
+    color: hsl(0, 0%, 50%);
+}
+
 .icon {
     color: orange;
     font-size: 2rem;
