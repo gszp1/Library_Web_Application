@@ -27,10 +27,10 @@ public class User implements UserDetails {
     @Column(length = 40, unique = true, nullable = false)
     private String email;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20)
     private String name;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20)
     private String surname;
 
     @Column(name = "phone_number", length = 12)
