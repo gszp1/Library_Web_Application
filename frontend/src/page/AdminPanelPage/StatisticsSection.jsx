@@ -3,7 +3,7 @@ import React from "react";
 function StatisticsSection() {
     return (
         <div className='adminPanelSection'>
-            <p>Statistics</p>
+            <h1>Statistics</h1>
         </div>
     );
 }

@@ -3,7 +3,7 @@ import React from "react";
 function UsersSection() {
     return (
         <div className='adminPanelSection'>
-            <p>Users</p>
+            <h1>Users</h1>
         </div>
     );
 }

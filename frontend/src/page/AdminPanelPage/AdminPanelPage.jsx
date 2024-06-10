@@ -8,7 +8,7 @@ function AdminPanelPage() {
     const [section, setSection] = useState('Resources');
 
     const handleClick = (e) => {
-        setSection(e.currentTarget.id);
+        setSection(e.Target.id);
     }
 
     const renderSection = () => {
@@ -27,13 +27,13 @@ function AdminPanelPage() {
     return (
         <div className='adminPanelContent'>
             <ul className='adminPanelNavigation'>
-                <li id='Resources'>
+                <li id='Resources' onClick={handleClick}>
                     Resources
                 </li>
-                <li id='Users'>
+                <li id='Users' onClick={handleClick}>
                     Users
                 </li>
-                <li id='Statistics'>
+                <li id='Statistics' onClick={handleClick}>
                     Statistics
                 </li>
             </ul>
