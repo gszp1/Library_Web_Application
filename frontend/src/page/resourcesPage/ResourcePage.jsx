@@ -10,6 +10,7 @@ function ResourcePage(){
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [imgSrc, setImgSrc] = useState(resource.imageUrl || bookPlaceholder);
 
     useEffect( () => {
         const fetchDescription = async () => {
@@ -25,16 +26,22 @@ function ResourcePage(){
         fetchDescription();
     }, [resource.id]);
 
+    const handleImgError = () => {
+        setImgSrc(bookPlaceholder);
+    }
+
     let authorsFullNames = resource.authors.map(author => `${author.firstName} ${author.lastName}`);
     let authorsFullNamesJoined = authorsFullNames.join(', ');
-
-    console.log(description);
 
     return (
         <div className = "resourcePageContent">
             <div className = "resourceData">
                 <div className="imageContainer">
-                    <img className="resourcePageImage" src={resource.imageUrl || bookPlaceholder}/>
+                    <img
+                        className="resourcePageImage"
+                        src={imgSrc}
+                        onError={handleImgError}
+                        />
                 </div>
                 <ul className="resourceInformation">
                     <li>
