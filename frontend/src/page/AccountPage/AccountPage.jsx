@@ -4,14 +4,14 @@ import InformationSection from "./InformationSection";
 import ReservationsSection from "./ReservationsSection";
 
 function AccountPage() {
-    const [selectedSection, setSelectedSection] = useState('Information');
+    const [section, setSection] = useState('Information');
 
     const changeSection = (e) => {
         setSelectedSection(e.currentTarget.id);
     }
 
     const renderSection = () => {
-        switch (selectedSection) {
+        switch (section) {
             case 'Information':
                 return <InformationSection />;
             case 'Reservations':
@@ -22,8 +22,8 @@ function AccountPage() {
     }
 
     return (
-        <div className="pageContent">
-            <ul className="navigation">
+        <div className="accountPageContent">
+            <ul className="accountPageNavigation">
                 <li id='Information' onClick={changeSection}>
                     <p>Information</p>
                 </li>

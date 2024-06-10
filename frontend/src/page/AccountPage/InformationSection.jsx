@@ -3,7 +3,7 @@ import './AccountPageStyles.css';
 
 function InformationSection() {
     return (
-        <div className='section'>
+        <div className='accountPageSection'>
             <h1> Account Information </h1>
         </div>
     );

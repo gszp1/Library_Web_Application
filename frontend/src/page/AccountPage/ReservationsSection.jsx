@@ -3,7 +3,7 @@ import './AccountPageStyles.css';
 
 function ReservationsSection() {
     return (
-        <div className='section'>
+        <div className='accountPageSection'>
             <h1> Reservations </h1>
         </div>
     );
