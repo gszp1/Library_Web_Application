@@ -14,9 +14,10 @@ function ModifyInformationSection({credentials, setCredentials}) {
         }
     })
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    }
+    const validatePhoneNumber = (phoneNumber) => {
+        const phoneRegex = /^\+?[1-9]\d{1,14}$/;
+        return phoneRegex.test(phoneNumber) && phoneNumber.length >= 9 && phoneNumber.length <= 12;
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -25,6 +26,40 @@ function ModifyInformationSection({credentials, setCredentials}) {
             [name]: value
         });
     };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const newPrompts = {
+            result: {
+                message: '',
+                color: ''
+            },
+            phoneNumber: {
+                message: '',
+                color: ''
+            }
+        };
+
+        if (!validatePhoneNumber(newCredentials.phoneNumber)) {
+            newPrompts.result.message="Failed to modify due to invalid credentials.";
+            newPrompts.result.color='red';
+            newPrompts.phoneNumber.message="Invalid phone number.";
+            newPrompts.phoneNumber.color='red';
+            setPrompts(newPrompts);
+            return;
+        }
+
+        if ((credentials.name === newCredentials.name) ||
+            (credentials.surname === newCredentials.surname) ||
+            (credentials.phoneNumber === newCredentials.phoneNumber)
+        ) {
+            newPrompts.result.message="New credentials are equal to current ones.";
+            newPrompts.result.color='red';
+            setPrompts(newPrompts);
+            return;
+        }
+    }
 
     return (
         <div className="accountPageSection">
@@ -56,7 +91,7 @@ function ModifyInformationSection({credentials, setCredentials}) {
                     style={{marginBottom: 0.5}}
                 />
                 <p style = {{color: prompts.phoneNumber.color}}>
-                    {prompts.result.message}
+                    {prompts.phoneNumber.message}
                 </p>
                 <button>
                     Submit
