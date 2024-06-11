@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import './AccountPageStyles.css';
 import InformationSection from "./InformationSection";
 import ReservationsSection from "./ReservationsSection";
+import ModifyInformationSection from "./ModifyInformationSection";
 
 function AccountPage() {
     const [section, setSection] = useState('Information');
@@ -16,6 +17,8 @@ function AccountPage() {
                 return <InformationSection />;
             case 'Reservations':
                 return <ReservationsSection />;
+            case 'ModifyInformation':
+                return <ModifyInformationSection />;
             default:
                 return <InformationSection />;
         }
@@ -29,6 +32,9 @@ function AccountPage() {
                 </li>
                 <li id='Reservations' onClick={changeSection}>
                     <p>Reservations</p>
+                </li>
+                <li id="ModifyInformation" onClick={changeSection}>
+                    Modify Information
                 </li>
             </ul>
             {renderSection()}
