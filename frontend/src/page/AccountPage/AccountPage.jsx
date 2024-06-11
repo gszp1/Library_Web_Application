@@ -30,20 +30,24 @@ function AccountPage() {
                 console.log("failed to parse token");
             }
             let url = `http://localhost:9090/api/users/${email}/credentials`;
-            let response = await axios.get(url, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
+            try {
+                let response = await axios.get(url, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
+                    }
+                });
+                let fetchedData = {
+                    name: response.data.name,
+                    surname: response.data.surname,
+                    phoneNumber: response.data.phoneNumber,
+                    joinDate: response.data.joinDate,
+                    email: response.data.email,
+                    imageUrl: response.data.imageUrl
                 }
-            });
-            let fetchedData = {
-                name: response.data.name,
-                surname: response.data.surname,
-                phoneNumber: response.data.phoneNumber,
-                joinDate: response.data.joinDate,
-                email: response.data.email,
-                imageUrl: response.data.imageUrl
+                setUserData(fetchedData);
+            } catch (error) {
+                setSection("Error");
             }
-            setUserData(fetchedData);
         }
         fetchCredentials();
     }, [])
