@@ -6,6 +6,7 @@ import ReservationsSection from "./ReservationsSection";
 import ModifyInformationSection from "./ModifyInformationSection";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import ErrorSection from "./ErrorSection";
 
 function AccountPage() {
     const [section, setSection] = useState('Information');
@@ -58,9 +59,15 @@ function AccountPage() {
             case 'Information':
                 return <InformationSection userCredentials={userData}/>;
             case 'ModifyInformation':
-                return <ModifyInformationSection credentials={userData} setCredentials={setUserData}/>;
+                return <ModifyInformationSection credentials={userData} setCredentials={setUserData} setSection={setSection}/>;
             case 'Reservations':
                 return <ReservationsSection />;
+            case 'Error':
+                setTimeout(() => {
+                    localStorage.removeItem('WebLibToken');
+                    navigate('/resources');
+                }, 5000);
+                return <ErrorSection/>
             default:
                 return <InformationSection />;
         }

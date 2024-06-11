@@ -1,8 +1,14 @@
 import React, {useState} from "react";
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
-function ModifyInformationSection({credentials, setCredentials}) {
-    const [newCredentials, setNewCredentials] = useState({...credentials})
-    
+function ModifyInformationSection({credentials, setCredentials, setSection}) {
+    const [newCredentials, setNewCredentials] = useState({...credentials,
+        name: credentials.name || '',
+        surname: credentials.surname || '',
+        phoneNumber: credentials.phoneNumber || ''
+    });
+
     const [prompts, setPrompts] = useState({
         result: {
             message: '',
@@ -12,7 +18,7 @@ function ModifyInformationSection({credentials, setCredentials}) {
             message: '',
             color: ''
         }
-    })
+    });
 
     const validatePhoneNumber = (phoneNumber) => {
         const phoneRegex = /^\+?[1-9]\d{1,14}$/;
@@ -27,7 +33,7 @@ function ModifyInformationSection({credentials, setCredentials}) {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const newPrompts = {
@@ -50,13 +56,42 @@ function ModifyInformationSection({credentials, setCredentials}) {
             return;
         }
 
-        if ((credentials.name === newCredentials.name) ||
-            (credentials.surname === newCredentials.surname) ||
+        if ((credentials.name === newCredentials.name) &&
+            (credentials.surname === newCredentials.surname) &&
             (credentials.phoneNumber === newCredentials.phoneNumber)
         ) {
             newPrompts.result.message="New credentials are equal to current ones.";
             newPrompts.result.color='red';
             setPrompts(newPrompts);
+            return;
+        }
+
+        let url = `http://localhost:9090/api/users/update`;
+        console.log(url);
+        try {
+            console.log(newCredentials);
+            let response = await axios.put(url, newCredentials, {
+                'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
+                'Content-Type': 'application/json'
+            });
+            newPrompts.result.message="Credentials successfully updated.";
+            newPrompts.result.color='green';
+            setCredentials(newCredentials);
+            setPrompts(newPrompts);
+        } catch (error) {
+            if (error.response) {
+                if(error.response.status === 400 || error.response.status === 403) {
+                    setSection("Error");
+                }
+            } else if (error.request) {
+                newPrompts.result.message="Network error. Try again.";
+                newPrompts.result.color='red';
+                setPrompts(newPrompts);
+            } else {
+                newPrompts.result.message="Something went wrong during request handling.";
+                newPrompts.result.color='red';
+                setPrompts(newPrompts);
+            }
             return;
         }
     }
@@ -67,6 +102,7 @@ function ModifyInformationSection({credentials, setCredentials}) {
             <form
                 className='credentialUpdateForm'
                 onSubmit={handleSubmit}
+                noValidate
             >
                 <label>Name</label>
                 <input
