@@ -136,6 +136,45 @@
 
 }
 
+.credentialUpdateForm label {
+    font-size: 1.5rem;
+    color: orange;
+    margin: 0 0 0.5% 0;
+    font-weight: bold;
+}
+
 .credentialUpdateForm input {
-    width: 50%;
+    width: 40%;
+    height: 2rem;
+    font-size: 1rem;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgb(48, 43, 43);
+}
+
+.credentialUpdateForm input:focus {
+    border-color: orange;
+    outline: none;
+}
+
+.credentialUpdateForm button {
+    background-color: orange;
+    width: 30%;
+    height: 2rem;
+    font-size: 1rem;
+    border: 1px black solid;
+    box-shadow: 0 2px 4px rgb(48, 43, 43);
+    background-color: hsl(34, 100%, 50%);
+    transition: background-color 0.3s;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.credentialUpdateForm button:hover {
+    background-color: hsl(34, 100%, 40%);
+}
+
+.credentialUpdateForm button:active {
+    background-color: hsl(34, 100%, 30%);
 }

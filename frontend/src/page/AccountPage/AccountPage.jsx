@@ -58,7 +58,7 @@ function AccountPage() {
             case 'Information':
                 return <InformationSection userCredentials={userData}/>;
             case 'ModifyInformation':
-                return <ModifyInformationSection />;
+                return <ModifyInformationSection credentials={userData} setCredentials={setUserData}/>;
             case 'Reservations':
                 return <ReservationsSection />;
             default:
