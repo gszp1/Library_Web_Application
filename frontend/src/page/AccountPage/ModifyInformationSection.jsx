@@ -7,6 +7,10 @@ function ModifyInformationSection({credentials, setCredentials}) {
         result: {
             message: '',
             color: ''
+        },
+        phoneNumber: {
+            message: '',
+            color: ''
         }
     })
 
@@ -49,7 +53,11 @@ function ModifyInformationSection({credentials, setCredentials}) {
                     type="tel"
                     value={newCredentials.phoneNumber}
                     onChange={handleChange}
+                    style={{marginBottom: 0.5}}
                 />
+                <p style = {{color: prompts.phoneNumber.color}}>
+                    {prompts.result.message}
+                </p>
                 <button>
                     Submit
                 </button>
