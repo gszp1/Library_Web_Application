@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -38,8 +40,10 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
         userRepository.save(user);
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("Role", user.getRole().name());
         return AuthenticationResponse.builder()
-                .content(jwtService.generateToken(user))
+                .content(jwtService.generateToken(extraClaims, user))
                 .build();
     }
 
@@ -52,8 +56,10 @@ public class AuthenticationService {
         );
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         userRepository.save(user);
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("Role", user.getRole().name());
         return AuthenticationResponse.builder()
-                .content(jwtService.generateToken(user))
+                .content(jwtService.generateToken(extraClaims, user))
                 .build();
     }
 }
