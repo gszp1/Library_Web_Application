@@ -7,6 +7,7 @@ public record UserDto(
         String surname,
         String phoneNumber,
         LocalDate joinDate,
-        String email
+        String email,
+        String imageUrl
 ) {
 }
