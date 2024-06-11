@@ -46,7 +46,7 @@ function App() {
           openLoginWindow={openLoginWindow}
         />
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<ResourcesPage searchKeyword={searchKeyword}/>} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/resources" element={<ResourcesPage searchKeyword={searchKeyword}/>} />
           <Route path="/resources/:resourceId" element={<ResourcePage />} />
