@@ -15,7 +15,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    Optional<UserDto> getUserCredentials(String email) {
+    public Optional<UserDto> getUserCredentials(String email) {
         return userRepository
             .findByEmail(email)
             .map(user -> new UserDto(
