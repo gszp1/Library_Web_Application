@@ -69,8 +69,12 @@ function ModifyInformationSection({credentials, setCredentials, setSection}) {
         let url = `http://localhost:9090/api/users/update`;
         console.log(url);
         try {
-            console.log(newCredentials);
-            let response = await axios.put(url, newCredentials, {
+            const sentCredentials = {...newCredentials,
+                name: newCredentials.name.trim() === '' ? null : newCredentials.name.trim(),
+                surname: newCredentials.surname.trim() === '' ? null : newCredentials.surname.trim(),
+                phoneNumber: newCredentials.phoneNumber.trim() === '' ? null : newCredentials.phoneNumber.trim()
+            }
+            let response = await axios.put(url, sentCredentials, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
                     'Content-Type': 'application/json'
@@ -78,7 +82,8 @@ function ModifyInformationSection({credentials, setCredentials, setSection}) {
             });
             newPrompts.result.message="Credentials successfully updated.";
             newPrompts.result.color='green';
-            setCredentials(newCredentials);
+            setCredentials(sentCredentials);
+            setNewCredentials(sentCredentials);
             setPrompts(newPrompts);
         } catch (error) {
             if (error.response) {
