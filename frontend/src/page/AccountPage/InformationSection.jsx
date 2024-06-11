@@ -28,15 +28,30 @@ function InformationSection({userCredentials}) {
                     </li>
                     <li>
                         <h2>Name</h2>
-                        <p>{userCredentials.name}</p>
+                        {userCredentials.name === null ? (
+                                <p style={{color: 'gray'}}>Not provided</p>
+                            ) : (
+                                <p>{userCredentials.name}</p>
+                            )
+                        }
                     </li>
                     <li>
                         <h2>Surname</h2>
-                        <p>{userCredentials.surname}</p>
+                        {userCredentials.surname === null ? (
+                                <p style={{color: 'gray'}}>Not provided</p>
+                            ) : (
+                                <p>{userCredentials.surname}</p>
+                            )
+                        }
                     </li>
                     <li>
                         <h2>Phone Number</h2>
-                        <p>{userCredentials.phoneNumber}</p>
+                        {userCredentials.phoneNumber === null ? (
+                                <p style={{color: 'gray'}}>Not provided</p>
+                            ) : (
+                                <p>{userCredentials.phoneNumber}</p>
+                            )
+                        }
                     </li>
                     <li>
                         <h2>Join Date</h2>
