@@ -196,7 +196,7 @@ function RegistrationPage() {
                         value={credentials.email}
                         onChange={handleChange}
                     />
-                    <p id="emailPrompt" style={{ color: prompts.email.color }}>
+                    <p style={{ color: prompts.email.color }}>
                         {prompts.email.message}
                     </p>
                     <label>Confirm E-Mail</label>
@@ -206,7 +206,7 @@ function RegistrationPage() {
                         value={credentials.emailConfirmation}
                         onChange={handleChange}
                     />
-                    <p id="emailConfirmPrompt" style={{ color: prompts.emailConfirmation.color }}>
+                    <p style={{ color: prompts.emailConfirmation.color }}>
                         {prompts.emailConfirmation.message}
                     </p>
                     <label>Password</label>
@@ -216,7 +216,7 @@ function RegistrationPage() {
                         value={credentials.password}
                         onChange={handleChange}
                     />
-                    <p id="passwordPrompt" style={{ color: prompts.password.color }}>
+                    <p style={{ color: prompts.password.color }}>
                         {prompts.password.message}
                     </p>
                     <label>Confirm Password</label>
@@ -226,7 +226,7 @@ function RegistrationPage() {
                         value={credentials.passwordConfirmation}
                         onChange={handleChange}
                     />
-                    <p id="passwordConfirmPrompt" style={{ color: prompts.passwordConfirmation.color }}>
+                    <p style={{ color: prompts.passwordConfirmation.color }}>
                         {prompts.passwordConfirmation.message}
                     </p>
                 </div>
@@ -253,7 +253,7 @@ function RegistrationPage() {
                         value={credentials.phoneNumber}
                         onChange={handleChange}
                     />
-                    <p id="phonePrompt" style={{ color: prompts.phone.color }}>
+                    <p style={{ color: prompts.phone.color }}>
                         {prompts.phone.message}
                     </p>
                 </div>
