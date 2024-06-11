@@ -125,3 +125,17 @@
     border: 1px solid black;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
+
+.credentialUpdateForm {
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+}
+
+.credentialUpdateForm input {
+    width: 50%;
+}
