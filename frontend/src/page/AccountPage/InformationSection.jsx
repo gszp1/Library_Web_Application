@@ -1,13 +1,25 @@
 import React, {useState, useEffect} from "react";
 import './AccountPageStyles.css';
+import defaultUserImage from '../../assets/image/defaultUserImage.webp';
 
 function InformationSection({userCredentials}) {
+    const [imgSrc, setImgSrc] = useState(userCredentials.imageUrl || defaultUserImage);
+
+    const handleImageError = () => {
+        setImgSrc(defaultUserImage);
+    }
+
     return (
         <div className='accountPageSection'>
             <h1> Account Information </h1>
             <div className="informationSectionContent">
                 <div className="informationSectionUserImageContainer">
-
+                    <h2 style={{color:"orange"}}>User Image</h2>
+                    <img
+                        className="informationSectionImage"
+                        src={imgSrc}
+                        onError={handleImageError}
+                    />
                 </div>
                 <ul className="informationSectionCredentials">
                     <li>
