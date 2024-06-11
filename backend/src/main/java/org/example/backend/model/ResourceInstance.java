@@ -19,7 +19,12 @@ public class ResourceInstance {
     @Column(name = "resource_instance_id")
     private Integer resourceInstanceId;
 
-    private boolean isReserved;
+    @Column(
+        name="is_reserved",
+        nullable = false,
+        columnDefinition = "BOOLEAN DEFAULT FALSE"
+    )
+    private Boolean isReserved;
 
     @ManyToOne
     @JoinColumn(name = "FK_resource", nullable = false)
