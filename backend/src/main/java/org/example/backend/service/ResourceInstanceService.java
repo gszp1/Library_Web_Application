@@ -18,7 +18,7 @@ public class ResourceInstanceService {
         this.resourceInstanceRepository = resourceInstanceRepository;
     }
 
-    List<InstanceDto> getNotReservedInstancesOfResource(Integer resourceId) {
+    public List<InstanceDto> getNotReservedInstancesOfResource(Integer resourceId) {
         return resourceInstanceRepository
                 .findByResourceResourceIdAndIsReservedFalse(resourceId)
                 .stream()

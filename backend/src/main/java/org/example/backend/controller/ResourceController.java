@@ -1,8 +1,10 @@
 package org.example.backend.controller;
 
+import org.example.backend.dto.InstanceDto;
 import org.example.backend.dto.ResourceDescriptionDto;
 import org.example.backend.dto.ResourceDto;
 import org.example.backend.model.Resource;
+import org.example.backend.service.ResourceInstanceService;
 import org.example.backend.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,12 @@ public class ResourceController {
 
     private final ResourceService resourceService;
 
+    private final ResourceInstanceService instanceService;
+
     @Autowired
-    public ResourceController(ResourceService resourceService) {
+    public ResourceController(ResourceService resourceService, ResourceInstanceService instanceService) {
         this.resourceService = resourceService;
+        this.instanceService = instanceService;
     }
 
     @GetMapping("/all")
@@ -31,5 +36,10 @@ public class ResourceController {
     @GetMapping("/{id}/description")
     public ResourceDescriptionDto getDescription(@PathVariable(name = "id") Integer id) {
         return resourceService.getResourceDescription(id);
+    }
+
+    @GetMapping("/{id}/instances/notReserved")
+    public List<InstanceDto> getNotReservedInstances(@PathVariable(name = "id") Integer id) {
+        return instanceService.getNotReservedInstancesOfResource(id);
     }
 }
