@@ -3,8 +3,18 @@ import { Link } from 'react-router-dom';
 import "./ComponentStyles.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faFolder, faUser, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import {jwtDecode} from 'jwt-decode';
 
 function NavigationBar({searchKeyword, setSearchKeyword, openLoginWindow}) {
+
+  const getRole = (token) => {
+    try {
+      const decodedToken = jwtDecode(token);
+      return decodedToken.Role;
+    } catch (error){
+      return null;
+    }
+  }
 
   return (
     <nav className='navigationBar'>
@@ -36,10 +46,24 @@ function NavigationBar({searchKeyword, setSearchKeyword, openLoginWindow}) {
               {" Login"}
             </p>
           ) : (
-            <Link to="/account">
-              <FontAwesomeIcon icon={faUser} className='icon'/>
-              {" Account"}
-            </Link>
+            getRole(localStorage.getItem('WebLibToken')) === 'USER' ? (
+              <Link to="/account">
+                <FontAwesomeIcon icon={faUser} className='icon'/>
+                {" Account"}
+              </Link>
+            ) : (
+              getRole(localStorage.getItem('WebLibToken')) === 'ADMIN' ? (
+                <Link to="/adminPanel">
+                  <FontAwesomeIcon icon={faUser} className='icon'/>
+                  {" Admin"}
+                </Link>
+              ) : (
+                <p onClick={openLoginWindow}>
+                  <FontAwesomeIcon icon={faUser} className='icon'/>
+                  {" Login"}
+                </p>
+              )
+            )
           )}
         </li>
         <li>
