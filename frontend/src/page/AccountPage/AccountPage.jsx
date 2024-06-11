@@ -8,7 +8,7 @@ function AccountPage() {
     const [section, setSection] = useState('Information');
 
     const changeSection = (e) => {
-        setSelectedSection(e.currentTarget.id);
+        setSection(e.currentTarget.id);
     }
 
     const renderSection = () => {
@@ -28,10 +28,10 @@ function AccountPage() {
         <div className="accountPageContent">
             <ul className="accountPageNavigation">
                 <li id='Information' onClick={changeSection}>
-                    <p>Information</p>
+                    Information
                 </li>
                 <li id='Reservations' onClick={changeSection}>
-                    <p>Reservations</p>
+                    Reservations
                 </li>
                 <li id="ModifyInformation" onClick={changeSection}>
                     Modify Information
