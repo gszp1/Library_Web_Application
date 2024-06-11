@@ -38,9 +38,9 @@ public class UserService {
             throw new NoSuchUserException();
         }
         User userEntity = user.get();
+        userEntity.setName(userDto.name());
         userEntity.setSurname(userDto.surname());
         userEntity.setPhoneNumber(userDto.phoneNumber());
-        userEntity.setImageUrl(userDto.imageUrl());
         userRepository.save(userEntity);
     }
 
