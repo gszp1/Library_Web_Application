@@ -71,8 +71,10 @@ function ModifyInformationSection({credentials, setCredentials, setSection}) {
         try {
             console.log(newCredentials);
             let response = await axios.put(url, newCredentials, {
-                'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
-                'Content-Type': 'application/json'
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
+                    'Content-Type': 'application/json'
+                }
             });
             newPrompts.result.message="Credentials successfully updated.";
             newPrompts.result.color='green';
