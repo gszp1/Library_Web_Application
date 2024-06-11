@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import './AccountPageStyles.css';
 import InformationSection from "./InformationSection";
 import ReservationsSection from "./ReservationsSection";
@@ -6,6 +7,7 @@ import ModifyInformationSection from "./ModifyInformationSection";
 
 function AccountPage() {
     const [section, setSection] = useState('Information');
+    const navigate = useNavigate();
 
     const changeSection = (e) => {
         setSection(e.currentTarget.id);
@@ -24,6 +26,13 @@ function AccountPage() {
         }
     }
 
+    const logout = () => {
+        localStorage.removeItem('WebLibToken');
+        setTimeout(() => {
+            navigate('/resources');
+        }, 500)
+    }
+
     return (
         <div className="accountPageContent">
             <ul className="accountPageNavigation">
@@ -35,6 +44,12 @@ function AccountPage() {
                 </li>
                 <li id="ModifyInformation" onClick={changeSection}>
                     Modify Information
+                </li>
+                <li
+                    style={{color: 'red', fontWeight: "bold"}}
+                    onClick={logout}
+                >
+                    Logout
                 </li>
             </ul>
             {renderSection()}
