@@ -30,7 +30,7 @@ function AccountPage() {
         localStorage.removeItem('WebLibToken');
         setTimeout(() => {
             navigate('/resources');
-        }, 500)
+        }, 400)
     }
 
     return (
