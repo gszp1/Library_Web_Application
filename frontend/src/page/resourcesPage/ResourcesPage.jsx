@@ -13,8 +13,8 @@ function ResourcesPage({searchKeyword}) {
         const fetchResources = async () => {
             try {
                 let url = `http://localhost:9090/api/resources/all`;
-                const parameters = searchKeyword ? { keyword: debouncedSearchKeyword} : {};
-                const response = await axios.get(url, {parameters});
+                const params = searchKeyword ? { keyword: debouncedSearchKeyword} : {};
+                const response = await axios.get(url, {params});
                 setResources(response.data);
                 setLoading(false);
             } catch (error) {
