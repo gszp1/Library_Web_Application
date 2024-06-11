@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import "./ComponentStyles.css"
+import "./ComponentStyles.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faFolder, faUser, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 function NavigationBar({searchKeyword, setSearchKeyword, openLoginWindow}) {
+
   return (
     <nav className='navigationBar'>
       <div className="appLogo">
@@ -29,16 +30,16 @@ function NavigationBar({searchKeyword, setSearchKeyword, openLoginWindow}) {
           </Link>
         </li>
         <li>
-          {localStorage.getItem('WebLibToken') !== null ? (
-            <Link to="/account">
-              <FontAwesomeIcon icon={faUser} className='icon'/>
-              {" Account"}
-            </Link>
-          ) : (
+          {localStorage.getItem('WebLibToken') === null ? (
             <p onClick={openLoginWindow}>
               <FontAwesomeIcon icon={faUser} className='icon'/>
               {" Login"}
             </p>
+          ) : (
+            <Link to="/account">
+              <FontAwesomeIcon icon={faUser} className='icon'/>
+              {" Account"}
+            </Link>
           )}
         </li>
         <li>
