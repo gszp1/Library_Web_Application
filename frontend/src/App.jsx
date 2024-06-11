@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import NavigationBar from './component/NavigationBar';
 import HomePage from './page/homePage/HomePage';
 import ContactPage from './page/contactPage/ContactPage';
@@ -15,6 +15,7 @@ function App() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [loginWindowOpened, setLoginWindowOpened] = useState(false);
   const loginWindowRef = useRef(null);
+  const location = useLocation();
 
   const openLoginWindow = () => setLoginWindowOpened(true);
   const closeLoginWindow = () => setLoginWindowOpened(false);
@@ -37,8 +38,11 @@ function App() {
     };
   }, [loginWindowOpened]);
 
+  useEffect(() => {
+  }, [location]);
+
   return (
-    <Router>
+    <>
       <div className='appBackground'>
         <NavigationBar
           searchKeyword={searchKeyword}
@@ -56,8 +60,16 @@ function App() {
         </Routes>
       </div>
       {loginWindowOpened && <LoginWindow ref={loginWindowRef} closeLoginWindow={closeLoginWindow} />}
+    </>
+  );
+}
+
+function AppRouter() {
+  return (
+    <Router>
+      <App />
     </Router>
   );
 }
 
-export default App;
+export default AppRouter;
