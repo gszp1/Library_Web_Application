@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('user:update')")
-    @PutMapping ("/{email}/update")
+    @PutMapping ("/update")
     public ResponseEntity<String> updateUserCredentials(@RequestBody UserDto userDto) {
         try {
             userService.updateUserCredentials(userDto);

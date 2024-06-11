@@ -5,10 +5,7 @@ import org.example.backend.dto.ResourceDto;
 import org.example.backend.model.Resource;
 import org.example.backend.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,15 +21,13 @@ public class ResourceController {
     }
 
     @GetMapping("/all")
-    public List<ResourceDto> getAll() {
-        return resourceService.getAllWithAuthors();
+    public List<ResourceDto> getAll(@RequestParam(name="keyword", required = false) String keyword) {
+        if (keyword == null || keyword.isEmpty()) {
+            return resourceService.getAllWithAuthors();
+        } else {
+            return resourceService.getResourcesWithKeywordInTitle(keyword);
+        }
     }
-
-    @GetMapping("/all/{keyword}")
-    public List<ResourceDto> getAllWithKeyword(@PathVariable(name="keyword") String keyword) {
-        return resourceService.getResourcesWithKeywordInTitle(keyword);
-    }
-
     @GetMapping("/{id}/description")
     public ResourceDescriptionDto getDescription(@PathVariable(name = "id") Integer id) {
         return resourceService.getResourceDescription(id);

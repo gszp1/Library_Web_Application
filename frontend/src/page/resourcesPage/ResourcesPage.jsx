@@ -12,10 +12,9 @@ function ResourcesPage({searchKeyword}) {
     useEffect(() => {
         const fetchResources = async () => {
             try {
-                let url = searchKeyword === ''
-                  ? `http://localhost:9090/api/resources/all`
-                  : `http://localhost:9090/api/resources/all/${debouncedSearchKeyword}`;
-                const response = await axios.get(url);
+                let url = `http://localhost:9090/api/resources/all`;
+                const parameters = searchKeyword ? { keyword: debouncedSearchKeyword} : {};
+                const response = await axios.get(url, {parameters});
                 setResources(response.data);
                 setLoading(false);
             } catch (error) {
