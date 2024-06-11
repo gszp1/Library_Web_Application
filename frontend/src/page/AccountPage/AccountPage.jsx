@@ -7,6 +7,15 @@ import ModifyInformationSection from "./ModifyInformationSection";
 
 function AccountPage() {
     const [section, setSection] = useState('Information');
+    const [userData, setUserData] = useState({
+        name: '',
+        surname: '',
+        phoneNumber: '',
+        joinDate: '',
+        email: '',
+        imageUrl: ''
+    });
+
     const navigate = useNavigate();
 
     const changeSection = (e) => {
@@ -16,7 +25,7 @@ function AccountPage() {
     const renderSection = () => {
         switch (section) {
             case 'Information':
-                return <InformationSection />;
+                return <InformationSection userCredentials={userData}/>;
             case 'ModifyInformation':
                 return <ModifyInformationSection />;
             case 'Reservations':

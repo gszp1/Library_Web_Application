@@ -46,5 +46,47 @@
 }
 
 .accountPageSection h1 {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: orange;
+    width: 100%;
+    height: 3rem;
+    font-size: 2rem;
+    padding: 0;
+    margin: 0;
+}
+
+.informationSectionContent {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: calc(100% - 3rem);
+    margin: 0;
+    padding: 0;
+}
+
+.informationSectionUserImageContainer {
+    width: 40%;
+    height: 100%;
+}
+
+.informationSectionCredentials {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 60%;
+    height: 100%;
+    margin: 0;
+    list-style: none;
+}
+
+.informationSectionCredentials li {
+    width: 100%;
+    height: 20%;
+}
+
+.informationSectionCredentials h2 {
     color: orange;
 }
