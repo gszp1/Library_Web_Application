@@ -1,9 +1,12 @@
 package org.example.backend.service;
 
 import org.example.backend.dto.UserDto;
+import org.example.backend.model.User;
 import org.example.backend.repository.UserRepository;
+import org.example.backend.util.exception.NoSuchUserException;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -27,6 +30,18 @@ public class UserService {
                     user.getImageUrl()
                 )
             );
+    }
+
+    public void updateUserCredentials(UserDto userDto) throws NoSuchUserException {
+        Optional<User> user = userRepository.findByEmail(userDto.email());
+        if (user.isEmpty()) {
+            throw new NoSuchUserException();
+        }
+        User userEntity = user.get();
+        userEntity.setSurname(userDto.surname());
+        userEntity.setPhoneNumber(userDto.phoneNumber());
+        userEntity.setImageUrl(userDto.imageUrl());
+        userRepository.save(userEntity);
     }
 
 }
