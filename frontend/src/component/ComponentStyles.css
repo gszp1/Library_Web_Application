@@ -196,3 +196,8 @@
 .registerButton:active{
     background-color: hsl(34, 100%, 30%);
 }
+
+.instancesMenu {
+    height: 50rem;
+    width: 75rem;
+}
