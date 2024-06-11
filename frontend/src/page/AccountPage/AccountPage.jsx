@@ -17,10 +17,10 @@ function AccountPage() {
         switch (section) {
             case 'Information':
                 return <InformationSection />;
-            case 'Reservations':
-                return <ReservationsSection />;
             case 'ModifyInformation':
                 return <ModifyInformationSection />;
+            case 'Reservations':
+                return <ReservationsSection />;
             default:
                 return <InformationSection />;
         }
