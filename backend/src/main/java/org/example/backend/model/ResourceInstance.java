@@ -3,6 +3,7 @@ package org.example.backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -31,5 +32,6 @@ public class ResourceInstance {
     private Resource resource;
 
     @OneToMany(mappedBy = "resourceInstance")
-    private List<Reservation> reservations;
+    @Builder.Default
+    private List<Reservation> reservations = new ArrayList<>();
 }
