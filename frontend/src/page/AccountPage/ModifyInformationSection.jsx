@@ -47,7 +47,7 @@ function ModifyInformationSection({credentials, setCredentials, setSection}) {
             }
         };
 
-        if (!validatePhoneNumber(newCredentials.phoneNumber)) {
+        if (!validatePhoneNumber(newCredentials.phoneNumber) && newCredentials.phoneNumber !== '') {
             newPrompts.result.message="Failed to modify due to invalid credentials.";
             newPrompts.result.color='red';
             newPrompts.phoneNumber.message="Invalid phone number.";
@@ -83,7 +83,6 @@ function ModifyInformationSection({credentials, setCredentials, setSection}) {
             newPrompts.result.message="Credentials successfully updated.";
             newPrompts.result.color='green';
             setCredentials(sentCredentials);
-            setNewCredentials(sentCredentials);
             setPrompts(newPrompts);
         } catch (error) {
             if (error.response) {
