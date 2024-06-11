@@ -32,10 +32,10 @@ public class Reservation {
     private ReservationStatus reservationStatus;
 
     @ManyToOne
-    @JoinColumn(name = "FK_user")
+    @JoinColumn(name = "FK_user", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "FK_resource_instance")
+    @JoinColumn(name = "FK_resource_instance", nullable = false)
     private ResourceInstance resourceInstance;
 }
