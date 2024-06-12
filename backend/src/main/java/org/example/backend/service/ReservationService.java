@@ -12,6 +12,7 @@ import org.example.backend.util.exception.NoSuchInstanceException;
 import org.example.backend.util.exception.NoSuchUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -36,6 +37,7 @@ public class ReservationService {
         this.instanceService = instanceService;
     }
 
+    @Transactional
     public void createReservation(
             String userEmail,
             int instanceId
@@ -58,7 +60,7 @@ public class ReservationService {
                 .reservationEnd(LocalDate.now().plusDays(Util.DEFAULT_RESERVATION_TIME))
                 .reservationStatus(ReservationStatus.ACTIVE)
                 .build();
-        reservationRepository.save(reservation);
+        reservation = reservationRepository.save(reservation);
         user.get().getReservation().add(reservation);
         instance.get().setIsReserved(true);
         instance.get().getReservations().add(reservation);
