@@ -42,4 +42,9 @@ public class ResourceController {
     public List<InstanceDto> getNotReservedInstances(@PathVariable(name = "id") Integer id) {
         return instanceService.getNotReservedInstancesOfResource(id);
     }
+
+    @GetMapping("/{id}/instances")
+    public List<InstanceDto> getInstances(@PathVariable(name = "id") Integer id) {
+        return instanceService.getAllInstancesByResourceId(id);
+    }
 }

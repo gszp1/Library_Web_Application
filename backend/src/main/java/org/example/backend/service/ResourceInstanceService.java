@@ -38,4 +38,12 @@ public class ResourceInstanceService {
     public ResourceInstance saveResourceInstance(ResourceInstance resourceInstance) {
         return resourceInstanceRepository.save(resourceInstance);
     }
+
+    public List<InstanceDto> getAllInstancesByResourceId(Integer id) {
+        return resourceInstanceRepository
+                .findByResourceResourceId(id)
+                .stream()
+                .map(instance -> new InstanceDto(instance.getResourceInstanceId(), id, instance.getIsReserved()))
+                .collect(Collectors.toList());
+    }
 }

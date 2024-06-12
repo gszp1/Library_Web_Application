@@ -4,6 +4,7 @@ import org.example.backend.dto.AuthorDto;
 import org.example.backend.dto.ResourceDescriptionDto;
 import org.example.backend.dto.ResourceDto;
 import org.example.backend.model.Resource;
+import org.example.backend.model.ResourceInstance;
 import org.example.backend.repository.AuthorRepository;
 import org.example.backend.repository.ResourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,9 @@ public class ResourceService {
 
     private final ResourceRepository resourceRepository;
 
-    private final AuthorRepository authorRepository;
-
     @Autowired
-    public ResourceService(ResourceRepository resourceRepository, AuthorRepository authorRepository) {
+    public ResourceService(ResourceRepository resourceRepository) {
         this.resourceRepository = resourceRepository;
-        this.authorRepository = authorRepository;
     }
 
     public List<ResourceDto> getAllWithAuthors() {
