@@ -27,6 +27,10 @@ function ResourcePage(){
             }
         }
 
+        fetchDescription();
+    }, [resource.id]);
+
+    useEffect( ()=> {
         const fetchInstances = async () => {
             try {
                 const response = await axios.get(`http://localhost:9090/api/resources/${resource.id}/instances`);
@@ -37,8 +41,6 @@ function ResourcePage(){
                 setInstanceLoading(false);
             }
         }
-
-        fetchDescription();
         fetchInstances();
     }, [resource.id]);
 
@@ -46,8 +48,12 @@ function ResourcePage(){
         setImgSrc(bookPlaceholder);
     }
 
-    const reserveInstance = () => {
+    const reserveInstance = (email, instanceId) => {
+        try {
 
+        } catch (error) {
+
+        }
     }
 
     console.log(instances);
