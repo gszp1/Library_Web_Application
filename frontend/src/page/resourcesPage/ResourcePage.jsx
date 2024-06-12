@@ -79,6 +79,9 @@ function ResourcePage(){
                     </button>
                 </div>
             </div>
+            <div className="availableInstancesTable">
+                <h1>{'Available Copies'}</h1>
+            </div>
         </div>
     );
 }
