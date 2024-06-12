@@ -44,4 +44,11 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
+    public Optional<User> getUserByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
 }
