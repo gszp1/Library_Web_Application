@@ -11,6 +11,9 @@ function ResourcePage(){
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [imgSrc, setImgSrc] = useState(resource.imageUrl || bookPlaceholder);
+    const [instances, setInstances] = useState([]);
+    const [instanceError, setInstanceError] = useState(null);
+    const [instanceLoading, setInstanceLoading] = useState(true);
 
     useEffect( () => {
         const fetchDescription = async () => {
@@ -23,15 +26,35 @@ function ResourcePage(){
                 setLoading(false);
             }
         }
+
+        const fetchInstances = async () => {
+            try {
+                const response = await axios.get(`http://localhost:9090/api/resources/${resource.id}/instances`);
+                setInstances(response.data);
+                setInstanceLoading(false);
+            } catch (error) {
+                setInstanceError(error);
+                setInstanceLoading(false);
+            }
+        }
+
         fetchDescription();
+        fetchInstances();
     }, [resource.id]);
 
     const handleImgError = () => {
         setImgSrc(bookPlaceholder);
     }
 
+    const reserveInstance = () => {
+
+    }
+
+    console.log(instances);
+
     let authorsFullNames = resource.authors.map(author => `${author.firstName} ${author.lastName}`);
     let authorsFullNamesJoined = authorsFullNames.join(', ');
+    let counter = 0;
 
     return (
         <div className = "resourcePageContent">
@@ -73,14 +96,53 @@ function ResourcePage(){
                         <p>{description.description}</p>
                     )}
                 </div>
-                <div className="buttonContainer">
-                    <button className="reservationButton">
-                        Reserve
-                    </button>
-                </div>
             </div>
-            <div className="availableInstancesTable">
+            <div className="availableInstances">
                 <h1>{'Available Copies'}</h1>
+                {loading ? (
+                    <p>Loading copies...</p>
+                ) : instanceError ? (
+                    <p>Failed to load instances.</p>
+                ) : instances.length === 0 ? (
+                    <p>No copies available for this resource.</p>
+                ) : (
+                    <table className="instancesTable">
+                        <thead>
+                            <tr>
+                                <th>Nr.</th>
+                                <th>Identifier</th>
+                                <th>Status</th>
+                                <th>Reserve</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {instances.map((instance, index) => (
+                                <tr key={instance.id}>
+                                    <td>{++counter}</td>
+                                    <td>{instance.id}</td>
+                                    <td>
+                                        {instance.isReserved ? (
+                                            <div style={{color:'red'}}>reserved</div>
+                                        ) : (
+                                            <div style={{color:'green'}}>available</div>
+                                        )}
+                                    </td>
+                                    <td>
+                                        {instance.isReserved ? (
+                                            <button 
+                                                className='instanceDisabledButton'
+                                                onClick={reserveInstance}
+                                            >
+                                            reserve</button>
+                                        ) : (
+                                            <button className='instanceEnabledButton'>reserve</button>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
             </div>
         </div>
     );
