@@ -2,15 +2,14 @@ package org.example.backend.demo;
 
 //TODO : REMOVE THIS CLASS WHEN DATABASE STRUCTURE IS FINISHED
 
+import jakarta.transaction.Transactional;
 import org.example.backend.model.Author;
 import org.example.backend.model.Publisher;
 import org.example.backend.model.Resource;
+import org.example.backend.model.ResourceInstance;
 import org.example.backend.model.jointable.AuthorResource;
 import org.example.backend.model.key.AuthorResourceKey;
-import org.example.backend.repository.AuthorRepository;
-import org.example.backend.repository.AuthorResourceRepository;
-import org.example.backend.repository.PublisherRepository;
-import org.example.backend.repository.ResourceRepository;
+import org.example.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -35,16 +34,15 @@ public class SampleDataInitializer {
     @Autowired
     private AuthorResourceRepository authorResourceRepository;
 
+    @Autowired
+    private ResourceInstanceRepository resourceInstanceRepository;
+
     private Random random = new Random();
 
     // TODO: MAKE SHURE THAT THIS CLASS IS REMOVED BEFORE DEPLOYMENT
     @Bean
-    CommandLineRunner dataInit(
-        AuthorRepository authorRepository,
-        PublisherRepository publisherRepository,
-        ResourceRepository resourceRepository,
-        AuthorResourceRepository authorResourceRepository
-    ) {
+    @Transactional
+    CommandLineRunner dataInit() {
         return args -> {
             Author author = Author.builder().firstName("name1").lastName("surname1").build();
             Author author2 = Author.builder().firstName("name2").lastName("surname2").build();
@@ -63,75 +61,77 @@ public class SampleDataInitializer {
                     .imageUrl("http://localhost:9090/api/images/witcher.webp")
                     .build();
             resource = resourceRepository.save(resource);
-            publisher = publisherRepository.save(publisher);
 
-            AuthorResourceKey ARKey = new AuthorResourceKey(author.getAuthorId(), resource.getResourceId());
-            AuthorResource authorResource = AuthorResource
-                    .builder()
-                    .author(author)
-                    .resource(resource)
-                    .id(ARKey)
-                    .build();
-            AuthorResourceKey ARKey2 = new AuthorResourceKey(author2.getAuthorId(), resource.getResourceId());
-            AuthorResource authorResource2 = AuthorResource.builder()
-                    .author(author2)
-                    .resource(resource)
-                    .id(ARKey2)
-                    .build();
-            AuthorResourceKey ARKey3 = new AuthorResourceKey(author3.getAuthorId(), resource.getResourceId());
-            AuthorResource authorResource3 = AuthorResource.builder()
-                    .author(author3)
-                    .resource(resource)
-                    .id(ARKey3)
-                    .build();
-            List<AuthorResource> authorResourceList = authorResourceRepository.saveAll(Arrays.asList(authorResource, authorResource2, authorResource3));
+            AuthorResource authorResource1 = createAuthorResource(author, resource);
+            AuthorResource authorResource2 = createAuthorResource(author2, resource);
+            AuthorResource authorResource3 = createAuthorResource(author3, resource);
+
+            List<AuthorResource> authorResourceList = authorResourceRepository.saveAll(Arrays.asList(authorResource1, authorResource2, authorResource3));
+
             author.getResources().addAll(authorResourceList);
             resource.getAuthors().addAll(authorResourceList);
-            List<Author> authors = authorRepository.saveAll(Arrays.asList(author, author2, author3));
-            resource = resourceRepository.save(resource);
 
-//            generateMultipleResources(5);
+            authorRepository.saveAll(Arrays.asList(author, author2, author3));
+
+            ResourceInstance rs1 = ResourceInstance.builder().isReserved(false).resource(resource).build();
+            ResourceInstance rs2 = ResourceInstance.builder().isReserved(true).resource(resource).build();
+            ResourceInstance rs3 = ResourceInstance.builder().isReserved(false).resource(resource).build();
+            ResourceInstance rs4 = ResourceInstance.builder().isReserved(true).resource(resource).build();
+            ResourceInstance rs5 = ResourceInstance.builder().isReserved(false).resource(resource).build();
+
+            List<ResourceInstance> instances = resourceInstanceRepository.saveAll(Arrays.asList(rs1, rs2, rs3, rs4, rs5));
+            resource.getResourceInstances().addAll(instances);
+            resourceRepository.save(resource);
         };
     }
 
-    public void generateRandomResource() {
-        Author author = Author.builder()
-                .firstName("name" + random.nextInt(100))
-                .lastName("surname" + random.nextInt(100))
-                .build();
-        author = authorRepository.save(author);
-
-        Publisher publisher = Publisher.builder()
-                .name("name" + random.nextInt(100))
-                .address("address" + random.nextInt(100))
-                .build();
-        publisher = publisherRepository.save(publisher);
-
-        Resource resource = Resource.builder()
-                .identifier("identifier" + random.nextInt(100))
-                .title("title" + random.nextInt(100))
-                .description("description" + random.nextInt(100))
-                .publisher(publisher)
-                .build();
-        resource = resourceRepository.save(resource);
-
-        AuthorResourceKey ARKey = new AuthorResourceKey(author.getAuthorId(), resource.getResourceId());
-        AuthorResource authorResource = AuthorResource.builder()
+    private AuthorResource createAuthorResource(Author author, Resource resource) {
+        AuthorResourceKey arKey = new AuthorResourceKey(author.getAuthorId(), resource.getResourceId());
+        return AuthorResource.builder()
                 .author(author)
                 .resource(resource)
-                .id(ARKey)
+                .id(arKey)
                 .build();
-        authorResource = authorResourceRepository.save(authorResource);
-        author.getResources().add(authorResource);
-        resource.getAuthors().add(authorResource);
-
-        authorRepository.save(author);
-        resourceRepository.save(resource);
     }
 
-    public void generateMultipleResources(int count) {
-        for (int i = 0; i < count; i++) {
-            generateRandomResource();
-        }
-    }
+//    public void generateRandomResource() {
+//        Author author = Author.builder()
+//                .firstName("name" + random.nextInt(100))
+//                .lastName("surname" + random.nextInt(100))
+//                .build();
+//        author = authorRepository.save(author);
+//
+//        Publisher publisher = Publisher.builder()
+//                .name("name" + random.nextInt(100))
+//                .address("address" + random.nextInt(100))
+//                .build();
+//        publisher = publisherRepository.save(publisher);
+//
+//        Resource resource = Resource.builder()
+//                .identifier("identifier" + random.nextInt(100))
+//                .title("title" + random.nextInt(100))
+//                .description("description" + random.nextInt(100))
+//                .publisher(publisher)
+//                .build();
+//        resource = resourceRepository.save(resource);
+//
+//        AuthorResourceKey ARKey = new AuthorResourceKey(author.getAuthorId(), resource.getResourceId());
+//        AuthorResource authorResource = AuthorResource.builder()
+//                .author(author)
+//                .resource(resource)
+//                .id(ARKey)
+//                .build();
+//        authorResource = authorResourceRepository.save(authorResource);
+//        author.getResources().add(authorResource);
+//        resource.getAuthors().add(authorResource);
+//
+//        authorRepository.save(author);
+//        resourceRepository.save(resource);
+//    }
+//
+//    public void generateMultipleResources(int count) {
+//        for (int i = 0; i < count; i++) {
+//            generateRandomResource();
+//        }
+//    }
 }
