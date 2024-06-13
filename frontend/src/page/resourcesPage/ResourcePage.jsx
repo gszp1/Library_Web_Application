@@ -14,6 +14,7 @@ function ResourcePage(){
     const [instances, setInstances] = useState([]);
     const [instanceError, setInstanceError] = useState(null);
     const [instanceLoading, setInstanceLoading] = useState(true);
+    const [refreshView, setRefreshView] = use(true);
 
     useEffect( () => {
         const fetchDescription = async () => {
@@ -28,7 +29,7 @@ function ResourcePage(){
         }
 
         fetchDescription();
-    }, [resource.id]);
+    }, [resource.id, refreshView]);
 
     useEffect( ()=> {
         const fetchInstances = async () => {
@@ -42,17 +43,30 @@ function ResourcePage(){
             }
         }
         fetchInstances();
-    }, [resource.id]);
+    }, [resource.id, refreshView]);
 
     const handleImgError = () => {
         setImgSrc(bookPlaceholder);
     }
 
-    const reserveInstance = (email, instanceId) => {
+    const reserveInstance = async (userEmail, instanceId) => {
+        const requestBody = {
+            userEmail,
+            instanceId
+        };
+        const url = 'http://localhost:9090/api/reservations/create';
+
+        // TODO: verify if user has token
+
         try {
-
+            let result = await axios.post(url, requestBody, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            console.log("success");
         } catch (error) {
-
         }
     }
 
@@ -135,11 +149,12 @@ function ResourcePage(){
                                     </td>
                                     <td>
                                         {instance.isReserved ? (
-                                            <button 
+                                            <button
                                                 className='instanceDisabledButton'
                                                 onClick={reserveInstance}
                                             >
-                                            reserve</button>
+                                                reserve
+                                            </button>
                                         ) : (
                                             <button className='instanceEnabledButton'>reserve</button>
                                         )}
