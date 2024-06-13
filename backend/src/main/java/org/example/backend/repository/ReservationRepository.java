@@ -14,7 +14,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
     List<Reservation> findAllByUserEmail(String email);
 
-    @Query("SELECT COUNT() " +
+    @Query("SELECT COUNT(r) " +
             "FROM User u JOIN Reservation r JOIN Resource res " +
             "WHERE u.email=:userEmail AND res.resourceId=:resourceId AND r.reservationStatus=:status")
     int countResourceReservationsWithStatus(
