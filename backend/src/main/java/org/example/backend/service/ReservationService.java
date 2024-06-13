@@ -10,6 +10,7 @@ import org.example.backend.util.Util;
 import org.example.backend.util.exception.InstanceReservedException;
 import org.example.backend.util.exception.NoSuchInstanceException;
 import org.example.backend.util.exception.NoSuchUserException;
+import org.example.backend.util.exception.UserAlreadyReservedResourceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,7 @@ public class ReservationService {
     public void createReservation(
             String userEmail,
             int instanceId
-    ) throws NoSuchInstanceException, NoSuchUserException, InstanceReservedException {
+    ) throws NoSuchInstanceException, NoSuchUserException, InstanceReservedException, UserAlreadyReservedResourceException {
         Optional<ResourceInstance> instance = instanceService.getResourceInstanceById(instanceId);
         if (instance.isEmpty()) {
             throw new NoSuchInstanceException();
@@ -52,6 +53,14 @@ public class ReservationService {
         }
         if (instance.get().getIsReserved()) {
             throw new InstanceReservedException();
+        }
+        int reservationCount = reservationRepository
+                .countResourceReservationsWithStatus(
+                        instance.get().getResource().getResourceId(),
+                        user.get().getEmail(),
+                        ReservationStatus.ACTIVE);
+        if (reservationCount != 0) {
+            throw new UserAlreadyReservedResourceException();
         }
         Reservation reservation = Reservation.builder()
                 .user(user.get())

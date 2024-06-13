@@ -6,6 +6,7 @@ import org.example.backend.util.ReservationRequest;
 import org.example.backend.util.exception.InstanceReservedException;
 import org.example.backend.util.exception.NoSuchInstanceException;
 import org.example.backend.util.exception.NoSuchUserException;
+import org.example.backend.util.exception.UserAlreadyReservedResourceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,8 @@ public class ReservationController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Instance is already reserved");
         } catch (NoSuchInstanceException | NoSuchUserException P) {
             return ResponseEntity.notFound().build();
+        } catch (UserAlreadyReservedResourceException F) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("User already reserved such resource.");
         }
     }
 }
