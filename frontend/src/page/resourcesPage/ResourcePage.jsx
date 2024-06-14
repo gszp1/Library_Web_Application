@@ -93,7 +93,14 @@ function ResourcePage(){
                     error: true,
                     message: error.response.data || "Cant make reservation for this resource copy."
                 });
-            } else {
+            }
+            else if (error.response && error.response.status === 403) {
+                setPromptContent({
+                    error: true,
+                    message: "You have to log in first."
+                });
+            }
+            else {
                 setPromptContent({
                     error: true,
                     message: "Something went wrong. Please try again later."
