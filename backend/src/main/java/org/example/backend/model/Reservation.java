@@ -31,6 +31,13 @@ public class Reservation {
     @Column(name = "reservation_status", nullable = false)
     private ReservationStatus reservationStatus;
 
+    @Column(
+            name = "extension_count",
+            nullable = false,
+            columnDefinition = "INTEGER DEFAULT 0"
+    )
+    private Integer extensionCount;
+
     @ManyToOne
     @JoinColumn(name = "FK_user", nullable = false)
     private User user;

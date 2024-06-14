@@ -8,10 +8,7 @@ import org.example.backend.repository.ReservationRepository;
 import org.example.backend.repository.UserRepository;
 import org.example.backend.util.ReservationStatus;
 import org.example.backend.util.Util;
-import org.example.backend.util.exception.InstanceReservedException;
-import org.example.backend.util.exception.NoSuchInstanceException;
-import org.example.backend.util.exception.NoSuchUserException;
-import org.example.backend.util.exception.UserAlreadyReservedResourceException;
+import org.example.backend.util.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,6 +82,24 @@ public class ReservationService {
                 .stream()
                 .map(reservation -> new ReservationDto())
                 .collect(Collectors.toList());
+    }
 
+    public void extendReservation(
+        int reservationId
+    ) throws NoSuchReservationException, OperationNotAvailableException{
+        Optional<Reservation> reservationOptional = reservationRepository.findById(reservationId);
+        if (reservationOptional.isEmpty()) {
+            throw new NoSuchReservationException();
+        }
+        Reservation reservation = reservationOptional.get();
+        if (reservation.getReservationStatus() != ReservationStatus.ACTIVE) {
+            throw new OperationNotAvailableException("Can't extend reservation - is not active");
+        }
+        if (reservation.getExtensionCount() >= Util.MAX_NUMBER_OF_EXTENSIONS) {
+            throw new OperationNotAvailableException("Can't extend reservation - reached maximal amount of times");
+        }
+        reservation.setReservationEnd(reservation.getReservationEnd().plusDays(Util.DEFAULT_RESERVATION_EXTENSION));
+        reservation.setExtensionCount(reservation.getExtensionCount() + 1);
+        reservationRepository.save(reservation);
     }
 }
