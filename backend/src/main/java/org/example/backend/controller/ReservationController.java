@@ -38,7 +38,7 @@ public class ReservationController {
         } catch (NoSuchInstanceException | NoSuchUserException P) {
             return ResponseEntity.notFound().build();
         } catch (UserAlreadyReservedResourceException F) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("User already reserved such resource.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("You have already reserved such resource.");
         }
     }
 }

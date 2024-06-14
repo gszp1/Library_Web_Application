@@ -85,13 +85,13 @@ function ResourcePage(){
             })
             setPromptContent({
                 error: false,
-                message: 'Reservation created.'
+                message: 'Reservation created successfully.'
             });
         } catch (error) {
             if (error.response && error.response.status === 409) {
                 setPromptContent({
                     error: true,
-                    message: error.response.data.message || "Cant make reservation for this resource copy."
+                    message: error.response.data || "Cant make reservation for this resource copy."
                 });
             } else {
                 setPromptContent({
