@@ -1,5 +1,6 @@
 package org.example.backend.service;
 
+import org.example.backend.dto.ReservationDto;
 import org.example.backend.model.Reservation;
 import org.example.backend.model.ResourceInstance;
 import org.example.backend.model.User;
@@ -16,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
@@ -75,5 +78,13 @@ public class ReservationService {
         instance.get().getReservations().add(reservation);
         reservationRepository.save(reservation);
         userService.saveUser(user.get());
+    }
+
+    public List<ReservationDto> getAllUserReservations(String userEmail) {
+        return reservationRepository.findAllByUserEmail(userEmail)
+                .stream()
+                .map(reservation -> new ReservationDto())
+                .collect(Collectors.toList());
+
     }
 }

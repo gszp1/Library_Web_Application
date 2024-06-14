@@ -1,5 +1,6 @@
 package org.example.backend.controller;
 
+import org.example.backend.dto.ReservationDto;
 import org.example.backend.model.Reservation;
 import org.example.backend.service.ReservationService;
 import org.example.backend.util.ReservationRequest;
@@ -11,10 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/api/reservations")
 @RestController
@@ -40,5 +40,11 @@ public class ReservationController {
         } catch (UserAlreadyReservedResourceException F) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("You have already reserved such resource.");
         }
+    }
+
+    @PreAuthorize("hasAuthority('user:read')")
+    @GetMapping("/{email}/all")
+    public List<ReservationDto> getAllReservationsByUserEmail(@PathVariable(name="email") String email) {
+        return reservationService.getAllUserReservations(email);
     }
 }
