@@ -52,16 +52,23 @@ function ResourcePage(){
 
     const reserveInstance = async (instanceId) => {
         const requestBody = {
-            userEmail,
+            userEmail: '',
             instanceId
         };
         const url = 'http://localhost:9090/api/reservations/create';
 
         // TODO: verify if user has token
 
+        let token = localStorage.getItem('WebLibToken');
+        if (token == null) {
+            // TODO: display prompt that user needs to be logged in
+        }
 
         let decodedToken = jwtDecode(localStorage.getItem('WebLibToken'));
-        
+        requestBody.userEmail = decodedToken.sub;
+
+        console.log(decodedToken);
+        console.log(requestBody);
 
         try {
             let result = await axios.post(url, requestBody, {
@@ -70,7 +77,10 @@ function ResourcePage(){
                     'Content-Type': 'application/json'
                 }
             })
+            console.log('success');
         } catch (error) {
+            console.log('failure');
+            console.log()
         }
     }
 
@@ -156,12 +166,16 @@ function ResourcePage(){
                                         {instance.isReserved ? (
                                             <button
                                                 className='instanceDisabledButton'
-                                                onClick={reserveInstance(instance.id)}
                                             >
                                                 reserve
                                             </button>
                                         ) : (
-                                            <button className='instanceEnabledButton'>reserve</button>
+                                            <button
+                                                className='instanceEnabledButton'
+                                                onClick={() => reserveInstance(instance.id)}
+                                            >
+                                                reserve
+                                            </button>
                                         )}
                                     </td>
                                 </tr>

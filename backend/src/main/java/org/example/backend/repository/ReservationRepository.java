@@ -13,10 +13,16 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 
     List<Reservation> findAllByUserEmail(String email);
-
+    
     @Query("SELECT COUNT(r) " +
-            "FROM User u JOIN Reservation r JOIN Resource res " +
-            "WHERE u.email=:userEmail AND res.resourceId=:resourceId AND r.reservationStatus=:status")
+        "FROM User u " +
+        "JOIN u.reservation r " +
+        "JOIN r.resourceInstance ri "+
+        "JOIN ri.resource res " +
+        "WHERE u.email=:userEmail " +
+        "AND res.resourceId =:resourceId " +
+        "AND r.reservationStatus =:status"
+    )
     int countResourceReservationsWithStatus(
         @Param("resourceId") Integer resourceId,
         @Param("userEmail") String userEmail,

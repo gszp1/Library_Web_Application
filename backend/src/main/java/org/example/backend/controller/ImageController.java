@@ -22,7 +22,6 @@ public class ImageController {
         try {
             Path filePath = imagePath.resolve(filename);
             Resource resource = new UrlResource(filePath.toUri());
-
             if (resource.exists() || resource.isReadable()) {
                 return ResponseEntity.ok()
                         .header(
