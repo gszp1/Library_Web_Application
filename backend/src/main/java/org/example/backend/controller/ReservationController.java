@@ -4,10 +4,7 @@ import org.example.backend.dto.ReservationDto;
 import org.example.backend.model.Reservation;
 import org.example.backend.service.ReservationService;
 import org.example.backend.util.ReservationRequest;
-import org.example.backend.util.exception.InstanceReservedException;
-import org.example.backend.util.exception.NoSuchInstanceException;
-import org.example.backend.util.exception.NoSuchUserException;
-import org.example.backend.util.exception.UserAlreadyReservedResourceException;
+import org.example.backend.util.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,5 +43,18 @@ public class ReservationController {
     @GetMapping("/{email}/all")
     public List<ReservationDto> getAllReservationsByUserEmail(@PathVariable(name="email") String email) {
         return reservationService.getAllUserReservations(email);
+    }
+
+    @PreAuthorize("hasAuthority('user:update')")
+    @PutMapping("/{id}/extend")
+    public ResponseEntity<String> extendReservation(@PathVariable(name="id") Integer id) {
+        try {
+            reservationService.extendReservation(id);
+        } catch (NoSuchReservationException ResEx) {
+            return ResponseEntity.notFound().build();
+        } catch (OperationNotAvailableException OpEx) {
+            return ResponseEntity.badRequest().body(OpEx.getMessage());
+        }
+        return ResponseEntity.ok("Reservation extended");
     }
 }
