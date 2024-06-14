@@ -32,6 +32,13 @@ public class Resource {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @Column(
+        name = "extension_count",
+        nullable = false,
+        columnDefinition = "INTEGER DEFAULT 0"
+    )
+    private Integer extensionCount;
+
     @OneToMany(mappedBy = "resource")
     @Builder.Default
     private List<ResourceInstance> resourceInstances = new ArrayList<>();
