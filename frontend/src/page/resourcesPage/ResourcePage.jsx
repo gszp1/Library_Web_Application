@@ -3,6 +3,8 @@ import {useLocation} from "react-router-dom"
 import "./ResourcesPageStyles.css";
 import axios from "axios";
 import bookPlaceholder from "../../assets/image/bookPlaceholder.jpg";
+import ReservationPrompt from "../../component/ReservationPrompt";
+import { jwtDecode } from "jwt-decode";
 
 function ResourcePage(){
     const location = useLocation();
@@ -14,7 +16,6 @@ function ResourcePage(){
     const [instances, setInstances] = useState([]);
     const [instanceError, setInstanceError] = useState(null);
     const [instanceLoading, setInstanceLoading] = useState(true);
-    const [refreshView, setRefreshView] = use(true);
 
     useEffect( () => {
         const fetchDescription = async () => {
@@ -29,7 +30,7 @@ function ResourcePage(){
         }
 
         fetchDescription();
-    }, [resource.id, refreshView]);
+    }, [resource.id, ]);
 
     useEffect( ()=> {
         const fetchInstances = async () => {
@@ -43,13 +44,13 @@ function ResourcePage(){
             }
         }
         fetchInstances();
-    }, [resource.id, refreshView]);
+    }, [resource.id]);
 
     const handleImgError = () => {
         setImgSrc(bookPlaceholder);
     }
 
-    const reserveInstance = async (userEmail, instanceId) => {
+    const reserveInstance = async (instanceId) => {
         const requestBody = {
             userEmail,
             instanceId
@@ -58,6 +59,10 @@ function ResourcePage(){
 
         // TODO: verify if user has token
 
+
+        let decodedToken = jwtDecode(localStorage.getItem('WebLibToken'));
+        
+
         try {
             let result = await axios.post(url, requestBody, {
                 headers: {
@@ -65,7 +70,6 @@ function ResourcePage(){
                     'Content-Type': 'application/json'
                 }
             })
-            console.log("success");
         } catch (error) {
         }
     }
@@ -77,6 +81,7 @@ function ResourcePage(){
     let counter = 0;
 
     return (
+        <>
         <div className = "resourcePageContent">
             <div className = "resourceData">
                 <div className="imageContainer">
@@ -151,7 +156,7 @@ function ResourcePage(){
                                         {instance.isReserved ? (
                                             <button
                                                 className='instanceDisabledButton'
-                                                onClick={reserveInstance}
+                                                onClick={reserveInstance(instance.id)}
                                             >
                                                 reserve
                                             </button>
@@ -166,6 +171,7 @@ function ResourcePage(){
                 )}
             </div>
         </div>
+        </>
     );
 }
 
