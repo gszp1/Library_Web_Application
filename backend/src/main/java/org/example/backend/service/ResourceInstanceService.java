@@ -4,6 +4,7 @@ import org.example.backend.dto.InstanceDto;
 import org.example.backend.model.ResourceInstance;
 import org.example.backend.repository.ResourceInstanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,9 +40,9 @@ public class ResourceInstanceService {
         return resourceInstanceRepository.save(resourceInstance);
     }
 
-    public List<InstanceDto> getAllInstancesByResourceId(Integer id) {
+    public List<InstanceDto> getAllInstancesByResourceId(Integer id, Sort sort) {
         return resourceInstanceRepository
-                .findByResourceResourceId(id)
+                .findByResourceResourceId(id, sort)
                 .stream()
                 .map(instance -> new InstanceDto(instance.getResourceInstanceId(), id, instance.getIsReserved()))
                 .collect(Collectors.toList());

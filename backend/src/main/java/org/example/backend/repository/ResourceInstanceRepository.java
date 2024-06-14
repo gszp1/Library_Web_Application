@@ -2,6 +2,7 @@ package org.example.backend.repository;
 
 import org.example.backend.dto.InstanceDto;
 import org.example.backend.model.ResourceInstance;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,5 +17,5 @@ public interface ResourceInstanceRepository extends JpaRepository<ResourceInstan
 
     Optional<ResourceInstance> findByResourceInstanceId(Integer resourceInstanceId);
 
-    List<ResourceInstance> findByResourceResourceId(Integer resourceId);
+    List<ResourceInstance> findByResourceResourceId(Integer resourceId, Sort sort);
 }
