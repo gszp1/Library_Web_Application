@@ -13,7 +13,7 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 
     List<Reservation> findAllByUserEmail(String email);
-    
+
     @Query("SELECT COUNT(r) " +
         "FROM User u " +
         "JOIN u.reservation r " +

@@ -16,6 +16,11 @@ function ResourcePage(){
     const [instances, setInstances] = useState([]);
     const [instanceError, setInstanceError] = useState(null);
     const [instanceLoading, setInstanceLoading] = useState(true);
+    const [promptContent, setPromptContent] = useState({
+        error: false,
+        message: ''
+    });
+    const [displayPrompt, setDisplayPrompt] = useState(false);
 
     useEffect( () => {
         const fetchDescription = async () => {
@@ -32,17 +37,18 @@ function ResourcePage(){
         fetchDescription();
     }, [resource.id, ]);
 
-    useEffect( ()=> {
-        const fetchInstances = async () => {
-            try {
-                const response = await axios.get(`http://localhost:9090/api/resources/${resource.id}/instances`);
-                setInstances(response.data);
-                setInstanceLoading(false);
-            } catch (error) {
-                setInstanceError(error);
-                setInstanceLoading(false);
-            }
+    const fetchInstances = async () => {
+        try {
+            const response = await axios.get(`http://localhost:9090/api/resources/${resource.id}/instances`);
+            setInstances(response.data);
+            setInstanceLoading(false);
+        } catch (error) {
+            setInstanceError(error);
+            setInstanceLoading(false);
         }
+    }
+
+    useEffect( ()=> {
         fetchInstances();
     }, [resource.id]);
 
@@ -57,18 +63,18 @@ function ResourcePage(){
         };
         const url = 'http://localhost:9090/api/reservations/create';
 
-        // TODO: verify if user has token
-
         let token = localStorage.getItem('WebLibToken');
         if (token == null) {
-            // TODO: display prompt that user needs to be logged in
+            setPromptContent({
+                error: true,
+                message: "You have to log in first."
+            });
+            setDisplayPrompt(true);
+            hidePromptAfterDelay();
         }
 
         let decodedToken = jwtDecode(localStorage.getItem('WebLibToken'));
         requestBody.userEmail = decodedToken.sub;
-
-        console.log(decodedToken);
-        console.log(requestBody);
 
         try {
             let result = await axios.post(url, requestBody, {
@@ -77,14 +83,34 @@ function ResourcePage(){
                     'Content-Type': 'application/json'
                 }
             })
-            console.log('success');
+            setPromptContent({
+                error: false,
+                message: 'Reservation created.'
+            });
         } catch (error) {
-            console.log('failure');
-            console.log()
+            if (error.response && error.response.status === 409) {
+                setPromptContent({
+                    error: true,
+                    message: error.response.data.message || "Cant make reservation for this resource copy."
+                });
+            } else {
+                setPromptContent({
+                    error: true,
+                    message: "Something went wrong. Please try again later."
+                });
+            }
+        } finally {
+            setDisplayPrompt(true);
+            hidePromptAfterDelay();
+            fetchInstances();
         }
     }
 
-    console.log(instances);
+    const hidePromptAfterDelay = () => {
+        setTimeout(() => {
+            setDisplayPrompt(false);
+        }, 3000);
+    };
 
     let authorsFullNames = resource.authors.map(author => `${author.firstName} ${author.lastName}`);
     let authorsFullNamesJoined = authorsFullNames.join(', ');
@@ -185,6 +211,7 @@ function ResourcePage(){
                 )}
             </div>
         </div>
+        {displayPrompt && <ReservationPrompt error={promptContent.error} message={promptContent.message}/>}
         </>
     );
 }
