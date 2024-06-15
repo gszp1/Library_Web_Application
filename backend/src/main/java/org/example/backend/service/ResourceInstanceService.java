@@ -47,4 +47,8 @@ public class ResourceInstanceService {
                 .map(instance -> new InstanceDto(instance.getResourceInstanceId(), id, instance.getIsReserved()))
                 .collect(Collectors.toList());
     }
+
+    public List<ResourceInstance> saveAll(List<ResourceInstance> resourceInstances) {
+        return resourceInstanceRepository.saveAll(resourceInstances);
+    }
 }

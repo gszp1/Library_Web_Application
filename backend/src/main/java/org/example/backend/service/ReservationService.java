@@ -10,6 +10,7 @@ import org.example.backend.util.ReservationStatus;
 import org.example.backend.util.Util;
 import org.example.backend.util.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,14 @@ public class ReservationService {
         this.reservationRepository = reservationRepository;
         this.userService = userService;
         this.instanceService = instanceService;
+    }
+
+    public List<Reservation> getAllReservations() {
+        return reservationRepository.findAll();
+    }
+
+    public List<Reservation> getAllActiveReservations() {
+        return reservationRepository.findAllByReservationStatusWithInstances(ReservationStatus.ACTIVE);
     }
 
     @Transactional
@@ -101,5 +110,9 @@ public class ReservationService {
         reservation.setReservationEnd(reservation.getReservationEnd().plusDays(Util.DEFAULT_RESERVATION_EXTENSION));
         reservation.setExtensionCount(reservation.getExtensionCount() + 1);
         reservationRepository.save(reservation);
+    }
+
+    public List<Reservation> saveAll(List<Reservation> reservations) {
+        return reservationRepository.saveAll(reservations);
     }
 }

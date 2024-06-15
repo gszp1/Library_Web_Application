@@ -2,6 +2,7 @@ package org.example.backend.repository;
 
 import org.example.backend.model.Reservation;
 import org.example.backend.util.ReservationStatus;
+import org.hibernate.annotations.Parameter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,4 +29,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
         @Param("userEmail") String userEmail,
         @Param("status") ReservationStatus status
     );
+
+    @Query("SELECT res FROM Reservation res JOIN FETCH res.resourceInstance WHERE res.reservationStatus=:status")
+    List<Reservation> findAllByReservationStatusWithInstances(@Param("status") ReservationStatus status);
 }
