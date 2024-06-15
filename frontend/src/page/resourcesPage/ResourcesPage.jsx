@@ -3,8 +3,7 @@ import './ResourcesPageStyles.css';
 import Resource from "./Resource";
 import useDebounce from "../../customHooks/useDebounce";
 import axios from "axios";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
+import PaginationController from "./PaginationController";
 
 function ResourcesPage({searchKeyword}) {
   const [resources, setResources] = useState([]);
@@ -40,6 +39,17 @@ function ResourcesPage({searchKeyword}) {
 
   return (
     <div className="resourcesPageContent">
+    {pageSize >= 10 &&
+      (
+        <PaginationController
+          page={page}
+          setPage={setPage}
+          totalPages={totalPages}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+        />
+      )
+    }
       {loading ? (
         <div>Loading library resources...</div>
       ) : error ? (
@@ -48,41 +58,25 @@ function ResourcesPage({searchKeyword}) {
         <div>No library resources available.</div>
       ) : (
         <>
-        {resources.map((resource) => (
-            <Resource
-              id={resource.id}
-              resource={resource}
-              key={resource.id}
-            />
-        ))}
-        {Array.from({length: dummyItemsNumber}).map((_, index) => (
-          <div className='resourceDummy' key={`dummy${index}`}></div>
-        ))}
+          {resources.map((resource) => (
+              <Resource
+                id={resource.id}
+                resource={resource}
+                key={resource.id}
+              />
+          ))}
+          {Array.from({length: dummyItemsNumber}).map((_, index) => (
+            <div className='resourceDummy' key={`dummy${index}`}></div>
+          ))}
+          <PaginationController
+            page={page}
+            setPage={setPage}
+            totalPages={totalPages}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
+          />
         </>
       )}
-      <div className="paginationControl">
-        <div className="pageSizeControl">
-          <label>
-            {"Page Size: "}
-            <select>
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-              <option value={30}>30</option>
-            </select>
-          </label>
-        </div>
-        <button>
-          <FontAwesomeIcon icon={faChevronLeft} />
-        </button>
-        <div>
-            <input />
-            {` / ${totalPages}`}
-        </div>
-        <button>
-          <FontAwesomeIcon icon={faChevronRight} />
-        </button>
-      </div>
     </div>
   );
 }
