@@ -7,6 +7,7 @@ import org.example.backend.model.Resource;
 import org.example.backend.service.ResourceInstanceService;
 import org.example.backend.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
