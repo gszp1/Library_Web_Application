@@ -18,7 +18,7 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
     @Query("SELECT r FROM Resource r JOIN FETCH r.authors a JOIN FETCH a.author")
     List<Resource> findAllWithAuthors();
 
-    @EntityGraph(attributePaths = {"authors", "authors.author"})
+    @EntityGraph(attributePaths = {"authors", "authors.author", "publisher"})
     @Query("SELECT r FROM Resource r")
     Page<Resource> findAllWithAuthorsPageable(Pageable pageable);
 
@@ -28,7 +28,7 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
             "WHERE LOWER(r.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Resource> findAllByTitleKeyword(String keyword);
 
-    @EntityGraph(attributePaths = {"authors", "authors.author"})
+    @EntityGraph(attributePaths = {"authors", "authors.author", "publisher"})
     @Query("SELECT r FROM Resource r WHERE LOWER(r.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     Page<Resource> findAllByTitleKeywordPageable(String keyword, Pageable pageable);
 }
