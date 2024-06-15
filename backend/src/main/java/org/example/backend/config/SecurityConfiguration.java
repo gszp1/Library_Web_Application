@@ -36,7 +36,7 @@ public class SecurityConfiguration {
                         authorisations->authorisations
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/resources/all").permitAll()
-                                .requestMatchers("/api/resources/all/{keyword}").permitAll()
+                                .requestMatchers("/api/resources/all/paginated").permitAll()
                                 .requestMatchers("/api/resources/{id}/description").permitAll()
                                 .requestMatchers("/api/images/{filename}").permitAll()
                                 .requestMatchers("/api/resources/{id}/instances").permitAll()
