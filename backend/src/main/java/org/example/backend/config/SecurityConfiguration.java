@@ -40,6 +40,7 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/resources/{id}/description").permitAll()
                                 .requestMatchers("/api/images/{filename}").permitAll()
                                 .requestMatchers("/api/resources/{id}/instances").permitAll()
+                                .requestMatchers("/api/images/userImage/{filename}").permitAll()
                                 .anyRequest()
                                 .authenticated()
 

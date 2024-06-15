@@ -51,4 +51,13 @@ public class UserService {
     public User saveUser(User user) {
         return userRepository.save(user);
     }
+
+    public void updateUserImageUrl(String email, String imageUrl) throws NoSuchUserException {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isEmpty()) {
+            throw new NoSuchUserException();
+        }
+        user.get().setImageUrl(imageUrl);
+        userRepository.save(user.get());
+    }
 }
