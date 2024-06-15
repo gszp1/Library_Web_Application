@@ -3,6 +3,7 @@ package org.example.backend.repository;
 import org.example.backend.model.Reservation;
 import org.example.backend.util.ReservationStatus;
 import org.hibernate.annotations.Parameter;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -31,16 +32,15 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
         @Param("status") ReservationStatus status
     );
 
-    @Query("SELECT res FROM Reservation res JOIN FETCH res.resourceInstance WHERE res.reservationStatus=:status")
+    @EntityGraph(attributePaths = {"resourceInstance"})
+    @Query("SELECT res FROM Reservation res WHERE res.reservationStatus=:status")
     List<Reservation> findAllByReservationStatusWithInstances(@Param("status") ReservationStatus status);
 
-    @Query("SELECT res FROM Reservation res JOIN FETCH res.resourceInstance WHERE res.reservationId=:reservationId")
+    @EntityGraph(attributePaths = {"resourceInstance"})
+    @Query("SELECT res FROM Reservation res WHERE res.reservationId=:reservationId")
     Optional<Reservation> findByReservationIdWithInstance(@Param("reservationId") Integer reservationId);
 
-    @Query("SELECT res FROM Reservation res " +
-            "JOIN FETCH res.resourceInstance ri " +
-            "JOIN FETCH res.user u " +
-            "JOIN FETCH ri.resource " +
-            "WHERE u.email=:email")
+    @EntityGraph(attributePaths = {"resourceInstance", "user", "resourceInstance.resource"})
+    @Query("SELECT res FROM Reservation res WHERE res.user.email=:email")
     List<Reservation> findAllByUserEmailWithInstances(@Param("email") String userEmail);
 }

@@ -15,7 +15,8 @@ import java.util.Optional;
 @Repository
 public interface ResourceRepository extends JpaRepository<Resource, Long> {
 
-    @Query("SELECT r FROM Resource r JOIN FETCH r.authors a JOIN FETCH a.author")
+    @EntityGraph(attributePaths = {"authors", "authors.author", "publisher"})
+    @Query("SELECT r FROM Resource r")
     List<Resource> findAllWithAuthors();
 
     @EntityGraph(attributePaths = {"authors", "authors.author", "publisher"})
@@ -24,8 +25,8 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
 
     Optional<Resource> findByResourceId(Integer id);
 
-    @Query("SELECT r FROM Resource r JOIN FETCH r.authors a JOIN FETCH a.author " +
-            "WHERE LOWER(r.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    @EntityGraph(attributePaths = {"authors", "authors.author", "publisher"})
+    @Query("SELECT r FROM Resource r WHERE LOWER(r.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Resource> findAllByTitleKeyword(String keyword);
 
     @EntityGraph(attributePaths = {"authors", "authors.author", "publisher"})

@@ -15,7 +15,5 @@ public interface ResourceInstanceRepository extends JpaRepository<ResourceInstan
 
     List<ResourceInstance> findByResourceResourceIdAndIsReservedFalse(Integer resourceId);
 
-    Optional<ResourceInstance> findByResourceInstanceId(Integer resourceInstanceId);
-
     List<ResourceInstance> findByResourceResourceId(Integer resourceId, Sort sort);
 }
