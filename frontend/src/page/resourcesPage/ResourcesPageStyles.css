@@ -12,10 +12,58 @@
     padding-bottom: 2rem;
 }
 
-.resource {
-    flex: 0 1 calc(25% - 2rem);
+.paginationControl {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    padding-right: 2rem;
+    height: 2rem;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.paginationControl button {
+    width: 2rem;
+    height: 2rem;
+    background-color: hsl(0, 0%, 100%);
+    margin: 0;
+    padding: 0;
+    border: 1px lightgray solid;
+    border-radius: 5px;
     box-sizing: border-box;
-    height: 25rem;
+}
+
+.paginationControl button:hover {
+    background-color: hsl(0, 0%, 90%);
+}
+
+.paginationControl button:active {
+    background-color: hsl(0, 0%, 80%);
+}
+
+.paginationControl input {
+    width: 3rem;
+    height: 2rem;
+    border-radius: 5px;
+    border: 1px lightgray solid;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.paginationControl input:focus {
+    outline: none;
+}
+
+.resource {
+    flex: 0 1 calc(20% - 2rem);
+    box-sizing: border-box;
+    width: 20rem;
+    height: 30rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -29,6 +77,40 @@
     color: black;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: background-color 0.4s, box-shadow 0.5s, border-color 0.5s;
+    overflow: hidden;
+    text-align: center;
+}
+
+.resourceDummy {
+    flex: 0 1 calc(20% - 2rem);
+    box-sizing: border-box;
+    max-width: 20rem;
+    height: 30rem;
+    display: flex;
+    border: 1px solid #ccc;
+    background-color:  hsla(0, 1%, 84%, 0.8);
+    margin: 1rem;
+    border-radius: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.authors, .resourceTitle{
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient:vertical;
+    white-space: normal;
+    margin: 0.5rem;
+}
+
+.resourceTitle {
+    color: black;
+}
+
+.authors{
+    color: gray;
 }
 
 .resource:hover {
@@ -42,22 +124,12 @@
 }
 
 .resourceImage {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.resourceTitle {
-    margin: 1rem 0 0.5rem;
-    font-size: 1.5rem;
-    text-align: center;
-}
-
-.authors{
-    margin: 0;
-    font-size: 1rem;
-    text-align: center;
-    color: gray;
+    width: auto;
+    height: auto;
+    max-height: 20rem; /* Adjust as needed */
+    object-fit: cover;
+    border-radius: 1rem;
+    margin-bottom: 0 0 1rem 0;
 }
 
 .resourcePageContent {

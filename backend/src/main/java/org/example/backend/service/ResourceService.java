@@ -8,6 +8,8 @@ import org.example.backend.model.ResourceInstance;
 import org.example.backend.repository.AuthorRepository;
 import org.example.backend.repository.ResourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +31,11 @@ public class ResourceService {
         return resources.stream().map(this::mapToDto).collect(Collectors.toList());
     }
 
+    public Page<ResourceDto> getAllWithAuthorsPageable(Pageable pageable) {
+        Page<Resource> resources = resourceRepository.findAllWithAuthorsPageable(pageable);
+        return resources.map(this::mapToDto);
+    }
+
     public ResourceDescriptionDto getResourceDescription(Integer id) {
         Optional<Resource> resource = resourceRepository.findByResourceId(id);
         return new ResourceDescriptionDto(resource
@@ -43,6 +50,12 @@ public class ResourceService {
                 .stream()
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
+    }
+
+    public Page<ResourceDto> getResourcesWithKeywordInTitlePageable(String keyword, Pageable pageable) {
+        return resourceRepository
+                .findAllByTitleKeywordPageable(keyword, pageable)
+                .map(this::mapToDto);
     }
 
     private ResourceDto mapToDto(Resource resource) {
