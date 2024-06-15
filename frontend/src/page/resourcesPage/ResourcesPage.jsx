@@ -61,6 +61,17 @@ function ResourcesPage({searchKeyword}) {
         </>
       )}
       <div className="paginationControl">
+        <div className="pageSizeControl">
+          <label>
+            {"Page Size: "}
+            <select>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={30}>30</option>
+            </select>
+          </label>
+        </div>
         <button>
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
