@@ -36,7 +36,8 @@ public class Reservation {
             nullable = false,
             columnDefinition = "INTEGER DEFAULT 0"
     )
-    private Integer extensionCount;
+    @Builder.Default
+    private Integer extensionCount = 0;
 
     @ManyToOne
     @JoinColumn(name = "FK_user", nullable = false)

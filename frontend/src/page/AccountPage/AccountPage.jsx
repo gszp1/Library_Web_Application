@@ -65,7 +65,7 @@ function AccountPage() {
             case 'ModifyInformation':
                 return <ModifyInformationSection credentials={userData} setCredentials={setUserData} setSection={setSection}/>;
             case 'Reservations':
-                return <ReservationsSection />;
+                return <ReservationsSection userEmail={userData.email} />;
             case 'Error':
                 setTimeout(() => {
                     localStorage.removeItem('WebLibToken');

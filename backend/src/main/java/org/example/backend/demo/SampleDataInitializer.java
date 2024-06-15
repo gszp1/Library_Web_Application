@@ -55,7 +55,7 @@ public class SampleDataInitializer {
 
             Resource resource = Resource.builder()
                     .identifier("x--x")
-                    .title("title")
+                    .title("a very very very very very long title")
                     .description("description")
                     .publisher(publisher)
                     .imageUrl("http://localhost:9090/api/images/witcher.webp")

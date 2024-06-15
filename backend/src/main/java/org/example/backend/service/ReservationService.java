@@ -131,6 +131,7 @@ public class ReservationService {
         return reservations
                 .stream()
                 .map(reservation -> new UserReservationDto(
+                        reservation.getReservationId(),
                         reservation.getResourceInstance().getResourceInstanceId(),
                         reservation.getResourceInstance().getResource().getTitle(),
                         reservation.getReservationStart(),

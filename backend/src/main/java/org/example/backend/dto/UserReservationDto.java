@@ -5,6 +5,7 @@ import org.example.backend.util.ReservationStatus;
 import java.time.LocalDate;
 
 public record UserReservationDto(
+        Integer reservationId,
         Integer instanceId,
         String title,
         LocalDate start,
