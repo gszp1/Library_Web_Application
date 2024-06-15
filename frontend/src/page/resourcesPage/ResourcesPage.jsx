@@ -3,6 +3,8 @@ import './ResourcesPageStyles.css';
 import Resource from "./Resource";
 import useDebounce from "../../customHooks/useDebounce";
 import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 
 function ResourcesPage({searchKeyword}) {
   const [resources, setResources] = useState([]);
@@ -32,7 +34,7 @@ function ResourcesPage({searchKeyword}) {
           }
       };
       fetchResources();
-  }, [debouncedSearchKeyword, page]);
+  }, [debouncedSearchKeyword, page, pageSize]);
 
   const dummyItemsNumber = pageSize - resources.length;
 
@@ -58,6 +60,18 @@ function ResourcesPage({searchKeyword}) {
         ))}
         </>
       )}
+      <div className="paginationControl">
+        <button>
+          <FontAwesomeIcon icon={faChevronLeft} />
+        </button>
+        <div>
+            <input />
+            {` / ${totalPages}`}
+        </div>
+        <button>
+          <FontAwesomeIcon icon={faChevronRight} />
+        </button>
+      </div>
     </div>
   );
 }
