@@ -2,7 +2,8 @@ import React, {useState} from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-function ModifyInformationSection({credentials, setCredentials, setSection}) {
+function ModifyInformationSection({credentials, setCredentials, setSection, setImageUpdate, imageUpdate}) {
+    const [selectedImage, setSelectedImage] = useState(null);
     const [newCredentials, setNewCredentials] = useState({...credentials,
         name: credentials.name || '',
         surname: credentials.surname || '',
@@ -15,6 +16,10 @@ function ModifyInformationSection({credentials, setCredentials, setSection}) {
             color: ''
         },
         phoneNumber: {
+            message: '',
+            color: ''
+        },
+        imageResult: {
             message: '',
             color: ''
         }
@@ -102,6 +107,55 @@ function ModifyInformationSection({credentials, setCredentials, setSection}) {
         }
     }
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        const maxSizeInBytes = 2 * 1024 * 1024;
+
+        if (file && file.size > maxSizeInBytes) {
+            setPrompts(prev => ({
+                ...prev,
+                imageResult: { message: "File size exceeds the 2MB limit.", color: 'red' }
+            }));
+            return;
+        }
+        if (file) {
+            setSelectedImage(file);
+        }
+    };
+
+    const handleImageSubmit = async(e) => {
+        e.preventDefault();
+
+        if (!selectedImage) {
+            setPrompts(prev => ({
+                ...prev,
+                imageResult: {message: "Please select an image before submitting."}
+            }));
+            return;
+        }
+
+        try {
+            const formData = new FormData();
+            formData.append('image', selectedImage);
+            await axios.put(`http://localhost:9090/api/images/user/${credentials.email}/image`, formData, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            setPrompts(prev => ({
+                ...prev,
+                imageResult: { message: "Image updated successful.", color: 'green' }
+            }));
+            setImageUpdate(!imageUpdate);
+        } catch (error) {
+            setPrompts(prev => ({
+                ...prev,
+                imageResult: { message: "Failed to update image.", color: 'red' }
+            }));
+        }
+    };
+
     return (
         <div className="accountPageSection">
             <h1>Modify Information</h1>
@@ -140,6 +194,30 @@ function ModifyInformationSection({credentials, setCredentials, setSection}) {
                 </button>
                 <p style={{color: prompts.result.color}}>
                     {prompts.result.message}
+                </p>
+            </form>
+            <h1>Modify Image</h1>
+            <form
+                className="userImageUpdateForm"
+                onSubmit={handleImageSubmit}
+            >
+                <label>Upload Image</label>
+                <input
+                    name="image"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                />
+                {selectedImage && (
+                    <div>
+                        <img alt="Selected" style={{width:320, height: 320}} src={URL.createObjectURL(selectedImage)} />
+                    </div>
+                )}
+                <button type="submit">
+                    Submit
+                </button>
+                <p style={{color: prompts.imageResult.color}}>
+                    {prompts.imageResult.message}
                 </p>
             </form>
         </div>

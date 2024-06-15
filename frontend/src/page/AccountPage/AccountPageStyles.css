@@ -223,3 +223,53 @@
     color:gray;
     border-color: gray;
 }
+
+.userImageUpdateForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center ;
+    align-items: center;
+    padding: 1rem 0 1rem 0;
+}
+
+.userImageUpdateForm p {
+    font-size: 1rem;
+    text-align: center;
+}
+
+.userImageUpdateForm label {
+    font-size: 1.5rem;
+    color: orange;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+
+}
+
+.userImageUpdateForm input {
+    text-align: center;
+    font-size: 1.5rem;
+    color: black;
+    margin-bottom: 1.5rem;
+}
+
+.userImageUpdateForm button {
+    background-color: orange;
+    width: 30%;
+    height: 2rem;
+    font-size: 1rem;
+    border: 1px black solid;
+    box-shadow: 0 2px 4px rgb(48, 43, 43);
+    background-color: hsl(34, 100%, 50%);
+    transition: background-color 0.3s;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.userImageUpdateForm button:hover {
+    background-color: hsl(34, 100%, 40%);
+}
+
+.userImageUpdateForm button:active {
+    background-color: hsl(34, 100%, 30%);
+}

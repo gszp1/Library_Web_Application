@@ -10,6 +10,7 @@ import ErrorSection from "./ErrorSection";
 
 function AccountPage() {
     const [section, setSection] = useState('Information');
+    const [imageUpdate, setImageUpdate] = useState(false);
     const [userData, setUserData] = useState({
         name: '',
         surname: '',
@@ -44,13 +45,14 @@ function AccountPage() {
                     email: response.data.email,
                     imageUrl: response.data.imageUrl
                 }
+                console.log(fetchedData);
                 setUserData(fetchedData);
             } catch (error) {
                 setSection("Error");
             }
         }
         fetchCredentials();
-    }, [])
+    }, [imageUpdate])
 
     const navigate = useNavigate();
 
@@ -63,7 +65,11 @@ function AccountPage() {
             case 'Information':
                 return <InformationSection userCredentials={userData}/>;
             case 'ModifyInformation':
-                return <ModifyInformationSection credentials={userData} setCredentials={setUserData} setSection={setSection}/>;
+                return <ModifyInformationSection credentials={userData}
+                    setCredentials={setUserData}
+                    setSection={setSection}
+                    setImageUpdate={setImageUpdate}
+                    imageUpdate={imageUpdate}/>;
             case 'Reservations':
                 return <ReservationsSection userEmail={userData.email} />;
             case 'Error':
