@@ -51,4 +51,8 @@ public class ResourceInstanceService {
     public List<ResourceInstance> saveAll(List<ResourceInstance> resourceInstances) {
         return resourceInstanceRepository.saveAll(resourceInstances);
     }
+
+    public ResourceInstance save(ResourceInstance resourceInstance) {
+        return resourceInstanceRepository.save(resourceInstance);
+    }
 }

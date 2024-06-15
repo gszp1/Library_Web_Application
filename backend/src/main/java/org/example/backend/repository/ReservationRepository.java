@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
@@ -32,4 +33,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
     @Query("SELECT res FROM Reservation res JOIN FETCH res.resourceInstance WHERE res.reservationStatus=:status")
     List<Reservation> findAllByReservationStatusWithInstances(@Param("status") ReservationStatus status);
+
+    @Query("SELECT res FROM Reservation res JOIN FETCH res.resourceInstance WHERE res.reservationId=:reservationId")
+    Optional<Reservation> findByReservationIdWithInstance(@Param("reservationId") Integer reservationId);
 }

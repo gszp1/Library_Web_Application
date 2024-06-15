@@ -57,4 +57,17 @@ public class ReservationController {
         }
         return ResponseEntity.ok("Reservation extended");
     }
+
+    @PreAuthorize("hasAuthority('user:update')")
+    @PutMapping("/{id}/cancel")
+    public ResponseEntity<String> cancelReservation(@PathVariable(name="id") Integer id) {
+        try {
+            reservationService.cancelReservation(id);
+        } catch (NoSuchReservationException ResEx) {
+            return ResponseEntity.notFound().build();
+        } catch (OperationNotAvailableException OpEx) {
+            return ResponseEntity.badRequest().body(OpEx.getMessage());
+        }
+        return ResponseEntity.ok("Reservation cancelled");
+    }
 }

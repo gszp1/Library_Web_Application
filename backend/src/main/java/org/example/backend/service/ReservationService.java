@@ -112,6 +112,25 @@ public class ReservationService {
         reservationRepository.save(reservation);
     }
 
+    @Transactional
+    public void cancelReservation(
+        Integer reservationId
+    ) throws NoSuchReservationException, OperationNotAvailableException {
+        Optional<Reservation> reservationOptional = reservationRepository.findByReservationIdWithInstance(reservationId);
+        if (reservationOptional.isEmpty()) {
+            throw new NoSuchReservationException();
+        }
+        Reservation reservation = reservationOptional.get();
+        if (reservation.getReservationStatus() != ReservationStatus.ACTIVE) {
+            throw new OperationNotAvailableException("Can't cancel reservation - is not active");
+        }
+        reservation.setReservationStatus(ReservationStatus.CANCELLED);
+        ResourceInstance instance = reservation.getResourceInstance();
+        instance.setIsReserved(false);
+        instanceService.save(instance);
+        reservationRepository.save(reservation);
+    }
+
     public List<Reservation> saveAll(List<Reservation> reservations) {
         return reservationRepository.saveAll(reservations);
     }
