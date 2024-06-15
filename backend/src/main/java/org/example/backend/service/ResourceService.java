@@ -8,6 +8,7 @@ import org.example.backend.model.ResourceInstance;
 import org.example.backend.repository.AuthorRepository;
 import org.example.backend.repository.ResourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,6 +44,10 @@ public class ResourceService {
                 .stream()
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
+    }
+
+    public Page<ResourceDto> getResourcesWithKeywordInTitlePageable(String keyword) {
+
     }
 
     private ResourceDto mapToDto(Resource resource) {
