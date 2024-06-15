@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class ResourceController {
     @GetMapping("/all/paginated")
     public Page<ResourceDto> getAllPaginated(
         @RequestParam(name="keyword", required = false) String keyword,
-        Pageable pageable
+        @PageableDefault(size = 10) Pageable pageable
     ) {
         if (keyword == null || keyword.isEmpty()) {
             return resourceService.getAllWithAuthorsPageable(pageable);
