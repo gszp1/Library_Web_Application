@@ -1,7 +1,6 @@
 package org.example.backend.controller;
 
-import org.example.backend.dto.ReservationDto;
-import org.example.backend.model.Reservation;
+import org.example.backend.dto.UserReservationDto;
 import org.example.backend.service.ReservationService;
 import org.example.backend.util.ReservationRequest;
 import org.example.backend.util.exception.*;
@@ -41,8 +40,8 @@ public class ReservationController {
 
     @PreAuthorize("hasAuthority('user:read')")
     @GetMapping("/{email}/all")
-    public List<ReservationDto> getAllReservationsByUserEmail(@PathVariable(name="email") String email) {
-        return reservationService.getAllUserReservations(email);
+    public List<UserReservationDto> getAllReservationsByUserEmail(@PathVariable(name="email") String email) {
+        return reservationService.getUserReservations(email);
     }
 
     @PreAuthorize("hasAuthority('user:update')")

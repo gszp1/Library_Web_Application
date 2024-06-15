@@ -36,4 +36,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
     @Query("SELECT res FROM Reservation res JOIN FETCH res.resourceInstance WHERE res.reservationId=:reservationId")
     Optional<Reservation> findByReservationIdWithInstance(@Param("reservationId") Integer reservationId);
+
+    @Query("SELECT res FROM Reservation res " +
+            "JOIN FETCH res.resourceInstance ri " +
+            "JOIN FETCH res.user u " +
+            "JOIN FETCH ri.resource " +
+            "WHERE u.email=:email")
+    List<Reservation> findAllByUserEmailWithInstances(@Param("email") String userEmail);
 }

@@ -1,16 +1,14 @@
 package org.example.backend.service;
 
-import org.example.backend.dto.ReservationDto;
+import org.example.backend.dto.UserReservationDto;
 import org.example.backend.model.Reservation;
 import org.example.backend.model.ResourceInstance;
 import org.example.backend.model.User;
 import org.example.backend.repository.ReservationRepository;
-import org.example.backend.repository.UserRepository;
 import org.example.backend.util.ReservationStatus;
 import org.example.backend.util.Util;
 import org.example.backend.util.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,13 +84,6 @@ public class ReservationService {
         userService.saveUser(user.get());
     }
 
-    public List<ReservationDto> getAllUserReservations(String userEmail) {
-        return reservationRepository.findAllByUserEmail(userEmail)
-                .stream()
-                .map(reservation -> new ReservationDto())
-                .collect(Collectors.toList());
-    }
-
     public void extendReservation(
         int reservationId
     ) throws NoSuchReservationException, OperationNotAvailableException{
@@ -133,5 +124,21 @@ public class ReservationService {
 
     public List<Reservation> saveAll(List<Reservation> reservations) {
         return reservationRepository.saveAll(reservations);
+    }
+
+    public List<UserReservationDto> getUserReservations(String userEmail) {
+        List<Reservation> reservations = reservationRepository.findAllByUserEmailWithInstances(userEmail);
+        return reservations
+                .stream()
+                .map(reservation -> new UserReservationDto(
+                        reservation.getResourceInstance().getResourceInstanceId(),
+                        reservation.getResourceInstance().getResource().getTitle(),
+                        reservation.getReservationStart(),
+                        reservation.getReservationEnd(),
+                        reservation.getExtensionCount(),
+                        reservation.getReservationStatus()
+                    )
+                )
+                .collect(Collectors.toList());
     }
 }
