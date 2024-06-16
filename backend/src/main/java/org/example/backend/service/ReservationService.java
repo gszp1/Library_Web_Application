@@ -142,4 +142,9 @@ public class ReservationService {
                 )
                 .collect(Collectors.toList());
     }
+
+    public List<Reservation> getActiveReservationsByUserEmail(String userEmail) {
+        return reservationRepository
+                .findAllByUserEmailAndReservationStatusWithInstances(userEmail, ReservationStatus.ACTIVE);
+    }
 }

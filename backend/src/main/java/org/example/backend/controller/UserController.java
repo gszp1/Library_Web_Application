@@ -57,4 +57,15 @@ public class UserController {
     public ResponseEntity<AdminUserDto> getUserById(@PathVariable Integer id) {
         return ResponseEntity.ok(userService.findById(id));
     }
+
+    @PreAuthorize("hasAuthority('admin:update')")
+    @PutMapping("/admin/update")
+    public ResponseEntity<String> updateUser(@RequestBody AdminUserDto userDto) {
+        try {
+            userService.updateUser(userDto);
+            return ResponseEntity.ok("User updated successfully");
+        } catch (NoSuchUserException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

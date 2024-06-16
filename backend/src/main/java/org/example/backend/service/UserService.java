@@ -2,11 +2,15 @@ package org.example.backend.service;
 
 import org.example.backend.dto.AdminUserDto;
 import org.example.backend.dto.UserDto;
+import org.example.backend.model.Reservation;
+import org.example.backend.model.ResourceInstance;
 import org.example.backend.model.User;
 import org.example.backend.repository.UserRepository;
+import org.example.backend.util.ReservationStatus;
 import org.example.backend.util.exception.NoSuchUserException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,9 +19,13 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ReservationService reservationService;
+    private final ResourceInstanceService resourceInstanceService;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ReservationService reservationService, ResourceInstanceService resourceInstanceService) {
         this.userRepository = userRepository;
+        this.reservationService = reservationService;
+        this.resourceInstanceService = resourceInstanceService;
     }
 
     public Optional<UserDto> getUserCredentials(String email) {
@@ -114,5 +122,43 @@ public class UserService {
                 user.getStatus(),
                 user.getRole()
         );
+    }
+
+    public void updateUser(AdminUserDto adminUserDto) throws NoSuchUserException {
+        Optional<User> userOptional = userRepository.findByEmail(adminUserDto.email());
+        if (userOptional.isEmpty()) {
+            throw new NoSuchUserException();
+        }
+        User user = userOptional.get();
+        updateUserWithDto(user, adminUserDto);
+        if (user.getStatus() != adminUserDto.status() || user.getRole() != adminUserDto.role()) {
+            cancelAllActiveUserReservations(user.getEmail());
+        }
+        userRepository.save(user);
+    }
+
+    public void cancelAllActiveUserReservations(String userEmail) {
+        List<Reservation> reservations = reservationService.getActiveReservationsByUserEmail(userEmail);
+        List<ResourceInstance> instances = new ArrayList<>();
+        reservations.forEach(reservation -> {
+            reservation.setReservationStatus(ReservationStatus.CANCELLED);
+            ResourceInstance instance = reservation.getResourceInstance();
+            if (instance.getIsReserved()) {
+                instance.setIsReserved(false);
+                instances.add(instance);
+            }
+        });
+        reservationService.saveAll(reservations);
+        resourceInstanceService.saveAll(instances);
+    }
+
+    private void updateUserWithDto(User user, AdminUserDto adminUserDto) {
+        user.setName(adminUserDto.name());
+        user.setSurname(adminUserDto.surname());
+        user.setPhoneNumber(adminUserDto.phoneNumber());
+        user.setEmail(adminUserDto.email());
+        user.setImageUrl(adminUserDto.imageUrl());
+        user.setStatus(adminUserDto.status());
+        user.setRole(adminUserDto.role());
     }
 }
