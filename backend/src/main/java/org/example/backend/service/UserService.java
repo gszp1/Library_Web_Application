@@ -5,6 +5,7 @@ import org.example.backend.dto.UserDto;
 import org.example.backend.model.Reservation;
 import org.example.backend.model.ResourceInstance;
 import org.example.backend.model.User;
+import org.example.backend.repository.ReservationRepository;
 import org.example.backend.repository.UserRepository;
 import org.example.backend.util.ReservationStatus;
 import org.example.backend.util.exception.NoSuchUserException;
@@ -19,12 +20,16 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final ReservationService reservationService;
+    private final ReservationRepository reservationRepository;
     private final ResourceInstanceService resourceInstanceService;
 
-    public UserService(UserRepository userRepository, ReservationService reservationService, ResourceInstanceService resourceInstanceService) {
+    public UserService(
+            UserRepository userRepository,
+            ReservationRepository reservationRepository,
+            ResourceInstanceService resourceInstanceService
+    ) {
         this.userRepository = userRepository;
-        this.reservationService = reservationService;
+        this.reservationRepository = reservationRepository;
         this.resourceInstanceService = resourceInstanceService;
     }
 
@@ -138,7 +143,8 @@ public class UserService {
     }
 
     public void cancelAllActiveUserReservations(String userEmail) {
-        List<Reservation> reservations = reservationService.getActiveReservationsByUserEmail(userEmail);
+        List<Reservation> reservations = reservationRepository
+                .findAllByUserEmailAndReservationStatusWithInstances(userEmail, ReservationStatus.ACTIVE);
         List<ResourceInstance> instances = new ArrayList<>();
         reservations.forEach(reservation -> {
             reservation.setReservationStatus(ReservationStatus.CANCELLED);
@@ -148,7 +154,7 @@ public class UserService {
                 instances.add(instance);
             }
         });
-        reservationService.saveAll(reservations);
+        reservationRepository.saveAll(reservations);
         resourceInstanceService.saveAll(instances);
     }
 
