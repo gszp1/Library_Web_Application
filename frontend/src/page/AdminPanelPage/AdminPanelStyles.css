@@ -1,7 +1,6 @@
 .adminPanelContent {
     display: flex;
     flex-direction: row;
-    overflow: auto;
     border-radius: 1.5rem;
     width: 95rem;
     height: auto;
@@ -11,11 +10,11 @@
 }
 
 .adminPanelNavigation {
-    height: 100%;
     width: 18%;
     list-style: none;
+    height: auto;
     margin: 0 0 0 2%;
-    padding: 0 0 0 0;
+    padding: 0 0 1rem 0;
     border-right: 1px black solid;
 }
 
@@ -106,7 +105,6 @@
     border-bottom: 1px solid black;
     text-align: center;
     width: auto;
-    padding: 0 0.5rem 0 0.5rem;
     height: auto;
     font-size: 0.8rem;
 }

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import UserIdAndEmailPicker from "./components/UserIdAndEmailPicker";
 import UsersList from "./components/UsersList";
 import axios from "axios";
+import useDebounce from "../../customHooks/useDebounce";
 
 function UsersSection() {
     const [emailKeyword, setEmailKeyword] = useState('');
@@ -9,53 +10,59 @@ function UsersSection() {
     const [users, setUsers] = useState([]);
     const [fetchingError, setFetchingError] = useState(false);
 
-    useEffect(() => {
-        const fetchUsersByKeyword = async () => {
-            try {
-                let url = `http://localhost:9090/api/users/all`;
-                const params = {
-                keyword: emailKeyword
-                };
-                const response = await axios.get(url, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
-                    },
-                    params: params
-                });
-                setUsers(response.data);
-                setFetchingError(false);
-            } catch (error) {
-                setFetchingError(true);
-            }
-        };
+    const debouncedEmailKeyword = useDebounce(emailKeyword, 500);
+    const debouncedId = useDebounce(userId, 500);
 
-        fetchUsersByKeyword();
-    }, [emailKeyword])
-
-    useEffect(() => {
-        const fetchUserWithId = async () => {
-            try {
-                let url = `http://localhost:9090/api/users/${userId}`;
-                const response = await axios.get(url, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
-                    }
-                });
-                if (!response.data) {
-                    setUsers([]);
-                    setFetchingError(false);
-                } else {
-                    setUsers([response.data]);
-                    setFetchingError(false);
-                }
-            } catch (error) {
-                setFetchingError(true);
-            }
-        };
-        if (userId) {
-            fetchUserWithId();
+    const fetchUsersByKeyword = async () => {
+        try {
+            let url = `http://localhost:9090/api/users/all`;
+            const params = {
+            keyword: emailKeyword
+            };
+            const response = await axios.get(url, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
+                },
+                params: params
+            });
+            setUsers(response.data);
+            setFetchingError(false);
+        } catch (error) {
+            setFetchingError(true);
         }
-    }, [userId])
+    };
+
+    const fetchUserWithId = async () => {
+        try {
+            let url = `http://localhost:9090/api/users/${userId}`;
+            const response = await axios.get(url, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
+                }
+            });
+            if (!response.data) {
+                setUsers([]);
+                setFetchingError(false);
+            } else {
+                setUsers([response.data]);
+                setFetchingError(false);
+            }
+        } catch (error) {
+            setFetchingError(true);
+        }
+    };
+
+    useEffect(() => {
+        fetchUsersByKeyword();
+    }, [debouncedEmailKeyword])
+
+    useEffect(() => {
+        if (debouncedId) {
+            fetchUserWithId();
+        } else {
+            fetchUsersByKeyword();
+        }
+    }, [debouncedId])
 
     return (
         <div className='adminPanelSection'>
