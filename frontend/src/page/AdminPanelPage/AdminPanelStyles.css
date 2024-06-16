@@ -93,3 +93,19 @@
 .userIdAndEmailPicker .emailInput {
     width: 30rem;
 }
+
+.usersList {
+    width: 98%;
+    margin-right: 2%;
+    border-collapse: collapse;
+    border: 1px black solid;
+}
+
+.usersList th,
+.usersList td {
+    border-bottom: 1px solid black;
+    text-align: center;
+    width: auto;
+    padding: 0 1rem 0 1rem;
+    height: auto;
+}

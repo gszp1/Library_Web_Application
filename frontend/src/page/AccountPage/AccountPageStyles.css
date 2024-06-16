@@ -189,8 +189,8 @@
 
 .userReservationsTable th,
 .userReservationsTable td {
-    border-bottom: 1px solid black; /* Borders between rows */
-    text-align: center; /* Centered content */
+    border-bottom: 1px solid black;
+    text-align: center;
     width: auto;
     padding: 0 1rem 0 1rem;
     height: auto;
