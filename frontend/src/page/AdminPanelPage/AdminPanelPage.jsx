@@ -3,12 +3,21 @@ import './AdminPanelStyles.css';
 import ResourcesSection from "./ResourcesSection";
 import StatisticsSection from "./StatisticsSection";
 import UsersSection from "./UsersSection";
+import { useNavigate } from "react-router-dom";
 
 function AdminPanelPage() {
     const [section, setSection] = useState('Resources');
+    const navigate = useNavigate();
 
     const handleClick = (e) => {
         setSection(e.currentTarget.id);
+    }
+
+    const logout = () => {
+        localStorage.removeItem('WebLibToken');
+        setTimeout(() => {
+            navigate('/resources');
+        }, 400)
     }
 
     const renderSection = () => {
@@ -23,7 +32,6 @@ function AdminPanelPage() {
                 return (<ResourcesSection />);
         }
     }
-
     return (
         <div className='adminPanelContent'>
             <ul className='adminPanelNavigation'>
@@ -35,6 +43,12 @@ function AdminPanelPage() {
                 </li>
                 <li id='Statistics' onClick={handleClick}>
                     Statistics
+                </li>
+                <li
+                    style={{color: 'red', fontWeight: "bold"}}
+                    onClick={logout}
+                >
+                    Logout
                 </li>
             </ul>
             {renderSection()}
