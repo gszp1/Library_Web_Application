@@ -14,12 +14,13 @@ function UsersList({users, setUsers}) {
                     <th>Phone</th>
                     <th>Joined</th>
                     <th>Image</th>
-                    <th>status</th>
-                    <th>Disable</th>
+                    <th>Status</th>
+                    <th>Role</th>
+                    <th>Update</th>
                 </tr>
             </thead>
             <tbody>
-                
+
             </tbody>
         </table>
     );

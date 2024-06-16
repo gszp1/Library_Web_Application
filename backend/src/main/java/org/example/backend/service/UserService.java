@@ -8,7 +8,6 @@ import org.example.backend.util.exception.NoSuchUserException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -68,13 +67,15 @@ public class UserService {
         return userRepository.findAllByEmailKeyword(keyword)
                 .stream()
                 .map(user -> new AdminUserDto(
+                        user.getUserId(),
                         user.getName(),
                         user.getSurname(),
                         user.getPhoneNumber(),
                         user.getJoinDate(),
                         user.getEmail(),
                         user.getImageUrl(),
-                        user.getStatus()
+                        user.getStatus(),
+                        user.getRole()
                 ))
                 .collect(Collectors.toList());
     }
@@ -83,13 +84,15 @@ public class UserService {
         return userRepository.findAll()
                 .stream()
                 .map(user -> new AdminUserDto(
+                        user.getUserId(),
                         user.getName(),
                         user.getSurname(),
                         user.getPhoneNumber(),
                         user.getJoinDate(),
                         user.getEmail(),
                         user.getImageUrl(),
-                        user.getStatus()
+                        user.getStatus(),
+                        user.getRole()
                 ))
                 .collect(Collectors.toList());
     }
@@ -101,13 +104,15 @@ public class UserService {
         }
         User user = userOptional.get();
         return new AdminUserDto(
+                user.getUserId(),
                 user.getName(),
                 user.getSurname(),
                 user.getPhoneNumber(),
                 user.getJoinDate(),
                 user.getEmail(),
                 user.getImageUrl(),
-                user.getStatus()
+                user.getStatus(),
+                user.getRole()
         );
     }
 }
