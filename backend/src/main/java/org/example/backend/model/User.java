@@ -3,6 +3,7 @@ package org.example.backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.backend.auth.Role;
+import org.example.backend.util.UserStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,6 +46,10 @@ public class User implements UserDetails {
 
     @Column(name = "join_date", nullable = false)
     private LocalDate joinDate;
+
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private UserStatus status = UserStatus.ACTIVE;
 
     @Enumerated(EnumType.STRING)
     private Role role;
