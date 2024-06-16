@@ -47,7 +47,6 @@ function UsersSection() {
                 } else {
                     setUsers([response.data]);
                     setFetchingError(false);
-                    setUserId('');
                 }
             } catch (error) {
                 setFetchingError(true);

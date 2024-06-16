@@ -36,7 +36,7 @@ function UsersListEntry({user, saveUser}) {
                     <option value="ADMIN">ADMIN</option>
                 </select>
             </td>
-            <td><button onClick={handleSave}>Save</button></td>
+            <td><button onClick={handleSave}>Update</button></td>
         </tr>
     );
 }

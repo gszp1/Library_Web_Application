@@ -112,6 +112,7 @@
 }
 
 .usersList td input, .usersList td select {
+    margin: 0.5rem 0 0.5rem 0;
     width: 100%;
     box-sizing: border-box;
 }
@@ -119,4 +120,29 @@
 .usersList td input {
     background-color: white;
     border: 1px gray solid;
+}
+
+.usersList td select {
+    background-color: white;
+    border: 1px gray solid;
+}
+
+.usersList button {
+    background-color: hsl(34, 100%, 50%);
+    border: 1px black solid;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.usersList button:hover {
+    background-color: hsl(34, 100%, 40%);
+}
+
+.usersList button:active {
+    background-color: hsl(34, 100%, 30%);
+}
+
+.usersList td input:focus {
+    outline: none;
 }
