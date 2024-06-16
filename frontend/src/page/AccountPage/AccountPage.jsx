@@ -4,13 +4,10 @@ import './AccountPageStyles.css';
 import InformationSection from "./InformationSection";
 import ReservationsSection from "./ReservationsSection";
 import ModifyInformationSection from "./ModifyInformationSection";
-import { jwtDecode } from "jwt-decode";
-import axios from "axios";
 import ErrorSection from "./ErrorSection";
 
 function AccountPage() {
     const [section, setSection] = useState('Information');
-    const [imageUpdate, setImageUpdate] = useState(false);
     const [userData, setUserData] = useState({
         name: '',
         surname: '',
@@ -19,40 +16,6 @@ function AccountPage() {
         email: '',
         imageUrl: ''
     });
-
-    useEffect(() => {
-        const fetchCredentials = async () => {
-            let decodedToken = '';
-            let email = '';
-            try {
-                decodedToken = jwtDecode(localStorage.getItem('WebLibToken'));
-                email = decodedToken.sub;
-            } catch (error) {
-                console.log("failed to parse token");
-            }
-            let url = `http://localhost:9090/api/users/${email}/credentials`;
-            try {
-                let response = await axios.get(url, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
-                    }
-                });
-                let fetchedData = {
-                    name: response.data.name,
-                    surname: response.data.surname,
-                    phoneNumber: response.data.phoneNumber,
-                    joinDate: response.data.joinDate,
-                    email: response.data.email,
-                    imageUrl: response.data.imageUrl
-                }
-                console.log(fetchedData);
-                setUserData(fetchedData);
-            } catch (error) {
-                setSection("Error");
-            }
-        }
-        fetchCredentials();
-    }, [imageUpdate])
 
     const navigate = useNavigate();
 
@@ -63,13 +26,16 @@ function AccountPage() {
     const renderSection = () => {
         switch (section) {
             case 'Information':
-                return <InformationSection userCredentials={userData}/>;
+                return <InformationSection
+                    userCredentials={userData}
+                    setUserCredentials={setUserData}
+                    setSection={setSection}
+                />;
             case 'ModifyInformation':
                 return <ModifyInformationSection credentials={userData}
                     setCredentials={setUserData}
                     setSection={setSection}
-                    setImageUpdate={setImageUpdate}
-                    imageUpdate={imageUpdate}/>;
+                    />
             case 'Reservations':
                 return <ReservationsSection userEmail={userData.email} />;
             case 'Error':

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-function ModifyInformationSection({credentials, setCredentials, setSection, setImageUpdate, imageUpdate}) {
+function ModifyInformationSection({credentials, setCredentials, setSection}) {
     const [selectedImage, setSelectedImage] = useState(null);
     const [newCredentials, setNewCredentials] = useState({...credentials,
         name: credentials.name || '',
@@ -147,7 +147,6 @@ function ModifyInformationSection({credentials, setCredentials, setSection, setI
                 ...prev,
                 imageResult: { message: "Image updated successful.", color: 'green' }
             }));
-            setImageUpdate(!imageUpdate);
         } catch (error) {
             setPrompts(prev => ({
                 ...prev,
