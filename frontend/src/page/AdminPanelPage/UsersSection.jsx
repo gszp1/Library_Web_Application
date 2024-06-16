@@ -41,7 +41,7 @@ function UsersSection() {
                         'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
                     }
                 });
-                if (response.data === null) {
+                if (!response.data) {
                     setUsers([]);
                     setFetchingError(false);
                 } else {

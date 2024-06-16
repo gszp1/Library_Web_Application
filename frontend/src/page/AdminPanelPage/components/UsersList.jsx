@@ -1,8 +1,12 @@
 import React from "react";
 import "../AdminPanelStyles.css";
-
+import UsersListEntry from "./UsersListEntry";
 
 function UsersList({users, setUsers}) {
+
+    const saveUser = async (updatedUser) => {
+    };
+
     return (
         <table className="usersList">
             <thead>
@@ -20,7 +24,9 @@ function UsersList({users, setUsers}) {
                 </tr>
             </thead>
             <tbody>
-
+                {users.map(user => (
+                    <UsersListEntry key={user.id} user={user} saveUser={saveUser}/>
+                ))}
             </tbody>
         </table>
     );

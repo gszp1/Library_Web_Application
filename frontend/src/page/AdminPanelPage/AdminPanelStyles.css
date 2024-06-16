@@ -95,10 +95,10 @@
 }
 
 .usersList {
-    width: 98%;
-    margin-right: 2%;
+    width: 99%;
     border-collapse: collapse;
     border: 1px black solid;
+    table-layout: fixed;
 }
 
 .usersList th,
@@ -106,7 +106,17 @@
     border-bottom: 1px solid black;
     text-align: center;
     width: auto;
-    padding: 0 1rem 0 1rem;
+    padding: 0 0.5rem 0 0.5rem;
     height: auto;
     font-size: 0.8rem;
+}
+
+.usersList td input, .usersList td select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.usersList td input {
+    background-color: white;
+    border: 1px gray solid;
 }
