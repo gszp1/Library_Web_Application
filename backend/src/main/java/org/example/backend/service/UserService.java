@@ -1,13 +1,16 @@
 package org.example.backend.service;
 
+import org.example.backend.dto.AdminUserDto;
 import org.example.backend.dto.UserDto;
 import org.example.backend.model.User;
 import org.example.backend.repository.UserRepository;
 import org.example.backend.util.exception.NoSuchUserException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -59,5 +62,52 @@ public class UserService {
         }
         user.get().setImageUrl(imageUrl);
         userRepository.save(user.get());
+    }
+
+    public List<AdminUserDto> findAllByEmailKeyword(String keyword) {
+        return userRepository.findAllByEmailKeyword(keyword)
+                .stream()
+                .map(user -> new AdminUserDto(
+                        user.getName(),
+                        user.getSurname(),
+                        user.getPhoneNumber(),
+                        user.getJoinDate(),
+                        user.getEmail(),
+                        user.getImageUrl(),
+                        user.getStatus()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    public List<AdminUserDto> findAll() {
+        return userRepository.findAll()
+                .stream()
+                .map(user -> new AdminUserDto(
+                        user.getName(),
+                        user.getSurname(),
+                        user.getPhoneNumber(),
+                        user.getJoinDate(),
+                        user.getEmail(),
+                        user.getImageUrl(),
+                        user.getStatus()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    public AdminUserDto findById(Integer id) {
+        Optional<User> userOptional = userRepository.findByUserId(id);
+        if (userOptional.isEmpty()) {
+            return null;
+        }
+        User user = userOptional.get();
+        return new AdminUserDto(
+                user.getName(),
+                user.getSurname(),
+                user.getPhoneNumber(),
+                user.getJoinDate(),
+                user.getEmail(),
+                user.getImageUrl(),
+                user.getStatus()
+        );
     }
 }
