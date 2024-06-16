@@ -4,7 +4,7 @@
     overflow: auto;
     border-radius: 1.5rem;
     width: 95rem;
-    height: 100%;
+    height: auto;
     background-color: rgba(255,255,255, 0.9);
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -39,6 +39,9 @@
 }
 
 .adminPanelSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     height: 100%;
     width: 80%;
     margin: 0 0 0 2%;
@@ -47,4 +50,46 @@
 
 .adminPanelSection h1 {
     color: orange;
+    height: 2rem;
+    width: 100%;
+    text-align: left;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.userIdAndEmailPicker {
+    width: 50rem;
+    height: 5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.userIdAndEmailPicker label {
+    font-size: 1.25rem;
+    margin: 0 0.5rem 0 0;
+}
+
+.userIdAndEmailPicker .idInput, .emailInput {
+    margin: 0 2rem 0 0;
+    font-size: 1rem;
+    height: 1.5rem;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.userIdAndEmailPicker .idInput:focus, .emailInput:focus {
+    outline:none;
+    border-color: orange;
+}
+
+.userIdAndEmailPicker .idInput {
+    width: 15rem;
+    appearance: textfield;
+}
+
+.userIdAndEmailPicker .emailInput {
+    width: 30rem;
 }
