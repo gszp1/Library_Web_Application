@@ -16,7 +16,7 @@ function ReservationsList({reservations, setSection, fetchReservations, setShowP
             numberOfExtensions: updatedReservation.numberOfExtensions === '' ? 0 : updatedReservation.numberOfExtensions
         };
         try {
-            let response = await axios.put(url, newData, {
+            await axios.put(url, newData, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
                     'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ function ReservationsList({reservations, setSection, fetchReservations, setShowP
     const borrowReservation = async (id) => {
         const url = `http://localhost:9090/api/reservations/${id}/borrow`;
         try {
-            let response = await axios.put(url, {}, {
+            await axios.put(url, {}, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
                 }

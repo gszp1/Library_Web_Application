@@ -15,6 +15,7 @@ function ReservationsSection({setSection}){
 
     const fetchReservations = async () => {
         let url = `http://localhost:9090/api/reservations/all`
+        console.log(url);
         try {
             const response = await axios.get(url, {
                 headers: {

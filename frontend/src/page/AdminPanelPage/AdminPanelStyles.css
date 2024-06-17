@@ -115,18 +115,18 @@
     box-sizing: border-box;
 }
 
-.usersList, .reservationsTable td input {
+.usersList td input {
     background-color: white;
     border: 1px gray solid;
     text-align: center;
 }
 
-.usersList, .reservationsTable td select {
+.usersList td select {
     background-color: white;
     border: 1px gray solid;
 }
 
-.usersList, .reservationsTable button {
+.usersList button {
     background-color: hsl(34, 100%, 50%);
     border: 1px black solid;
     border-radius: 5px;
@@ -134,15 +134,15 @@
     transition: background-color 0.3s;
 }
 
-.usersList, .reservationsTable button:hover {
+.usersList button:hover {
     background-color: hsl(34, 100%, 40%);
 }
 
-.usersList, .reservationsTable button:active {
+.usersList button:active {
     background-color: hsl(34, 100%, 30%);
 }
 
-.usersList, .reservationsTable td input:focus {
+.usersList td input:focus {
     outline: none;
 }
 
@@ -155,8 +155,47 @@
     font-size: 0.8rem;
 }
 
+.reservationsTable td input {
+    background-color: white;
+    border: 1px gray solid;
+    text-align: center;
+}
+
+.reservationsTable td select {
+    background-color: white;
+    border: 1px gray solid;
+}
+
 .reservationsTable td input, .reservationsTable td select {
     margin: 0.5rem 0 0.5rem 0;
     width: 100%;
     box-sizing: border-box;
+}
+
+.reservationsTable button {
+    background-color: hsl(34, 100%, 50%);
+    border: 1px black solid;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.reservationsTable button:hover {
+    background-color: hsl(34, 100%, 40%);
+}
+
+.reservationsTable button:active {
+    background-color: hsl(34, 100%, 30%);
+}
+
+.reservationsTable td input:focus {
+    outline: none;
+}
+
+.reservationsTable button:active {
+    background-color: hsl(34, 100%, 30%);
+}
+
+.reservationsTable td input:focus {
+    outline: none;
 }
