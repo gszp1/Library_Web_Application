@@ -13,4 +13,7 @@ public class Util {
 
     // maximal number of extensions user can make per reservation
     public static final int MAX_NUMBER_OF_EXTENSIONS = 2;
+
+    // maximal number of extensions user can make per borrowed resource
+    public static final int MAX_NUMBER_OF_BORROW_EXTENSIONS = 5;
 }
