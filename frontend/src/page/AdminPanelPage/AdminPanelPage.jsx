@@ -31,8 +31,10 @@ function AdminPanelPage() {
                 return (<UsersSection setSection={setSection}/>);
             case 'Error':
                 setTimeout(() => {
-                    return <ErrorSection />
+                    localStorage.removeItem('WebLibToken');
+                    navigate('/resources');
                 }, 500)
+                return <ErrorSection />
             default:
                 return (<ResourcesSection />);
         }

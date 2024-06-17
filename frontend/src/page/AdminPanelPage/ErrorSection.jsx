@@ -1,5 +1,5 @@
 import React from "react";
-import "/AdminPanelStyles.jsx";
+import "./AdminPanelStyles.css";
 
 function ErrorSection() {
     return (
