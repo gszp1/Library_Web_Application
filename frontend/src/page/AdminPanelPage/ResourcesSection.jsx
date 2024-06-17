@@ -5,6 +5,7 @@ function ResourcesSection() {
     return (
         <div className='adminPanelSection'>
             <h1>Resources</h1>
+            <h1>Instances</h1>
         </div>
     );
 }
