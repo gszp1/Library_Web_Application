@@ -1,11 +1,25 @@
 import React from "react";
 import "../AdminPanelStyles.css";
 import UsersListEntry from "./UsersListEntry";
+import axios from "axios";
 
-function UsersList({users, setUsers}) {
+function UsersList({users, fetchUsersByKeyword}) {
 
     const saveUser = async (updatedUser) => {
-        
+        try {
+            const url = `http://localhost:9090/api/users/admin/update`;
+            console.log(updatedUser);
+            const response = await axios.put(url, updatedUser, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log("s");
+            fetchUsersByKeyword();
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (

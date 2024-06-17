@@ -76,7 +76,7 @@ function UsersSection() {
             />
             <UsersList
                 users={users}
-                setUsers={setUsers}
+                fetchUsersByKeyword={fetchUsersByKeyword}
             />
         </div>
     );
