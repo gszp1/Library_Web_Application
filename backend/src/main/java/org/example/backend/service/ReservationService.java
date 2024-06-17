@@ -156,4 +156,19 @@ public class ReservationService {
         return reservationRepository
                 .findAllByUserEmailAndReservationStatusWithInstances(userEmail, ReservationStatus.ACTIVE);
     }
+
+    public void changeToBorrow(
+            Integer reservationId
+    ) throws NoSuchReservationException, OperationNotAvailableException {
+        Optional<Reservation> reservationOptional = reservationRepository.findByReservationIdWithInstance(reservationId);
+        if (reservationOptional.isEmpty()) {
+            throw new NoSuchReservationException();
+        }
+        Reservation reservation = reservationOptional.get();
+        if (reservation.getReservationStatus() != ReservationStatus.ACTIVE) {
+            throw new OperationNotAvailableException("Can't lend resource - reservation not active");
+        }
+        reservation.setReservationStatus(ReservationStatus.BORROWED);
+        reservationRepository.save(reservation);
+    }
 }

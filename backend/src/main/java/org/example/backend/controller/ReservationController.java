@@ -69,4 +69,17 @@ public class ReservationController {
         }
         return ResponseEntity.ok("Reservation cancelled");
     }
+
+    @PreAuthorize("hasAuthority('admin:update')")
+    @PutMapping("/{id}/borrow")
+    public ResponseEntity<String> borrowReservation(@PathVariable(name="id") Integer id) {
+        try {
+            reservationService.changeToBorrow(id);
+        } catch (NoSuchReservationException ResEx) {
+            return ResponseEntity.notFound().build();
+        } catch (OperationNotAvailableException OpEx) {
+            return ResponseEntity.badRequest().body(OpEx.getMessage());
+        }
+        return ResponseEntity.ok("Resource borrowed.");
+    }
 }
