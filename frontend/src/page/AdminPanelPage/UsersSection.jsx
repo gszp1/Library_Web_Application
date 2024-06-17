@@ -73,18 +73,23 @@ function UsersSection({setSection}) {
     return (
         <div className='adminPanelSection'>
             <h1>Users</h1>
-            {fetchingError && (<p>Error occurred while fetching users</p>)}
-            <UserIdAndEmailPicker
-                userId={userId}
-                userEmail={emailKeyword}
-                setUserId={setUserId}
-                setUserEmail={setEmailKeyword}
-            />
-            <UsersList
-                users={users}
-                fetchUsersByKeyword={fetchUsersByKeyword}
-                setSection={setSection}
-            />
+            {fetchingError ? (
+                <p>Error occurred while fetching users</p>
+            ) : (
+                <>
+                    <UserIdAndEmailPicker
+                        userId={userId}
+                        userEmail={emailKeyword}
+                        setUserId={setUserId}
+                        setUserEmail={setEmailKeyword}
+                    />
+                    <UsersList
+                        users={users}
+                        fetchUsersByKeyword={fetchUsersByKeyword}
+                        setSection={setSection}
+                    />
+                </>
+            )}
         </div>
     );
 }
