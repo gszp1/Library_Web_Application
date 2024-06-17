@@ -3,7 +3,7 @@ import "../AdminPanelStyles.css";
 import UsersListEntry from "./UsersListEntry";
 import axios from "axios";
 
-function UsersList({users, fetchUsersByKeyword}) {
+function UsersList({users, fetchUsersByKeyword, setSection}) {
 
     const saveUser = async (updatedUser) => {
         try {
@@ -15,10 +15,11 @@ function UsersList({users, fetchUsersByKeyword}) {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log("s");
             fetchUsersByKeyword();
         } catch (error) {
-            console.log(error);
+            if (error.response && error.response.status === 403) {
+                setSection('Error');
+            }
         }
     };
 

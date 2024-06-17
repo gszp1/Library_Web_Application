@@ -4,6 +4,7 @@ import ResourcesSection from "./ResourcesSection";
 import StatisticsSection from "./StatisticsSection";
 import UsersSection from "./UsersSection";
 import { useNavigate } from "react-router-dom";
+import ErrorSection from "./ErrorSection";
 
 function AdminPanelPage() {
     const [section, setSection] = useState('Resources');
@@ -27,7 +28,11 @@ function AdminPanelPage() {
             case 'Statistics':
                 return (<StatisticsSection />);
             case 'Users':
-                return (<UsersSection />);
+                return (<UsersSection setSection={setSection}/>);
+            case 'Error':
+                setTimeout(() => {
+                    return <ErrorSection />
+                }, 500)
             default:
                 return (<ResourcesSection />);
         }

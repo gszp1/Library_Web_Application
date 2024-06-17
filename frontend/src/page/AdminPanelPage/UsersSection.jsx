@@ -4,7 +4,7 @@ import UsersList from "./components/UsersList";
 import axios from "axios";
 import useDebounce from "../../customHooks/useDebounce";
 
-function UsersSection() {
+function UsersSection({setSection}) {
     const [emailKeyword, setEmailKeyword] = useState('');
     const [userId, setUserId] = useState('');
     const [users, setUsers] = useState([]);
@@ -28,6 +28,9 @@ function UsersSection() {
             setUsers(response.data);
             setFetchingError(false);
         } catch (error) {
+            if (error.response && error.response.status == 403) {
+                setSection("Error");
+            }
             setFetchingError(true);
         }
     };
@@ -48,6 +51,9 @@ function UsersSection() {
                 setFetchingError(false);
             }
         } catch (error) {
+            if (error.response && error.response.status == 403) {
+                setSection("Error");
+            }
             setFetchingError(true);
         }
     };
@@ -77,6 +83,7 @@ function UsersSection() {
             <UsersList
                 users={users}
                 fetchUsersByKeyword={fetchUsersByKeyword}
+                setSection={setSection}
             />
         </div>
     );
