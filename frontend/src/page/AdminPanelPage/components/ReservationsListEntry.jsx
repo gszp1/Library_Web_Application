@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
 function ReservationsListEntry({reservation, updateReservation, borrowResource}) {
     const [updatedReservation, setUpdatedReservation] = useState({
@@ -11,6 +11,20 @@ function ReservationsListEntry({reservation, updateReservation, borrowResource})
         numberOfExtensions: reservation.numberOfExtensions || 0,
         status: reservation.status || 'ACTIVE'
     });
+
+
+    useEffect(() => {
+        setUpdatedReservation({
+            reservationId: reservation.reservationId || '',
+            userEmail: reservation.userEmail || '',
+            instanceId: reservation.instanceId || '',
+            title: reservation.title || '',
+            start: reservation.start || '',
+            end: reservation.end || '',
+            numberOfExtensions: reservation.numberOfExtensions || 0,
+            status: reservation.status || 'ACTIVE'
+        });
+    }, [reservation]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

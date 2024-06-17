@@ -13,6 +13,60 @@ function ReservationsSection({setSection}){
         message: ''
     });
 
+    const updateReservation = async (updatedReservation) => {
+        const url = `http://localhost:9090/api/reservations/update`;
+        let newData = {
+            ...updatedReservation,
+            title: updatedReservation.title || null,
+            start: updatedReservation.start || null,
+            end: updatedReservation.end || null,
+            numberOfExtensions: updatedReservation.numberOfExtensions === '' ? 0 : updatedReservation.numberOfExtensions
+        };
+        try {
+            await axios.put(url, newData, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+        } catch (error) {
+            if (error.response && error.response.status === 403) {
+                setSection('Error');
+            } else {
+                setPromptContent({
+                    error: 'true',
+                    message: error.response?.data || 'Failed to update reservation.'
+                });
+                setShowPrompt(true);
+                hidePromptAfterDelay();
+            }
+        }
+        fetchReservations();
+    }
+
+    const borrowResource = async (id) => {
+        const url = `http://localhost:9090/api/reservations/${id}/borrow`;
+        try {
+            await axios.put(url, {}, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
+                }
+            });
+        } catch (error) {
+            if (error.response && error.response.status === 403) {
+                setSection('Error');
+            } else {
+                setPromptContent({
+                    error: 'true',
+                    message: error.response?.data || 'Failed to borrow resource.'
+                });
+                setShowPrompt(true);
+                hidePromptAfterDelay();
+            }
+        }
+        fetchReservations();
+    }
+
     const fetchReservations = async () => {
         let url = `http://localhost:9090/api/reservations/all`
         console.log(url);
@@ -59,11 +113,8 @@ function ReservationsSection({setSection}){
                 ) : (
                     <ReservationsList
                         reservations={reservations}
-                        setSection={setSection}
-                        fetchReservations={fetchReservations}
-                        setShowPrompt={setShowPrompt}
-                        setPromptContent={setPromptContent}
-                        hidePromptAfterDelay={hidePromptAfterDelay}
+                        borrowResource={borrowResource}
+                        updateReservation={updateReservation}
                     />
                 )
             }
