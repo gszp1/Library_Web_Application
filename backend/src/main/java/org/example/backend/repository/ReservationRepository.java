@@ -24,17 +24,17 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
         "JOIN ri.resource res " +
         "WHERE u.email=:userEmail " +
         "AND res.resourceId =:resourceId " +
-        "AND r.reservationStatus =:status"
+        "AND r.reservationStatus IN :statuses"
     )
     int countResourceReservationsWithStatus(
         @Param("resourceId") Integer resourceId,
         @Param("userEmail") String userEmail,
-        @Param("status") ReservationStatus status
+        @Param("statuses") List<ReservationStatus> statuses
     );
 
     @EntityGraph(attributePaths = {"resourceInstance"})
-    @Query("SELECT res FROM Reservation res WHERE res.reservationStatus=:status")
-    List<Reservation> findAllByReservationStatusWithInstances(@Param("status") ReservationStatus status);
+    @Query("SELECT res FROM Reservation res WHERE res.reservationStatus IN :statuses")
+    List<Reservation> findAllByReservationStatusWithInstances(@Param("statuses") List<ReservationStatus> statuses);
 
     @EntityGraph(attributePaths = {"resourceInstance"})
     @Query("SELECT res FROM Reservation res WHERE res.reservationId=:reservationId")

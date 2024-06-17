@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.example.backend.util.ReservationStatus.ACTIVE;
 
 @Service
 public class ReservationService {
@@ -58,7 +58,7 @@ public class ReservationService {
     }
 
     public List<Reservation> getAllActiveReservations() {
-        return reservationRepository.findAllByReservationStatusWithInstances(ReservationStatus.ACTIVE);
+        return reservationRepository.findAllByReservationStatusWithInstances(List.of(ACTIVE));
     }
 
     @Transactional
@@ -81,7 +81,7 @@ public class ReservationService {
                 .countResourceReservationsWithStatus(
                         instance.get().getResource().getResourceId(),
                         user.get().getEmail(),
-                        ReservationStatus.ACTIVE);
+                        Arrays.asList(ReservationStatus.ACTIVE, ReservationStatus.BORROWED));
         if (reservationCount != 0) {
             throw new UserAlreadyReservedResourceException();
         }
@@ -90,7 +90,7 @@ public class ReservationService {
                 .resourceInstance(instance.get())
                 .reservationStart(LocalDate.now())
                 .reservationEnd(LocalDate.now().plusDays(Util.DEFAULT_RESERVATION_TIME))
-                .reservationStatus(ReservationStatus.ACTIVE)
+                .reservationStatus(ACTIVE)
                 .build();
         reservation = reservationRepository.save(reservation);
         user.get().getReservation().add(reservation);
@@ -113,7 +113,7 @@ public class ReservationService {
         if (reservation.getReservationStatus() == ReservationStatus.BORROWED) {
             maxExtensions = Util.MAX_NUMBER_OF_BORROW_EXTENSIONS;
             extensionLength = Util.MAX_NUMBER_OF_BORROW_EXTENSIONS;
-        } else if (reservation.getReservationStatus() == ReservationStatus.ACTIVE) {
+        } else if (reservation.getReservationStatus() == ACTIVE) {
             maxExtensions = Util.MAX_NUMBER_OF_EXTENSIONS;
             extensionLength = Util.DEFAULT_RESERVATION_EXTENSION;
         } else {
@@ -137,7 +137,7 @@ public class ReservationService {
             throw new NoSuchReservationException();
         }
         Reservation reservation = reservationOptional.get();
-        if (reservation.getReservationStatus() != ReservationStatus.ACTIVE) {
+        if (reservation.getReservationStatus() != ACTIVE) {
             throw new OperationNotAvailableException("Can't cancel reservation - is not active");
         }
         reservation.setReservationStatus(ReservationStatus.CANCELLED);
@@ -170,7 +170,7 @@ public class ReservationService {
 
     public List<Reservation> getActiveReservationsByUserEmail(String userEmail) {
         return reservationRepository
-                .findAllByUserEmailAndReservationStatusWithInstances(userEmail, ReservationStatus.ACTIVE);
+                .findAllByUserEmailAndReservationStatusWithInstances(userEmail, ACTIVE);
     }
 
     public void changeToBorrow(
@@ -181,7 +181,7 @@ public class ReservationService {
             throw new NoSuchReservationException();
         }
         Reservation reservation = reservationOptional.get();
-        if (reservation.getReservationStatus() != ReservationStatus.ACTIVE) {
+        if (reservation.getReservationStatus() != ACTIVE) {
             throw new OperationNotAvailableException("Can't lend resource - reservation not active");
         }
         reservation.setReservationStatus(ReservationStatus.BORROWED);

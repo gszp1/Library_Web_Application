@@ -143,7 +143,7 @@ function ReservationsSection({userEmail}) {
                                         <td>{res.numberOfExtensions}</td>
                                         <td>{res.status}</td>
                                         <td>
-                                            {res.status === "ACTIVE" ? (
+                                            {res.status === "ACTIVE" || res.status === 'BORROWED' ? (
                                                 <button
                                                     className="reservationButtonActive"
                                                     onClick={() => extendReservation(res.reservationId)}
