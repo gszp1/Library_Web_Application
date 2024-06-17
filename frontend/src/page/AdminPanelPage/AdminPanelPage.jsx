@@ -5,6 +5,7 @@ import StatisticsSection from "./StatisticsSection";
 import UsersSection from "./UsersSection";
 import { useNavigate } from "react-router-dom";
 import ErrorSection from "./ErrorSection";
+import AddResourceSection from "./AddResourceSection";
 
 function AdminPanelPage() {
     const [section, setSection] = useState('Resources');
@@ -25,6 +26,8 @@ function AdminPanelPage() {
         switch(section) {
             case 'Resources':
                 return (<ResourcesSection />);
+            case 'AddResource':
+                return (<AddResourceSection/>)
             case 'Statistics':
                 return (<StatisticsSection />);
             case 'Users':
@@ -44,6 +47,9 @@ function AdminPanelPage() {
             <ul className='adminPanelNavigation'>
                 <li id='Resources' onClick={handleClick}>
                     Resources
+                </li>
+                <li id='AddResource' onClick={handleClick}>
+                    Add Resource
                 </li>
                 <li id='Users' onClick={handleClick}>
                     Users
