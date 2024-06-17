@@ -6,6 +6,7 @@ import UsersSection from "./UsersSection";
 import { useNavigate } from "react-router-dom";
 import ErrorSection from "./ErrorSection";
 import AddResourceSection from "./AddResourceSection";
+import ReservationsSection from "./ReservationsSection";
 
 function AdminPanelPage() {
     const [section, setSection] = useState('Resources');
@@ -27,9 +28,11 @@ function AdminPanelPage() {
             case 'Resources':
                 return (<ResourcesSection />);
             case 'AddResource':
-                return (<AddResourceSection/>)
+                return (<AddResourceSection/>);
             case 'Statistics':
                 return (<StatisticsSection />);
+            case 'Reservations':
+                return (<ReservationsSection />);
             case 'Users':
                 return (<UsersSection setSection={setSection}/>);
             case 'Error':
@@ -53,6 +56,9 @@ function AdminPanelPage() {
                 </li>
                 <li id='Users' onClick={handleClick}>
                     Users
+                </li>
+                <li id='Reservations' onClick={handleClick}>
+                    Reservations
                 </li>
                 <li id='Statistics' onClick={handleClick}>
                     Statistics

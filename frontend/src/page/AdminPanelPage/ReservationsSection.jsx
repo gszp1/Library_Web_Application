@@ -1,12 +1,12 @@
 import React from "react";
 import './AdminPanelStyles.css';
 
-function ResourcesSection() {
+function ReservationsSection(){
     return (
         <div className='adminPanelSection'>
-            <h1>Resources</h1>
+            <h1>Reservations</h1>
         </div>
     );
-}
+};
 
-export default ResourcesSection;
+export default ReservationsSection;
