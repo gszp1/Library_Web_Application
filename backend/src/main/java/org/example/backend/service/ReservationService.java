@@ -92,16 +92,25 @@ public class ReservationService {
             throw new NoSuchReservationException();
         }
         Reservation reservation = reservationOptional.get();
-        if (reservation.getReservationStatus() != ReservationStatus.ACTIVE) {
-            throw new OperationNotAvailableException("Can't extend reservation - is not active");
+        int maxExtensions;
+        int extensionLength;
+        if (reservation.getReservationStatus() == ReservationStatus.BORROWED) {
+            maxExtensions = Util.MAX_NUMBER_OF_BORROW_EXTENSIONS;
+            extensionLength = Util.MAX_NUMBER_OF_BORROW_EXTENSIONS;
+        } else if (reservation.getReservationStatus() == ReservationStatus.ACTIVE) {
+            maxExtensions = Util.MAX_NUMBER_OF_EXTENSIONS;
+            extensionLength = Util.DEFAULT_RESERVATION_EXTENSION;
+        } else {
+            throw new OperationNotAvailableException("Can't extend reservation - is not active or borrowed");
         }
-        if (reservation.getExtensionCount() >= Util.MAX_NUMBER_OF_EXTENSIONS) {
-            throw new OperationNotAvailableException("Can't extend reservation - reached maximal amount of times");
+        if (reservation.getExtensionCount() >= maxExtensions) {
+            throw new OperationNotAvailableException("Can't extend - reached maximal amount of times");
         }
-        reservation.setReservationEnd(reservation.getReservationEnd().plusDays(Util.DEFAULT_RESERVATION_EXTENSION));
+        reservation.setReservationEnd(reservation.getReservationEnd().plusDays(extensionLength));
         reservation.setExtensionCount(reservation.getExtensionCount() + 1);
         reservationRepository.save(reservation);
     }
+
 
     @Transactional
     public void cancelReservation(
