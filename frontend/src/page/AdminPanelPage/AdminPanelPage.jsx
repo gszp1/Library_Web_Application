@@ -32,7 +32,7 @@ function AdminPanelPage() {
             case 'Statistics':
                 return (<StatisticsSection />);
             case 'Reservations':
-                return (<ReservationsSection />);
+                return (<ReservationsSection setSection={setSection}/>);
             case 'Users':
                 return (<UsersSection setSection={setSection}/>);
             case 'Error':
