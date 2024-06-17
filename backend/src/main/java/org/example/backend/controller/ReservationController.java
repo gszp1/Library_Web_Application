@@ -2,6 +2,7 @@ package org.example.backend.controller;
 
 import org.example.backend.dto.AdminReservationDto;
 import org.example.backend.dto.UserReservationDto;
+import org.example.backend.model.Reservation;
 import org.example.backend.service.ReservationService;
 import org.example.backend.util.ReservationRequest;
 import org.example.backend.util.exception.*;
@@ -12,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/api/reservations")
 @RestController
@@ -88,5 +90,18 @@ public class ReservationController {
             return ResponseEntity.badRequest().body(OpEx.getMessage());
         }
         return ResponseEntity.ok("Resource borrowed.");
+    }
+
+    @PreAuthorize("hasAuthority('admin:update')")
+    @PutMapping("/update")
+    public ResponseEntity<String> updateReservation(@RequestBody AdminReservationDto request) {
+        try {
+            reservationService.updateReservation(request);
+            return ResponseEntity.ok("Reservation updated");
+        } catch (NoSuchReservationException nsre) {
+            return ResponseEntity.notFound().build();
+        } catch (OperationNotAvailableException onae) {
+            return ResponseEntity.badRequest().body(onae.getMessage());
+        }
     }
 }

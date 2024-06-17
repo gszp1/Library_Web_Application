@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -184,6 +185,27 @@ public class ReservationService {
             throw new OperationNotAvailableException("Can't lend resource - reservation not active");
         }
         reservation.setReservationStatus(ReservationStatus.BORROWED);
+        reservationRepository.save(reservation);
+    }
+
+    public void updateReservation(
+            AdminReservationDto dto
+    ) throws NoSuchReservationException, OperationNotAvailableException {
+        Optional<Reservation> reservationOptional = reservationRepository.findById(dto.reservationId());
+        if (reservationOptional.isEmpty()) {
+            throw new NoSuchReservationException();
+        }
+        if (dto.end().isBefore(dto.start())) {
+            throw new OperationNotAvailableException("Can't update reservation - invalid dates");
+        }
+        Reservation reservation = reservationOptional.get();
+        reservation.setReservationEnd(dto.end());
+        reservation.setReservationStart(dto.start());
+        if (dto.numberOfExtensions() < 0) {
+            throw new OperationNotAvailableException("Can't update reservation - invalid number of extensions");
+        }
+        reservation.setExtensionCount(dto.numberOfExtensions());
+        reservation.setReservationStatus(dto.status());
         reservationRepository.save(reservation);
     }
 }

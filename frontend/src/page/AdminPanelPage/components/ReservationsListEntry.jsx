@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-function ReservationsListEntry({reservation, updateReservation}) {
+function ReservationsListEntry({reservation, updateReservation, borrowResource}) {
     const [updatedReservation, setUpdatedReservation] = useState({
         reservationId: reservation.reservationId || '',
         userEmail: reservation.userEmail || '',
@@ -25,7 +25,7 @@ function ReservationsListEntry({reservation, updateReservation}) {
     };
 
     const handleBorrow = () => {
-
+        borrowResource(updatedReservation.reservationId);
     }
 
     return (
