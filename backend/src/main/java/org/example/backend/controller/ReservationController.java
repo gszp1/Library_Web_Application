@@ -1,5 +1,6 @@
 package org.example.backend.controller;
 
+import org.example.backend.dto.AdminReservationDto;
 import org.example.backend.dto.UserReservationDto;
 import org.example.backend.service.ReservationService;
 import org.example.backend.util.ReservationRequest;
@@ -21,6 +22,12 @@ public class ReservationController {
     @Autowired
     public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
+    }
+
+    @PreAuthorize("hasAuthority('admin:read')")
+    @GetMapping("/all")
+    public ResponseEntity<List<AdminReservationDto>> getAllReservations() {
+        return ResponseEntity.ok(reservationService.getAllReservations());
     }
 
     @PreAuthorize("hasAuthority('user:create')")

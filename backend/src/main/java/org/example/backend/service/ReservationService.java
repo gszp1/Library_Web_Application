@@ -1,5 +1,7 @@
 package org.example.backend.service;
 
+import org.example.backend.dto.AdminReservationDto;
+import org.example.backend.dto.AdminUserDto;
 import org.example.backend.dto.UserReservationDto;
 import org.example.backend.model.Reservation;
 import org.example.backend.model.ResourceInstance;
@@ -37,8 +39,21 @@ public class ReservationService {
         this.instanceService = instanceService;
     }
 
-    public List<Reservation> getAllReservations() {
-        return reservationRepository.findAll();
+    public List<AdminReservationDto> getAllReservations() {
+        return reservationRepository
+                .findAllWithData()
+                .stream()
+                .map(reservation -> new AdminReservationDto(
+                        reservation.getReservationId(),
+                        reservation.getUser().getEmail(),
+                        reservation.getResourceInstance().getResourceInstanceId(),
+                        reservation.getResourceInstance().getResource().getTitle(),
+                        reservation.getReservationStart(),
+                        reservation.getReservationEnd(),
+                        reservation.getExtensionCount(),
+                        reservation.getReservationStatus()
+                ))
+                .collect(Collectors.toList());
     }
 
     public List<Reservation> getAllActiveReservations() {

@@ -50,4 +50,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
             @Param("email") String email,
             @Param("status") ReservationStatus status
     );
+
+    @EntityGraph(attributePaths = {"user", "resourceInstance", "resourceInstance.resource" })
+    @Query("SELECT res FROM Reservation res")
+    List<Reservation> findAllWithData();
 }
