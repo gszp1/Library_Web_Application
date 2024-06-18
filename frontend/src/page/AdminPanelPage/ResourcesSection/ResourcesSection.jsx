@@ -35,6 +35,14 @@ function ResourcesSection({setSection}) {
         setSelectedResource(entry);
     }
 
+    const updateResource = async (updatedResource) => {
+
+    }
+    
+    const updateImage  = async (newImage, resId) => {
+
+    }
+
     const fetchResources = async() => {
         const url = 'http://localhost:9090/api/resources/admin/all';
         try {

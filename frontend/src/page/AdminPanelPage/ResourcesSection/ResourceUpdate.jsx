@@ -13,6 +13,8 @@ function ResourceUpdate({resource, fetchDescription}) {
         authors: resource.authors || [''],
         description: ''
     });
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [imgSrc, setImgSrc] = useState(updatedResource.imageUrl || placeholder);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,6 +23,17 @@ function ResourceUpdate({resource, fetchDescription}) {
             [name]: value
         }));
     };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setSelectedImage(file);
+        setImgSrc(URL.createObjectURL(file));
+
+    };
+
+    const handleImgError = () => {
+        setImgSrc(placeholder);
+    }
 
     useEffect(() => {
         fetchDescription(updatedResource, setUpdatedResource);
@@ -50,6 +63,10 @@ function ResourceUpdate({resource, fetchDescription}) {
             authors: prevResource.authors.filter((_, i) => i !== index)
         }));
     };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    }
 
     return (
         <form className="resourceUpdateForm">
@@ -113,6 +130,22 @@ function ResourceUpdate({resource, fetchDescription}) {
             ))}
             <button type="button" onClick={addAuthor}>
                 Add Author
+            </button>
+            <label>Image: </label>
+            <img
+                className="updateResourceImage"
+                src={imgSrc}
+                onError={handleImgError}
+            />
+            <input
+                style={{marginBottom:'1rem', border:'none', backgroundColor:'transparent', boxShadow:'none', height:'2rem', marginTop: '1rem'}}
+                type="file"
+                name="image"
+                accept="image/*"
+                onChange={handleImageChange}
+            />
+            <button type="submit" style={{width: '40%'}}>
+                Submit Changes
             </button>
         </form>
     );
