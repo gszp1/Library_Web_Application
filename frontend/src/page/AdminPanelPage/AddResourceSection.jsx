@@ -21,6 +21,7 @@ function AddResourceSection() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(credentials);
     }
 
     const handleAuthorChange = (index, e) => {
@@ -37,7 +38,7 @@ function AddResourceSection() {
     const addAuthor = () => {
         setCredentials((prevCredentials) => ({
             ...prevCredentials,
-            authors: [...prevCredentials.authors, { firstName: '', lastName: '' }]
+            authors: [...prevCredentials.authors, '']
         }));
     };
 
@@ -82,19 +83,13 @@ function AddResourceSection() {
                     onChange={handleChange}
                 />
                 <h2 style={{color:'orange'}}>Authors:</h2>
-                {credentials.authors.map((author, index) => (
+                {credentials.authors.map((email, index) => (
                     <div key={index} className="authorFields">
                         <label>Author {index + 1}:</label>
                         <input
-                            name="firstName"
-                            placeholder="Name"
-                            value={author.name}
-                            onChange={(e) => handleAuthorChange(index, e)}
-                        />
-                        <input
-                            name="lastName"
-                            placeholder="Surname"
-                            value={author.surname}
+                            type="email"
+                            placeholder="Email"
+                            value={email}
                             onChange={(e) => handleAuthorChange(index, e)}
                         />
                         <button type="button" onClick={() => removeAuthor(index)}>
@@ -102,7 +97,7 @@ function AddResourceSection() {
                         </button>
                     </div>
                 ))}
-                <button type="button" onClick={addAuthor}>
+                <button type="button" style={{width: '20%'}} onClick={addAuthor}>
                     Add Author
                 </button>
                 <label>Image: </label>
