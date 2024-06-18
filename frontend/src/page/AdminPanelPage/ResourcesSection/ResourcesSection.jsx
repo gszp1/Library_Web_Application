@@ -2,9 +2,9 @@ import React, {useState, useEffect} from "react";
 import '../AdminPanelStyles.css';
 import './ResourcesSectionStyles.css';
 import ReservationPrompt from "../../../component/ReservationPrompt";
+import axios from "axios";
 
-
-function ResourcesSection() {
+function ResourcesSection({setSection}) {
     const [resources, setResources] = useState([]);
     const [selectedResource, setSelectedResource] = useState(null);
     const [error, setError] = useState();
@@ -30,13 +30,38 @@ function ResourcesSection() {
     }
 
     const fetchResources = async() => {
-        const url = 'http://localhost:9090/api/resources/all'
+        const url = 'http://localhost:9090/api/resources/admin/all';
+        try {
+            let response = await axios.get(url, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
+                }
+            })
+            console.log(response.data);
+            setResources(response.data);
+            setError(false);
+        } catch (error) {
+            if (error.response && error.response.status === 403) {
+                setSection('Error');
+                return;
+            }
+            setError(true);
+        }
     };
+
+    useEffect(() => {
+        fetchResources();
+    }, []);
 
     return (
         <>
             <div className='adminPanelSection'>
                 <h1>Resources</h1>
+                    {error ? (
+                        <p>Failed to fetch resources.</p>
+                    ) : (
+                        <div/>
+                    )}
                 <h1>Update Resource</h1>
                     {selectedResource == null ? (
                             <p>No resource selected.</p>
@@ -45,7 +70,6 @@ function ResourcesSection() {
                         )
                     }
                     <h1>Instances</h1>
-                    
             </div>
             {showPrompt && <ReservationPrompt error={promptContent.error} message={promptContent.message}/>}
         </>

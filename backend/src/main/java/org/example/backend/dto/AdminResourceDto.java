@@ -10,5 +10,4 @@ public record AdminResourceDto(
         String publisher,
         List<String> authors
 ) {
-
 }
