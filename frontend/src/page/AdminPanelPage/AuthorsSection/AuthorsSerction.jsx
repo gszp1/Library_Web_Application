@@ -1,5 +1,5 @@
 import React from "react";
-import '../AdminPanelStyles.jsx';
+import '../AdminPanelStyles.css';
 
 function AuthorsSection({setSection}) {
     return (
@@ -9,4 +9,4 @@ function AuthorsSection({setSection}) {
     );
 }
 
-return AuthorsSection;
+export default AuthorsSection;

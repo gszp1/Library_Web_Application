@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import ErrorSection from "./ErrorSection";
 import AddResourceSection from "./AddResourceSection";
 import ReservationsSection from "./ReservationsSection";
+import AuthorsSection from "./AuthorsSection/AuthorsSerction";
+import AddAuthorSection from "./AuthorsSection/AddAuthorSection";
 
 function AdminPanelPage() {
     const [section, setSection] = useState('Resources');
@@ -35,6 +37,10 @@ function AdminPanelPage() {
                 return (<ReservationsSection setSection={setSection}/>);
             case 'Users':
                 return (<UsersSection setSection={setSection}/>);
+            case 'Authors':
+                return (<AuthorsSection setSection={section}/>)
+            case 'AddAuthor':
+                return (<AddAuthorSection setSection={section}/>)
             case 'Error':
                 setTimeout(() => {
                     localStorage.removeItem('WebLibToken');
@@ -56,6 +62,12 @@ function AdminPanelPage() {
                 </li>
                 <li id='Users' onClick={handleClick}>
                     Users
+                </li>
+                <li id='Authors' onClick={handleClick}>
+                    Authors
+                </li>
+                <li id='AddAuthor' onClick={handleClick}>
+                    Add Author
                 </li>
                 <li id='Reservations' onClick={handleClick}>
                     Reservations
