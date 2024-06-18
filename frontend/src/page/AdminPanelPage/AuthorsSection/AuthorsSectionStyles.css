@@ -1,0 +1,51 @@
+.addAuthorForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 98%;
+}
+
+.addAuthorForm label {
+    width: 100%;
+    font-size: 1.5rem;
+    color: orange;
+    font-weight: bold;
+    text-align: center;
+    margin: 1rem 0 0.25rem 0;
+}
+
+.addAuthorForm input {
+    width: 40%;
+    height: 1.5rem;
+    margin: 0 0 1rem 0;
+    border: 1px solid black;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.addAuthorForm input:focus {
+    outline: none;
+    border-color: orange;
+}
+
+.addAuthorForm button {
+    width: 20rem;
+    height: 2rem;
+    background-color: hsl(34, 100%, 50%);
+    margin-top: 1rem;
+    border: 1px black solid;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.addAuthorForm button:hover {
+    background-color: hsl(34, 100%, 40%);
+}
+.addAuthorForm button:active {
+    background-color: hsl(34, 100%, 30%);
+}

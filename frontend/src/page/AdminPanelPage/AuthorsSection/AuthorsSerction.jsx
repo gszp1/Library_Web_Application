@@ -1,5 +1,6 @@
 import React from "react";
 import '../AdminPanelStyles.css';
+import './AuthorsSectionStyles.css';
 
 function AuthorsSection({setSection}) {
     return (
