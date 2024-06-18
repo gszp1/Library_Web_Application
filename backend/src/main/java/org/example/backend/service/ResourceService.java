@@ -13,6 +13,7 @@ import org.example.backend.repository.PublisherRepository;
 import org.example.backend.repository.ResourceRepository;
 import org.example.backend.util.exception.InvalidDataException;
 import org.example.backend.util.exception.NoSuchResourceException;
+import org.example.backend.util.exception.OperationNotAvailableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -96,51 +97,6 @@ public class ResourceService {
         return resource.isPresent();
     }
 
-    @Transactional
-    public Resource createResource(AdminResourceDto resourceDto) throws InvalidDataException {
-        List<String> emails = resourceDto.authors().stream().map(AdminAuthorDto::email).toList();
-        List<Author> authors = authorRepository.findByEmails(emails);
-        Optional<Publisher> publisher = publisherRepository.findByName(resourceDto.publisher());
-        if (authors.isEmpty() || authors.size() != resourceDto.authors().size()) {
-            throw new InvalidDataException("Invalid authors");
-        }
-        if (publisher.isEmpty()) {
-            throw new InvalidDataException("Invalid publisher");
-        }
-        Resource resource = Resource.builder()
-                .title(resourceDto.title())
-                .description(resourceDto.description())
-                .publisher(publisher.get())
-                .build();
-        resource = resourceRepository.save(resource);
-
-        publisher.get().getResources().add(resource);
-        publisherRepository.save(publisher.get());
-        //create join table entries
-        Resource finalResource = resource;
-        List<AuthorResource> authorResources = authors.stream()
-                .map(author -> AuthorResource.builder()
-                        .author(author)
-                        .resource(finalResource)
-                        .id(new AuthorResourceKey(author.getAuthorId(), finalResource.getResourceId()))
-                        .build())
-                .collect(Collectors.toList());
-        authorResources = authorResourceRepository.saveAll(authorResources);
-        resource.setAuthors(authorResources);
-        resourceRepository.save(resource);
-
-        authors.forEach(author -> {
-            List<AuthorResource> authorResourceList = author.getResources()
-                    .stream()
-                    .filter(authorResource -> author.getAuthorId().equals(authorResource.getId().getAuthorId()))
-                    .toList();
-            author.getResources().addAll(authorResourceList);
-        });
-        authorRepository.saveAll(authors);
-
-        return resource;
-    }
-
     private ResourceDto mapToDto(Resource resource) {
         String publisher = resource.getPublisher() == null ? "" : resource.getPublisher().getName();
         List<AuthorDto> authors = resource.getAuthors()
@@ -155,5 +111,81 @@ public class ResourceService {
             publisher,
             authors
         );
+    }
+
+    @Transactional
+    public Resource createResource(CreateResourceDto dto) throws InvalidDataException {
+        validateDto(dto);
+        Optional<Publisher> publisher = publisherRepository.findByName(dto.publisher());
+        if (publisher.isEmpty()) {
+            throw new InvalidDataException("Provided publisher does not exist");
+        }
+        // check if authors were provided and do they exist
+        List<Author> authors = authorRepository.findByEmails(dto.authors());
+        if (authors.size() != dto.authors().size()) {
+            throw new InvalidDataException("Provided authors are invalid");
+        }
+        // all checked - create resource
+        Resource resource = Resource.builder()
+                .title(dto.title())
+                .identifier(dto.identifier())
+                .description(dto.description())
+                .publisher(publisher.get())
+                .build();
+        resource = resourceRepository.save(resource);
+
+        //update publisher
+        publisher.get().getResources().add(resource);
+        publisherRepository.save(publisher.get());
+
+        // create join table records
+        Resource finalResource = resource;
+        List<AuthorResource> authorResources = authors.stream()
+                .map(author -> AuthorResource.builder()
+                        .author(author)
+                        .resource(finalResource)
+                        .id(new AuthorResourceKey(author.getAuthorId(), finalResource.getResourceId()))
+                        .build())
+                .collect(Collectors.toList());
+        authorResources = authorResourceRepository.saveAll(authorResources);
+        resource.setAuthors(authorResources);
+        resource = resourceRepository.save(resource);
+
+        //update authors
+        authors.forEach(author -> {
+            List<AuthorResource> authorResourceList = author.getResources()
+                    .stream()
+                    .filter(authorResource -> author.getAuthorId().equals(authorResource.getId().getAuthorId()))
+                    .toList();
+            author.getResources().addAll(authorResourceList);
+        });
+        authorRepository.saveAll(authors);
+
+        return resource;
+    }
+
+    private void validateDto(CreateResourceDto dto) throws InvalidDataException {
+        if ( // validate if user did not pass empty required fields
+                dto.title() == null || dto.title().isEmpty() ||
+                        dto.identifier() == null || dto.identifier().isEmpty()
+        ) {
+            throw new InvalidDataException("Not all required fields are provided");
+        }
+        if ( // check if required fields are not too long
+                dto.title().length() > 100 || dto.identifier().length() > 20
+        ) {
+            throw new InvalidDataException("Invalid required fields length. Title: 100, identifier: 20");
+        }
+        // check if there is no resource with given title or identifier already
+        if (resourceRepository.findByTitle(dto.title()).isPresent()) {
+            throw new InvalidDataException("Resource with this title already exists");
+        }
+        if (resourceRepository.findByIdentifier(dto.identifier()).isPresent()) {
+            throw new InvalidDataException("Resource with this identifier already exists");
+        }
+        // check if publisher was provided and exists
+        if (dto.publisher() == null || dto.publisher().isEmpty()) {
+            throw new InvalidDataException("No publisher is provided");
+        }
     }
 }

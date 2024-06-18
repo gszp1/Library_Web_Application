@@ -25,15 +25,16 @@ function AddResourceSection() {
     }
 
     const handleAuthorChange = (index, e) => {
-        const { name, value } = e.target;
+        const { value } = e.target;
         const newAuthors = credentials.authors.map((author, i) => {
             if (i === index) {
-                return { ...author, [name]: value };
+                return value;
             }
             return author;
         });
         setCredentials({ ...credentials, authors: newAuthors });
     };
+
 
     const addAuthor = () => {
         setCredentials((prevCredentials) => ({

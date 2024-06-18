@@ -1,9 +1,6 @@
 package org.example.backend.controller;
 
-import org.example.backend.dto.AdminResourceDto;
-import org.example.backend.dto.InstanceDto;
-import org.example.backend.dto.ResourceDescriptionDto;
-import org.example.backend.dto.ResourceDto;
+import org.example.backend.dto.*;
 import org.example.backend.model.Resource;
 import org.example.backend.service.ResourceInstanceService;
 import org.example.backend.service.ResourceService;
@@ -78,10 +75,10 @@ public class ResourceController {
 
     @PreAuthorize("hasAuthority('admin:create')")
     @PostMapping("/create")
-    public ResponseEntity<String> createResource(@RequestBody AdminResourceDto resourceDto) {
+    public ResponseEntity<String> createResource(@RequestBody CreateResourceDto resourceDto) {
         try {
-            resourceService.createResource(resourceDto);
-            return ResponseEntity.ok("Resource created");
+            Resource resource = resourceService.createResource(resourceDto);
+            return ResponseEntity.ok(resource.getResourceId().toString());
         } catch (InvalidDataException otae) {
             return ResponseEntity.badRequest().body(otae.getMessage());
         }
