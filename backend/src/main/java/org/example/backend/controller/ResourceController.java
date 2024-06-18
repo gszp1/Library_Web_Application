@@ -1,16 +1,22 @@
 package org.example.backend.controller;
 
+import org.example.backend.dto.AdminResourceDto;
 import org.example.backend.dto.InstanceDto;
 import org.example.backend.dto.ResourceDescriptionDto;
 import org.example.backend.dto.ResourceDto;
 import org.example.backend.model.Resource;
 import org.example.backend.service.ResourceInstanceService;
 import org.example.backend.service.ResourceService;
+import org.example.backend.util.exception.InvalidDataException;
+import org.example.backend.util.exception.NoSuchResourceException;
+import org.example.backend.util.exception.OperationNotAvailableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -68,5 +74,16 @@ public class ResourceController {
                         id,
                         Sort.by(Sort.Direction.ASC, "resourceInstanceId")
                 );
+    }
+
+    @PreAuthorize("hasAuthority('admin:create')")
+    @PostMapping("/create")
+    public ResponseEntity<String> createResource(@RequestBody AdminResourceDto resourceDto) {
+        try {
+            resourceService.createResource(resourceDto);
+            return ResponseEntity.ok("Resource created");
+        } catch (InvalidDataException otae) {
+            return ResponseEntity.badRequest().body(otae.getMessage());
+        }
     }
 }

@@ -1,5 +1,6 @@
 package org.example.backend.controller;
 import jakarta.validation.constraints.NotNull;
+import org.example.backend.service.ResourceService;
 import org.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -24,9 +25,12 @@ public class ImageController {
 
     private final UserService userService;
 
+    private final ResourceService resourceService;
+
     @Autowired
-    public ImageController(UserService userService) {
+    public ImageController(UserService userService, ResourceService resourceService) {
         this.userService = userService;
+        this.resourceService = resourceService;
     }
 
     @GetMapping("/{filename:.+}")
@@ -77,6 +81,32 @@ public class ImageController {
 
             String url = "http://localhost:9090/api/images/userImage/" + email + '.' + extension;
             userService.updateUserImageUrl(email, url);
+            return ResponseEntity.ok("Image updated.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Updating image failed.");
+        }
+    }
+
+    @PreAuthorize("hasAuthority('admin:create')")
+    @PostMapping("/resources/{id}/image")
+    public ResponseEntity<String> addResourceImage(
+            @PathVariable(name="id") Integer id,
+            @RequestParam("image") MultipartFile image
+    ) {
+        try {
+            if (validateFileType(image) ||
+                image.getOriginalFilename() == null ||
+                image.getOriginalFilename().isEmpty() ||
+                !resourceService.resourceExists(id)
+            ) {
+                return ResponseEntity.badRequest().body("Invalid data provided.");
+            }
+            String originalFilename = image.getOriginalFilename();
+            Path targetLocation = imagePath.resolve(originalFilename);
+            Files.copy(image.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+
+            String url = "http://localhost:9090/api/images/" + originalFilename;
+            resourceService.updateResourceImage(id, url);
             return ResponseEntity.ok("Image updated.");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Updating image failed.");

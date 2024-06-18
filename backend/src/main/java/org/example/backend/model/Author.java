@@ -29,6 +29,9 @@ public class Author {
     @Column (name = "last_name", length = 20, nullable = false)
     private String lastName;
 
+    @Column (length = 40, nullable = false, unique = true)
+    private String email;
+
     @OneToMany(mappedBy = "author")
     @Builder.Default
     private List<AuthorResource> resources = new ArrayList<>();
