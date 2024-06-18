@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import '../AdminPanelStyles.css';
-import './PublishersSection.css';
+import './PublishersSectionStyles.css';
 import axios from "axios";
 import ReservationPrompt from "../../../component/ReservationPrompt";
 
