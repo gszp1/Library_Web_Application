@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import '../AdminPanelStyles.css';
 import './AuthorsSectionStyles.css';
+import axios from "axios";
 import ReservationPrompt from "../../../component/ReservationPrompt";
 
 function AddAuthorSection({setSection}) {
@@ -15,8 +16,43 @@ function AddAuthorSection({setSection}) {
         message: ''
     })
 
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    const createAuthor = async () => {
+        const url = '';
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (author.firstName === '' || author.lastName === '') {
+            setPromptContent({
+                error:true,
+                message:'Name and Surname field must be filled.'
+            });
+            setShowPrompt(true);
+            hidePromptAfterDelay();
+            return;
+        }
+
+        if (!validateEmail(author.email)) {
+            setPromptContent({
+                error:true,
+                message:'Invalid email.'
+            });
+            setShowPrompt(true);
+            hidePromptAfterDelay();
+            return;
+        }
+
+        setAuthor({
+            firstName: '',
+            lastName: '',
+            email: ''
+        });
     }
 
     const handleChange = (e) => {
@@ -25,6 +61,13 @@ function AddAuthorSection({setSection}) {
             ...prev,
             [name]: value
         }));
+    };
+
+
+    const hidePromptAfterDelay = () => {
+        setTimeout(() => {
+            setShowPrompt(false);
+        }, 1500);
     };
 
     return (
