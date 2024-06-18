@@ -44,9 +44,9 @@ public class SampleDataInitializer {
     @Transactional
     CommandLineRunner dataInit() {
         return args -> {
-            Author author = Author.builder().firstName("name1").lastName("surname1").build();
-            Author author2 = Author.builder().firstName("name2").lastName("surname2").build();
-            Author author3 = Author.builder().firstName("name3").lastName("surname3").build();
+            Author author = Author.builder().firstName("name1").lastName("surname1").email("a1@mail.com").build();
+            Author author2 = Author.builder().firstName("name2").lastName("surname2").email("a2@mail.com").build();
+            Author author3 = Author.builder().firstName("name3").lastName("surname3").email("a3@mail.com").build();
             author = authorRepository.save(author);
             author2 = authorRepository.save(author2);
             author3 = authorRepository.save(author3);
