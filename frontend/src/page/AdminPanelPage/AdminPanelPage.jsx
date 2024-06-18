@@ -1,7 +1,6 @@
 import React , {useState} from "react";
 import './AdminPanelStyles.css';
 import ResourcesSection from "./ResourcesSection";
-import StatisticsSection from "./StatisticsSection";
 import UsersSection from "./UsersSection";
 import { useNavigate } from "react-router-dom";
 import ErrorSection from "./ErrorSection";
@@ -33,8 +32,6 @@ function AdminPanelPage() {
                 return (<ResourcesSection />);
             case 'AddResource':
                 return (<AddResourceSection/>);
-            case 'Statistics':
-                return (<StatisticsSection />);
             case 'Reservations':
                 return (<ReservationsSection setSection={setSection}/>);
             case 'Users':
@@ -83,9 +80,6 @@ function AdminPanelPage() {
                 </li>
                 <li id='Reservations' onClick={handleClick}>
                     Reservations
-                </li>
-                <li id='Statistics' onClick={handleClick}>
-                    Statistics
                 </li>
                 <li
                     style={{color: 'red', fontWeight: "bold"}}
