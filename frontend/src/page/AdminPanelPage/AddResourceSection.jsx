@@ -1,6 +1,9 @@
 import React, {useState} from "react";
+import axios from "axios";
+import './AdminPanelStyles.css';
+import ReservationPrompt from "../../component/ReservationPrompt";
 
-function AddResourceSection() {
+function AddResourceSection(setSection) {
     const [credentials, setCredentials] = useState({
         title: '',
         identifier: '',
@@ -19,9 +22,42 @@ function AddResourceSection() {
         }));
     };
 
+    const createResource = async() => {
+        const url = 'http://localhost:9090/api/resources/create';
+
+        try {
+            let response = await axios.post(url, credentials, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            console.log(response.data);
+            setCredentials({
+                title: '',
+                identifier: '',
+                description: '',
+                publisher: '',
+                authors: ['']
+            });
+        } catch (error) {
+            if (error.response) {
+                if (error.response.status === 403) {
+                    setSection('Error');
+                    return;
+                }
+                if (error.response.status === 400) {
+                    console.log(error.response.data);
+                }
+            } else {
+
+            }
+        }
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(credentials);
+        createResource();
     }
 
     const handleAuthorChange = (index, e) => {

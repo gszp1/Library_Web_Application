@@ -29,9 +29,9 @@ function AdminPanelPage() {
     const renderSection = () => {
         switch(section) {
             case 'Resources':
-                return (<ResourcesSection />);
+                return (<ResourcesSection setSection={setSection}/>);
             case 'AddResource':
-                return (<AddResourceSection/>);
+                return (<AddResourceSection setSection={setSection}/>);
             case 'Reservations':
                 return (<ReservationsSection setSection={setSection}/>);
             case 'Users':
