@@ -1,6 +1,6 @@
 import React , {useState} from "react";
 import './AdminPanelStyles.css';
-import ResourcesSection from "./ResourcesSection";
+import ResourcesSection from "./ResourcesSection/ResourcesSection.jsx";
 import UsersSection from "./UsersSection";
 import { useNavigate } from "react-router-dom";
 import ErrorSection from "./ErrorSection";
