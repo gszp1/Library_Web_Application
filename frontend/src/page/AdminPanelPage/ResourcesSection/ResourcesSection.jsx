@@ -92,13 +92,18 @@ function ResourcesSection({setSection}) {
                         <ResourcesList resources={resources} selectEntry={selectEntry}/>
                     )}
                 <h1>Update Resource</h1>
-                    {selectedResource == null ? (
+                    {selectedResource === null ? (
                             <p>No resource selected.</p>
                         ) : (
                             <ResourceUpdate resource={selectedResource} fetchDescription={fetchDescription}/>
                         )
                     }
                     <h1>Instances</h1>
+                    {selectedResource === null ? (
+                        <p>No resource selected.</p>
+                    ) : (
+                        <div/>
+                    )}
             </div>
             {showPrompt && <ReservationPrompt error={promptContent.error} message={promptContent.message}/>}
         </>

@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -202,5 +203,108 @@ public class ResourceService {
                         resource.getAuthors().stream().map(authorResource -> authorResource.getAuthor().getEmail())
                                 .collect(Collectors.toList())
                 )).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void updateResource(
+            UpdateResourceDto dto
+    ) throws NoSuchResourceException, InvalidDataException {
+        Optional<Resource> resourceOptional = resourceRepository.findByResourceId(dto.id());
+        if (resourceOptional.isEmpty()) {
+            throw new NoSuchResourceException();
+        }
+        Resource resource = resourceOptional.get();
+        if (dto.title() == null || dto.identifier() == null
+                || dto.identifier().isEmpty() || dto.title().isEmpty()) {
+            throw new InvalidDataException("Not all required fields provided.");
+        }
+        //Check if user does not want to update title to one that other resource already has
+        Optional<Resource> resourceTitle = resourceRepository.findByTitle(dto.title());
+        if (resourceTitle.isPresent() && !resourceTitle.get().getResourceId().equals(resource.getResourceId())) {
+            throw new InvalidDataException("Title already used by other resource.");
+        }
+        //Check if user does not want ot update identifier to one that other resource already has
+        Optional<Resource> resourceIdentifier = resourceRepository.findByIdentifier(dto.identifier());
+        if (resourceIdentifier.isPresent() && !resourceIdentifier.get().getResourceId().equals(resource.getResourceId())) {
+            throw new InvalidDataException("Identifier already used by other resource.");
+        }
+        if (dto.publisher() == null || dto.publisher().isEmpty()) {
+            throw new InvalidDataException("No publisher is provided");
+        }
+
+        Optional<Publisher> publisher = publisherRepository.findByName(dto.publisher());
+        if (publisher.isEmpty()) {
+            throw new InvalidDataException("Publisher does not exist");
+        }
+
+        // find all authors mentioned in dto
+        List<Author> dtoAuthors = authorRepository.findByEmails(dto.authors());
+        if (dtoAuthors.size() != dto.authors().size() || dto.authors().isEmpty()) {
+            throw new InvalidDataException("Provided authors are invalid");
+        }
+
+        // update publisher if the current one is not equal to new one
+        if (!resource.getPublisher().getName().equals(publisher.get().getName())) {
+            Publisher old = resource.getPublisher();
+            // remove old publisher from resource
+            resource.getPublisher().getResources().remove(resource);
+            old.getResources().remove(resource);
+            // add resource to new publisher
+            publisher.get().getResources().add(resource);
+            resource.setPublisher(publisher.get());
+            // add new publisher to resource
+            publisherRepository.saveAll(Arrays.asList(old, publisher.get()));
+            resource = resourceRepository.save(resource);
+        }
+
+        // get all current authors
+        List<Author> authors = resource.getAuthors().stream().map(AuthorResource::getAuthor).collect(Collectors.toList());
+
+        //find authors that should be added
+        List<Author> authorsToAdd = dtoAuthors.stream().filter(author -> !authors.contains(author)).collect(Collectors.toList());
+
+        //find authors that should be removed
+        List<Author> authorsToRemove = authors.stream().filter(author -> !dtoAuthors.contains(author)).collect(Collectors.toList());
+
+        Resource finalResource = resource;
+        List<AuthorResource> joinRecordsToRemove = authorsToRemove
+                .stream()
+                .map(author -> authorResourceRepository.findByAuthorAndResource(author, finalResource))
+                .collect(Collectors.toList());
+
+        // remove these join records
+        authorResourceRepository.deleteAll(joinRecordsToRemove);
+
+        // remove join records from resource
+        resource.getAuthors().removeAll(joinRecordsToRemove);
+        resource = resourceRepository.save(resource);
+
+        // remove join records from authors
+        for (var joinRecord: joinRecordsToRemove) {
+            Author author = joinRecord.getAuthor();
+            author.getResources().remove(joinRecord);
+        }
+        authorRepository.saveAll(authorsToRemove);
+
+        //create join records for those which are new
+        List<AuthorResource> authorResources = new ArrayList<>();
+        for (var author: authorsToAdd) {
+            AuthorResource authorResource = AuthorResource.builder()
+                    .author(author)
+                    .resource(resource)
+                    .id(new AuthorResourceKey(author.getAuthorId(), resource.getResourceId()))
+                    .build();
+            authorResources.add(authorResource);
+            author.getResources().add(authorResource);
+            resource.getAuthors().add(authorResource);
+        }
+        authorResourceRepository.saveAll(authorResources);
+        authorRepository.saveAll(authorsToAdd);
+
+        resource.setTitle(dto.title());
+        resource.setIdentifier(dto.identifier());
+        resource.setImageUrl(dto.imageUrl());
+        resource.setDescription(dto.description());
+        resourceRepository.save(resource);
     }
 }

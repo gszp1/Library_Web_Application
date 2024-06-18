@@ -89,4 +89,17 @@ public class ResourceController {
             return ResponseEntity.badRequest().body(otae.getMessage());
         }
     }
+
+    @PreAuthorize("hasAuthority('admin:update')")
+    @PutMapping("/update")
+    public ResponseEntity<String> updateResource(@RequestBody UpdateResourceDto resourceDto) {
+        try {
+            resourceService.updateResource(resourceDto);
+            return ResponseEntity.ok("Resource updated successfully");
+        } catch (NoSuchResourceException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InvalidDataException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
