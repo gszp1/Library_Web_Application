@@ -17,6 +17,7 @@ import org.example.backend.util.exception.OperationNotAvailableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -187,5 +188,19 @@ public class ResourceService {
         if (dto.publisher() == null || dto.publisher().isEmpty()) {
             throw new InvalidDataException("No publisher is provided");
         }
+    }
+
+    public List<AdminResourceDto> getAllAdmin() {
+        return resourceRepository.findAllWithData(Sort.by(Sort.Direction.ASC, "resourceId"))
+                .stream()
+                .map(resource -> new AdminResourceDto(
+                        resource.getResourceId(),
+                        resource.getTitle(),
+                        resource.getIdentifier(),
+                        resource.getImageUrl(),
+                        resource.getPublisher().getName(),
+                        resource.getAuthors().stream().map(authorResource -> authorResource.getAuthor().getEmail())
+                                .collect(Collectors.toList())
+                )).collect(Collectors.toList());
     }
 }

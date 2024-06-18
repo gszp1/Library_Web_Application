@@ -3,6 +3,7 @@ package org.example.backend.repository;
 import org.example.backend.model.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -36,4 +37,8 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
     Optional<Resource> findByTitle(String title);
 
     Optional<Resource> findByIdentifier(String identifier);
+
+    @EntityGraph(attributePaths = {"publisher", "authors", "authors.author"})
+    @Query("SELECT r FROM Resource r")
+    List<Resource> findAllWithData(Sort sort);
 }

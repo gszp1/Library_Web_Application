@@ -8,8 +8,7 @@ public record AdminResourceDto(
         String identifier,
         String imageUrl,
         String publisher,
-        String description,
-        List<AdminAuthorDto> authors
+        List<String> authors
 ) {
 
 }

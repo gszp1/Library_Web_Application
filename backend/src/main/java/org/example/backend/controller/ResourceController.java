@@ -41,6 +41,12 @@ public class ResourceController {
         }
     }
 
+    @PreAuthorize("hasAuthority('admin:read')")
+    @GetMapping("admin/all")
+    public List<AdminResourceDto> getAllAdmin() {
+        return resourceService.getAllAdmin();
+    }
+
     @GetMapping("/all/paginated")
     public Page<ResourceDto> getAllPaginated(
         @RequestParam(name="keyword", required = false) String keyword,
