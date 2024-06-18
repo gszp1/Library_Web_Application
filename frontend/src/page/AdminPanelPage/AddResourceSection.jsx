@@ -3,7 +3,7 @@ import axios from "axios";
 import './AdminPanelStyles.css';
 import ReservationPrompt from "../../component/ReservationPrompt";
 
-function AddResourceSection(setSection) {
+function AddResourceSection({setSection}) {
     const [credentials, setCredentials] = useState({
         title: '',
         identifier: '',
@@ -11,8 +11,26 @@ function AddResourceSection(setSection) {
         publisher: '',
         authors: ['']
     });
-
     const [image, setImage] = useState(null);
+    const [showPrompt, setShowPrompt] = useState(false);
+    const [promptContent, setPromptContent] = useState({
+        error: false,
+        message: ''
+    });
+    const hidePromptAfterDelay = () => {
+        setTimeout(() => {
+            setShowPrompt(false);
+        }, 1500);
+    };
+
+    const displayPrompt = (errorOccurred, resultMessage) => {
+        setPromptContent({
+            error:errorOccurred,
+            message: resultMessage
+        })
+        setShowPrompt(true);
+        hidePromptAfterDelay();
+    }
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -32,7 +50,11 @@ function AddResourceSection(setSection) {
                     'Content-Type': 'application/json'
                 }
             })
-            console.log(response.data);
+            const resourceId = response.data;
+            displayPrompt(false, `Created resource with Id: ${resourceId}`);
+            if (image) {
+                uploadImage(resourceId);
+            }
             setCredentials({
                 title: '',
                 identifier: '',
@@ -40,6 +62,7 @@ function AddResourceSection(setSection) {
                 publisher: '',
                 authors: ['']
             });
+            setImage(null);
         } catch (error) {
             if (error.response) {
                 if (error.response.status === 403) {
@@ -47,13 +70,45 @@ function AddResourceSection(setSection) {
                     return;
                 }
                 if (error.response.status === 400) {
-                    console.log(error.response.data);
+                    displayPrompt(true, error.response.data);
+                    return;
                 }
             } else {
-
+                displayPrompt(true, 'Error occurred during resource creation.');
+                return;
             }
         }
     }
+
+    const uploadImage = async (resourceId) => {
+        const url = `http://localhost:9090/api/images/create/${resourceId}`;
+        const formData = new FormData();
+        formData.append("image", image);
+
+        try {
+            let response = await axios.post(url, formData, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            displayPrompt(false, 'Image uploaded successfully.');
+        } catch (error) {
+            if (error.response) {
+                if (error.response.status === 403) {
+                    setSection('Error');
+                    return;
+                }
+                if (error.response.status === 400) {
+                    displayPrompt(true, error.response.data);
+                    return;
+                }
+            } else {
+                displayPrompt(true, 'Error occurred during image upload.');
+                return;
+            }
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -92,62 +147,65 @@ function AddResourceSection(setSection) {
     };
 
     return (
-        <div className="adminPanelSection">
-            <h1>Add Resource</h1>
-            <form onSubmit={handleSubmit} className="resourceCreateForm">
-                <label>Title: </label>
-                <input
-                    name="title"
-                    value={credentials.title}
-                    onChange={handleChange}
-                />
-                <label>Identifier: </label>
-                <input
-                    name="identifier"
-                    value={credentials.identifier}
-                    onChange={handleChange}
-                />
-                <label>Description: </label>
-                <textarea
-                    name="description"
-                    value={credentials.description}
-                    onChange={handleChange}
-                />
-                <label>Publisher: </label>
-                <input
-                    name="publisher"
-                    value={credentials.publisher}
-                    onChange={handleChange}
-                />
-                <h2 style={{color:'orange'}}>Authors:</h2>
-                {credentials.authors.map((email, index) => (
-                    <div key={index} className="authorFields">
-                        <label>Author {index + 1}:</label>
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => handleAuthorChange(index, e)}
-                        />
-                        <button type="button" onClick={() => removeAuthor(index)}>
-                            Remove
-                        </button>
-                    </div>
-                ))}
-                <button type="button" style={{width: '20%'}} onClick={addAuthor}>
-                    Add Author
-                </button>
-                <label>Image: </label>
-                <input
-                    style={{marginBottom:'1rem', border:'none', backgroundColor:'transparent', boxShadow:'none', height:'2rem'}}
-                    type="file"
-                    name="image"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                />
-                <button>Submit</button>
-            </form>
-        </div>
+        <>
+            <div className="adminPanelSection">
+                <h1>Add Resource</h1>
+                <form onSubmit={handleSubmit} className="resourceCreateForm">
+                    <label>Title: </label>
+                    <input
+                        name="title"
+                        value={credentials.title}
+                        onChange={handleChange}
+                    />
+                    <label>Identifier: </label>
+                    <input
+                        name="identifier"
+                        value={credentials.identifier}
+                        onChange={handleChange}
+                    />
+                    <label>Description: </label>
+                    <textarea
+                        name="description"
+                        value={credentials.description}
+                        onChange={handleChange}
+                    />
+                    <label>Publisher: </label>
+                    <input
+                        name="publisher"
+                        value={credentials.publisher}
+                        onChange={handleChange}
+                    />
+                    <h2 style={{color:'orange'}}>Authors:</h2>
+                    {credentials.authors.map((email, index) => (
+                        <div key={index} className="authorFields">
+                            <label>Author {index + 1}:</label>
+                            <input
+                                type="text"
+                                placeholder="Email"
+                                value={email}
+                                onChange={(e) => handleAuthorChange(index, e)}
+                            />
+                            <button type="button" onClick={() => removeAuthor(index)}>
+                                Remove
+                            </button>
+                        </div>
+                    ))}
+                    <button type="button" style={{width: '20%'}} onClick={addAuthor}>
+                        Add Author
+                    </button>
+                    <label>Image: </label>
+                    <input
+                        style={{marginBottom:'1rem', border:'none', backgroundColor:'transparent', boxShadow:'none', height:'2rem'}}
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                    />
+                    <button>Submit</button>
+                </form>
+            </div>
+            {showPrompt && <ReservationPrompt error={promptContent.error} message={promptContent.message}/>}
+        </>
     );
 }
 

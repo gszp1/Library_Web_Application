@@ -88,7 +88,7 @@ public class ImageController {
     }
 
     @PreAuthorize("hasAuthority('admin:create')")
-    @PostMapping("/resources/{id}/image")
+    @PostMapping("/create/{id}")
     public ResponseEntity<String> addResourceImage(
             @PathVariable(name="id") Integer id,
             @RequestParam("image") MultipartFile image
