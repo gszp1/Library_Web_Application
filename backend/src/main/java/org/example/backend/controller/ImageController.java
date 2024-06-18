@@ -87,6 +87,31 @@ public class ImageController {
         }
     }
 
+    @PreAuthorize("hasAuthority('admin:update')")
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateResourceImage (
+            @PathVariable(name="id") Integer id,
+            @RequestParam("image") MultipartFile image
+    ) {
+        try {
+            if (validateFileType(image) ||
+                    image.getOriginalFilename() == null ||
+                    image.getOriginalFilename().isEmpty() ||
+                    !resourceService.resourceExists(id)
+            ) {
+                return ResponseEntity.badRequest().body("Invalid data provided.");
+            }
+            String originalFilename = image.getOriginalFilename();
+            Path targetLocation = imagePath.resolve(originalFilename);
+            Files.copy(image.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            String url = "http://localhost:9090/api/images/" + originalFilename;
+            resourceService.updateResourceImage(id, url);
+            return ResponseEntity.ok("Image updated.");
+        }  catch (Exception e) {
+            return ResponseEntity.status(500).body("Updating image failed.");
+        }
+    }
+
     @PreAuthorize("hasAuthority('admin:create')")
     @PostMapping("/create/{id}")
     public ResponseEntity<String> addResourceImage(
@@ -107,9 +132,9 @@ public class ImageController {
 
             String url = "http://localhost:9090/api/images/" + originalFilename;
             resourceService.updateResourceImage(id, url);
-            return ResponseEntity.ok("Image updated.");
+            return ResponseEntity.ok("Image saved.");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Updating image failed.");
+            return ResponseEntity.status(500).body("Saving image failed.");
         }
     }
 
