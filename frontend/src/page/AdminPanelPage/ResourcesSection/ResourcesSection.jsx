@@ -55,6 +55,21 @@ function ResourcesSection({setSection}) {
         }
     };
 
+    const fetchDescription = async (updatedResource, setUpdatedResource) => {
+        try {
+            const response = await axios.get(`http://localhost:9090/api/resources/${updatedResource.id}/description`);
+            console.log(response.data);
+            setUpdatedResource({...updatedResource, description: response.data.description || ''})
+        } catch (error) {
+            console.log(error);
+            if (error.resource && error.resource.status === 403) {
+                setSection('Error');
+            } else {
+                displayPrompt(true, "Failed to fetch description.");
+            }
+        }
+    }
+
     useEffect(() => {
         fetchResources();
     }, []);
@@ -72,7 +87,7 @@ function ResourcesSection({setSection}) {
                     {selectedResource == null ? (
                             <p>No resource selected.</p>
                         ) : (
-                            <ResourceUpdate resource={selectedResource}/>
+                            <ResourceUpdate resource={selectedResource} fetchDescription={fetchDescription}/>
                         )
                     }
                     <h1>Instances</h1>
