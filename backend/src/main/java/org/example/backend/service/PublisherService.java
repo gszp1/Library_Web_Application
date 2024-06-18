@@ -1,11 +1,15 @@
 package org.example.backend.service;
 
+import org.example.backend.dto.AdminPublisherDto;
 import org.example.backend.dto.PublisherDto;
 import org.example.backend.model.Publisher;
 import org.example.backend.repository.PublisherRepository;
 import org.example.backend.util.exception.OperationNotAvailableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PublisherService {
@@ -38,5 +42,16 @@ public class PublisherService {
                 .name(dto.name())
                 .build();
         publisherRepository.save(publisher);
+    }
+
+    public List<AdminPublisherDto> getAllPublishers(){
+        return publisherRepository.findAll()
+                .stream()
+                .map(publisher -> new AdminPublisherDto(
+                        publisher.getPublisherId(),
+                        publisher.getName(),
+                        publisher.getAddress()
+                ))
+                .collect(Collectors.toList());
     }
 }

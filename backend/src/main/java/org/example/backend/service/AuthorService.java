@@ -1,14 +1,17 @@
 package org.example.backend.service;
 
 import org.example.backend.dto.AdminAuthorDto;
+import org.example.backend.dto.FullAuthorDto;
 import org.example.backend.model.Author;
 import org.example.backend.repository.AuthorRepository;
 import org.example.backend.util.exception.OperationNotAvailableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthorService {
@@ -52,5 +55,17 @@ public class AuthorService {
         Pattern pattern = Pattern.compile(emailPattern );
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    public List<FullAuthorDto> getAllAuthors() {
+        return authorRepository.findAll()
+                .stream()
+                .map(author -> new FullAuthorDto(
+                        author.getAuthorId(),
+                        author.getFirstName(),
+                        author.getLastName(),
+                        author.getEmail()
+                        )
+                ).collect(Collectors.toList());
     }
 }
