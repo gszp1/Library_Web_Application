@@ -50,6 +50,8 @@ function AddAuthorSection({setSection}) {
                     error:true,
                     message: error.response.data
                 });
+                setShowPrompt(true);
+                hidePromptAfterDelay();
             };
         }
     }

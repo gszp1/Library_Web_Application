@@ -18,6 +18,9 @@ public class PublisherService {
     }
 
     public void createPublisher(PublisherDto dto) throws OperationNotAvailableException {
+        if (dto.name()== null|| dto.address() == null) {
+            throw new OperationNotAvailableException("Not all required fields are provided.");
+        }
         if (dto.name().isBlank() || dto.address().isBlank()) {
             throw new OperationNotAvailableException("Publisher name and address cannot be empty");
         }

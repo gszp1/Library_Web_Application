@@ -21,6 +21,9 @@ public class AuthorService {
     }
 
     public void createAuthor(AdminAuthorDto dto) throws OperationNotAvailableException {
+        if (dto.firstName() == null|| dto.lastName() == null || dto.email() == null) {
+            throw new OperationNotAvailableException("Not all required fields are provided.");
+        }
         if (authorRepository.findByEmail(dto.email()).isPresent()) {
             throw new OperationNotAvailableException("Author with given email already exists.");
         }
