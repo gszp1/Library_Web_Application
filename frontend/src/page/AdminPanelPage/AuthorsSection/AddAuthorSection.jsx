@@ -17,12 +17,12 @@ function AddAuthorSection({setSection}) {
     })
 
     const validateEmail = (email) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return emailRegex.test(email);
     };
 
     const createAuthor = async () => {
-        const url = '';
+        const url = 'http://localhost:9090/api/authors/create';
     }
 
     const handleSubmit = (e) => {
