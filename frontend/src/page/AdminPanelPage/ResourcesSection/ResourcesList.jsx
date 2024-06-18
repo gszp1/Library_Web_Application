@@ -1,19 +1,28 @@
 import React from "react";
 import './ResourcesSectionStyles.css';
+import ResourcesListEntry from "./ResourcesListEntry";
 
-function ResourcesList({resources}) {
-    let counter = 1;
+function ResourcesList({resources, selectEntry}) {
     return (
-        <table>
+        <table className="resourcesList">
             <thead>
-                <th>Nr</th>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Identifier</th>
-                <th>Publisher</th>
+                <tr>
+                    <th>Nr</th>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Identifier</th>
+                    <th>Publisher</th>
+                </tr>
             </thead>
             <tbody>
-
+                {resources.map((resource, index) => (
+                    <ResourcesListEntry
+                        key={resource.id}
+                        resource={resource}
+                        listId={index + 1}
+                        selectEntry={selectEntry}
+                    />
+                ))}
             </tbody>
         </table>
     );

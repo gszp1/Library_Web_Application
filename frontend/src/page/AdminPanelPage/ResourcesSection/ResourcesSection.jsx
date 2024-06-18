@@ -30,6 +30,10 @@ function ResourcesSection({setSection}) {
         hidePromptAfterDelay();
     }
 
+    const selectEntry = (entry) => {
+        setSelectedResource(entry);
+    }
+
     const fetchResources = async() => {
         const url = 'http://localhost:9090/api/resources/admin/all';
         try {
@@ -61,7 +65,7 @@ function ResourcesSection({setSection}) {
                     {error ? (
                         <p>Failed to fetch resources.</p>
                     ) : (
-                        <ResourcesList resources={resources}/>
+                        <ResourcesList resources={resources} selectEntry={selectEntry}/>
                     )}
                 <h1>Update Resource</h1>
                     {selectedResource == null ? (

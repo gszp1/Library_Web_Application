@@ -1,0 +1,43 @@
+.resourcesList{
+    width: 90%;
+    height: auto;
+    border: 1px black solid;
+    border-collapse: collapse;
+}
+
+.resourcesList th, tr {
+    height: 2rem;
+    width: auto;
+    text-align: center;
+}
+
+.resourcesList th {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.resourcesList td {
+    height: 3rem;
+    font-size: 1rem;
+}
+
+.resourcesList tr {
+    border: 1px black solid;
+}
+
+.clickableEntry {
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.clickableEntry:hover {
+    background-color: rgba(220,220,220, 0.5);
+    border-color: hsl(34, 100%, 50%);
+    border-width:2px;
+}
+
+.clickableEntry:active {
+    background-color: rgba(200,200,200, 0.5);
+    border-color: hsl(34, 100%, 40%);
+    border-width:3px;
+}
