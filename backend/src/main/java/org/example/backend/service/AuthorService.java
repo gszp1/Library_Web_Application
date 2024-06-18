@@ -27,6 +27,9 @@ public class AuthorService {
         if (dto.firstName().isBlank() || dto.lastName().isBlank() || dto.email().isBlank()) {
             throw new OperationNotAvailableException("Not all required fields are provided.");
         }
+        if (dto.firstName().length() > 20 || dto.lastName().length() > 20 || dto.email().length() > 40) {
+            throw new OperationNotAvailableException("Invalid arguments length. Name and surname: 20, email: 40.");
+        }
         if (!validateEmail(dto.email())) {
             throw new OperationNotAvailableException("Invalid email address.");
         }
