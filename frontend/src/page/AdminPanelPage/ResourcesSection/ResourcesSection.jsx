@@ -3,6 +3,7 @@ import '../AdminPanelStyles.css';
 import './ResourcesSectionStyles.css';
 import ReservationPrompt from "../../../component/ReservationPrompt";
 import axios from "axios";
+import ResourcesList from "./ResourcesList";
 
 function ResourcesSection({setSection}) {
     const [resources, setResources] = useState([]);
@@ -60,7 +61,7 @@ function ResourcesSection({setSection}) {
                     {error ? (
                         <p>Failed to fetch resources.</p>
                     ) : (
-                        <div/>
+                        <ResourcesList resources={resources}/>
                     )}
                 <h1>Update Resource</h1>
                     {selectedResource == null ? (
