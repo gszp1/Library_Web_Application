@@ -3,18 +3,18 @@ package org.example.backend.demo;
 //TODO : REMOVE THIS CLASS WHEN DATABASE STRUCTURE IS FINISHED
 
 import jakarta.transaction.Transactional;
-import org.example.backend.model.Author;
-import org.example.backend.model.Publisher;
-import org.example.backend.model.Resource;
-import org.example.backend.model.ResourceInstance;
+import org.example.backend.auth.Role;
+import org.example.backend.model.*;
 import org.example.backend.model.jointable.AuthorResource;
 import org.example.backend.model.key.AuthorResourceKey;
 import org.example.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.cglib.core.Local;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -37,6 +37,9 @@ public class SampleDataInitializer {
     @Autowired
     private ResourceInstanceRepository resourceInstanceRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     private Random random = new Random();
 
     // TODO: MAKE SHURE THAT THIS CLASS IS REMOVED BEFORE DEPLOYMENT
@@ -52,6 +55,15 @@ public class SampleDataInitializer {
             author3 = authorRepository.save(author3);
             Publisher publisher = Publisher.builder().name("name2").address("address2").build();
             publisher = publisherRepository.save(publisher);
+
+            User adminUser = User.builder()
+                    .email("admin@admin.com")
+                    .joinDate(LocalDate.now())
+                    .role(Role.ADMIN)
+                    .password("$2a$10$pMrc5ydpRD7a5/CghQfuO.ug0B1UdZOYHmYq.T1IKOBLM2o2dcRe.")
+                    .build();
+            userRepository.save(adminUser);
+
 
             Resource resource = Resource.builder()
                     .identifier("x--x")

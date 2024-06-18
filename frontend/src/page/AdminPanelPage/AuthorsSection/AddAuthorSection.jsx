@@ -23,6 +23,35 @@ function AddAuthorSection({setSection}) {
 
     const createAuthor = async () => {
         const url = 'http://localhost:9090/api/authors/create';
+
+        try {
+            let response = await axios.post(url, author, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            setPromptContent({
+                error:false,
+                message: response.data
+            });
+            setShowPrompt(true);
+            hidePromptAfterDelay();
+            setAuthor({
+                firstName: '',
+                lastName: '',
+                email: ''
+            });
+        } catch(error) {
+            if (error.response && error.response.status === 403) {
+                setSection('Error');
+            } else {
+                setPromptContent({
+                    error:true,
+                    message: error.response.data
+                });
+            };
+        }
     }
 
     const handleSubmit = (e) => {
@@ -47,12 +76,7 @@ function AddAuthorSection({setSection}) {
             hidePromptAfterDelay();
             return;
         }
-
-        setAuthor({
-            firstName: '',
-            lastName: '',
-            email: ''
-        });
+        createAuthor();
     }
 
     const handleChange = (e) => {

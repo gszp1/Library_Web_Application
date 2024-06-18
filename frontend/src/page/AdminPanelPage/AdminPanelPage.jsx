@@ -38,9 +38,9 @@ function AdminPanelPage() {
             case 'Users':
                 return (<UsersSection setSection={setSection}/>);
             case 'Authors':
-                return (<AuthorsSection setSection={section}/>)
+                return (<AuthorsSection setSection={setSection}/>)
             case 'AddAuthor':
-                return (<AddAuthorSection setSection={section}/>)
+                return (<AddAuthorSection setSection={setSection}/>)
             case 'Error':
                 setTimeout(() => {
                     localStorage.removeItem('WebLibToken');
