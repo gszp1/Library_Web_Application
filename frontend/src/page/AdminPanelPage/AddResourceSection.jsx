@@ -6,7 +6,7 @@ function AddResourceSection() {
         identifier: '',
         description: '',
         publisher: '',
-        authors: [{ firstName: '', lastName: '' }]
+        authors: ['']
     });
 
     const [image, setImage] = useState(null);
