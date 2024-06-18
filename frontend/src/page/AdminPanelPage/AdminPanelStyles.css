@@ -270,7 +270,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center; /* Ensure all items are aligned vertically */
+    align-items: center;
     width: 100%;
     margin-bottom: 1rem;
 }
@@ -285,19 +285,19 @@
 .authorFields input {
     width: 30%;
     font-size: 1rem;
-    height: 2rem; /* Adjusted height to ensure consistency */
+    height: 2rem;
     border: 1px black solid;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-right: 1rem;
-    box-sizing: border-box; /* Ensures padding is included in the height and width */
+    box-sizing: border-box;
 }
 
 .authorFields button {
     width: 10%;
     padding: 0.25rem 0.5rem;
-    height: 2rem; /* Adjusted height to ensure consistency */
+    height: 2rem;
     text-align: center;
     font-size: 1rem;
     background-color: hsl(34, 100%, 50%);
@@ -306,5 +306,5 @@
     margin-bottom: 0;
     transition: background-color 0.3s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box; /* Ensures padding is included in the height and width */
+    box-sizing: border-box;
 }

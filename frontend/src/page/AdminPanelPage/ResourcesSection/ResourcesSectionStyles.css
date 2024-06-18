@@ -87,3 +87,65 @@
     border-color: orange;
 }
 
+.resourceUpdateForm button {
+    font-size: 1rem;
+    height: 2rem;
+    width: 20%;
+    background-color: hsl(34, 100%, 50%);
+    border: 1px solid black;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+.resourceUpdateForm button:hover {
+    background-color: hsl(34, 100%, 40%);
+}
+
+.resourceUpdateForm button:active {
+    background-color: hsl(34, 100%, 30%);
+}
+
+.authorFields {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.authorFields label {
+    font-size: 1.25rem;
+    text-align: center;
+    margin: 0 1rem 0 0;
+    width: 10%;
+}
+
+.authorFields input {
+    width: 30%;
+    font-size: 1rem;
+    height: 2rem;
+    border: 1px black solid;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-right: 1rem;
+    margin: 0 1rem 0 0;
+    box-sizing: border-box;
+}
+
+.authorFields button {
+    width: 10%;
+    padding: 0.25rem 0.5rem;
+    height: 2rem;
+    text-align: center;
+    font-size: 1rem;
+    background-color: hsl(34, 100%, 50%);
+    border: 1px solid black;
+    border-radius: 15px;
+    margin-bottom: 0;
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
