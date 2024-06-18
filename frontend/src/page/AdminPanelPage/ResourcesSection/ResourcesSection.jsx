@@ -4,6 +4,7 @@ import './ResourcesSectionStyles.css';
 import ReservationPrompt from "../../../component/ReservationPrompt";
 import axios from "axios";
 import ResourcesList from "./ResourcesList";
+import ResourceUpdate from "./ResourceUpdate";
 
 function ResourcesSection({setSection}) {
     const [resources, setResources] = useState([]);
@@ -71,7 +72,7 @@ function ResourcesSection({setSection}) {
                     {selectedResource == null ? (
                             <p>No resource selected.</p>
                         ) : (
-                            <div/>
+                            <ResourceUpdate resource={selectedResource}/>
                         )
                     }
                     <h1>Instances</h1>
