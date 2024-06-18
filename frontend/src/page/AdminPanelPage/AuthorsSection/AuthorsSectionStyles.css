@@ -51,3 +51,57 @@
 .addAuthorForm button:active {
     background-color: hsl(34, 100%, 30%);
 }
+
+.authorsList{
+    width: 90%;
+    height: auto;
+    border: 1px black solid;
+    border-collapse: collapse;
+}
+
+.authorsList th, tr {
+    height: 2rem;
+    width: auto;
+    text-align: center;
+    border-bottom: 1px black solid;
+}
+
+.authorsList th {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.authorsList input {
+    height: 1.5rem;
+    font-size: 1rem;
+    font-size: auto;
+    border: 1px gray solid;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+.authorsList input:focus {
+    outline:none;
+}
+
+.authorsList button {
+    background-color: hsl(34, 100%, 50%);
+    height: 1.5rem;
+    font-size: 1rem;
+    width: 90%;
+    padding: 0 2% 0 2%;
+    border: 1px solid black;
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    cursor:pointer
+}
+
+.authorsList button:hover {
+    background-color: hsl(34, 100%, 40%);
+}
+
+.authorsList button:active {
+    background-color: hsl(34, 100%, 30%);
+}
