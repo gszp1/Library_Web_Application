@@ -3,6 +3,7 @@ package org.example.backend.controller;
 import org.example.backend.dto.AdminPublisherDto;
 import org.example.backend.dto.PublisherDto;
 import org.example.backend.service.PublisherService;
+import org.example.backend.util.exception.NoSuchPublisherException;
 import org.example.backend.util.exception.OperationNotAvailableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +39,18 @@ public class PublisherController {
     @GetMapping("/all")
     public ResponseEntity<List<AdminPublisherDto>> getAll() {
         return ResponseEntity.ok(publisherService.getAllPublishers());
+    }
+
+    @PreAuthorize("hasAuthority('admin:update')")
+    @PutMapping("/update")
+    public ResponseEntity<String> update(@RequestBody AdminPublisherDto dto) {
+        try {
+            publisherService.updatePublisher(dto);
+            return ResponseEntity.ok("Publisher updated");
+        } catch (NoSuchPublisherException nspe) {
+            return ResponseEntity.notFound().build();
+        } catch (OperationNotAvailableException onae) {
+            return ResponseEntity.badRequest().body(onae.getMessage());
+        }
     }
 }

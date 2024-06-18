@@ -23,7 +23,6 @@ function PublishersSection({setSection}) {
                     'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
                 }
             });
-            console.log(response.data);
             setPublishers(response.data);
             setError(false);
         } catch (error) {
@@ -57,12 +56,7 @@ function PublishersSection({setSection}) {
         if (updatedPublisher.name === '' ||
             updatedPublisher.address === ''
         )  {
-            setPromptContent({
-                error:true,
-                message: 'All fields are required.'
-            })
-            setShowPrompt(true);
-            hidePromptAfterDelay();
+            displayPrompt(true, 'All fields are required.')
             return;
         };
 

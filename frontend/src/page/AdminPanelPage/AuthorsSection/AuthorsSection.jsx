@@ -28,7 +28,6 @@ function AuthorsSection({setSection}) {
                     'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
                 }
             });
-            console.log(response.data);
             setAuthors(response.data);
             setError(false);
         } catch (error) {
@@ -63,12 +62,7 @@ function AuthorsSection({setSection}) {
             updatedAuthor.lastName === '' ||
             updatedAuthor.email === ''
         )  {
-            setPromptContent({
-                error:true,
-                message: 'All fields are required.'
-            })
-            setShowPrompt(true);
-            hidePromptAfterDelay();
+            displayPrompt(true, 'All fields are required.')
             return;
         };
 
