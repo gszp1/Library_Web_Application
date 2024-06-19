@@ -72,8 +72,13 @@ const LoginWindow = forwardRef(({ closeLoginWindow }, ref) => {
                 closeLoginWindow();
             }, 500);
         } catch (error) {
-            outputPrompts.login.message="Provided credentials are invalid.";
-            outputPrompts.login.color='red';
+            if (error.response && error.response.status === 403) {
+                outputPrompts.login.message="Account is locked.";
+                outputPrompts.login.color='red';
+            } else {
+                outputPrompts.login.message="Provided credentials are invalid.";
+                outputPrompts.login.color='red';
+            }
         }
 
         setPrompts(outputPrompts);

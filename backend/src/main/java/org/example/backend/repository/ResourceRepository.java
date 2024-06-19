@@ -3,6 +3,7 @@ package org.example.backend.repository;
 import org.example.backend.model.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -32,4 +33,12 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
     @EntityGraph(attributePaths = {"authors", "authors.author", "publisher"})
     @Query("SELECT r FROM Resource r WHERE LOWER(r.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     Page<Resource> findAllByTitleKeywordPageable(String keyword, Pageable pageable);
+
+    Optional<Resource> findByTitle(String title);
+
+    Optional<Resource> findByIdentifier(String identifier);
+
+    @EntityGraph(attributePaths = {"publisher", "authors", "authors.author"})
+    @Query("SELECT r FROM Resource r")
+    List<Resource> findAllWithData(Sort sort);
 }

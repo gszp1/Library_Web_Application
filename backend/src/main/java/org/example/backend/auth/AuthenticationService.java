@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.example.backend.model.User;
 import org.example.backend.repository.UserRepository;
 import org.example.backend.service.JwtService;
+import org.example.backend.util.exception.NoSuchUserException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -47,19 +51,23 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) throws NoSuchUserException {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
+        Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
+        if (userOptional.isEmpty()) {
+            throw new NoSuchUserException();
+        }
+        var user = userOptional.get();
         userRepository.save(user);
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("Role", user.getRole().name());
         return AuthenticationResponse.builder()
-                .content(jwtService.generateToken(extraClaims, user))
-                .build();
+                    .content(jwtService.generateToken(extraClaims, user))
+                    .build();
     }
 }

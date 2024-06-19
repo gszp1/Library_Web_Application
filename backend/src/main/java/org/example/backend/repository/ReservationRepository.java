@@ -24,17 +24,17 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
         "JOIN ri.resource res " +
         "WHERE u.email=:userEmail " +
         "AND res.resourceId =:resourceId " +
-        "AND r.reservationStatus =:status"
+        "AND r.reservationStatus IN :statuses"
     )
     int countResourceReservationsWithStatus(
         @Param("resourceId") Integer resourceId,
         @Param("userEmail") String userEmail,
-        @Param("status") ReservationStatus status
+        @Param("statuses") List<ReservationStatus> statuses
     );
 
     @EntityGraph(attributePaths = {"resourceInstance"})
-    @Query("SELECT res FROM Reservation res WHERE res.reservationStatus=:status")
-    List<Reservation> findAllByReservationStatusWithInstances(@Param("status") ReservationStatus status);
+    @Query("SELECT res FROM Reservation res WHERE res.reservationStatus IN :statuses")
+    List<Reservation> findAllByReservationStatusWithInstances(@Param("statuses") List<ReservationStatus> statuses);
 
     @EntityGraph(attributePaths = {"resourceInstance"})
     @Query("SELECT res FROM Reservation res WHERE res.reservationId=:reservationId")
@@ -43,4 +43,15 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     @EntityGraph(attributePaths = {"resourceInstance", "user", "resourceInstance.resource"})
     @Query("SELECT res FROM Reservation res WHERE res.user.email=:email")
     List<Reservation> findAllByUserEmailWithInstances(@Param("email") String userEmail);
+
+    @EntityGraph(attributePaths = {"resourceInstance", "user"})
+    @Query("SELECT res FROM Reservation res WHERE res.user.email=:email AND res.reservationStatus=:status")
+    List<Reservation> findAllByUserEmailAndReservationStatusWithInstances(
+            @Param("email") String email,
+            @Param("status") ReservationStatus status
+    );
+
+    @EntityGraph(attributePaths = {"user", "resourceInstance", "resourceInstance.resource" })
+    @Query("SELECT res FROM Reservation res")
+    List<Reservation> findAllWithData();
 }

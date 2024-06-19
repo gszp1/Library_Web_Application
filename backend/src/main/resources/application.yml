@@ -24,5 +24,6 @@ spring:
   devtools:
     restart:
       exclude: src/main/resources/static/userImages
+      additional-exclude: src/main/resources/static/images
 server:
   port: 9090

@@ -1,16 +1,19 @@
 package org.example.backend.controller;
 
-import org.example.backend.dto.InstanceDto;
-import org.example.backend.dto.ResourceDescriptionDto;
-import org.example.backend.dto.ResourceDto;
+import org.example.backend.dto.*;
 import org.example.backend.model.Resource;
 import org.example.backend.service.ResourceInstanceService;
 import org.example.backend.service.ResourceService;
+import org.example.backend.util.exception.InvalidDataException;
+import org.example.backend.util.exception.NoSuchResourceException;
+import org.example.backend.util.exception.OperationNotAvailableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +39,12 @@ public class ResourceController {
         } else {
             return resourceService.getResourcesWithKeywordInTitle(keyword);
         }
+    }
+
+    @PreAuthorize("hasAuthority('admin:read')")
+    @GetMapping("admin/all")
+    public List<AdminResourceDto> getAllAdmin() {
+        return resourceService.getAllAdmin();
     }
 
     @GetMapping("/all/paginated")
@@ -68,5 +77,29 @@ public class ResourceController {
                         id,
                         Sort.by(Sort.Direction.ASC, "resourceInstanceId")
                 );
+    }
+
+    @PreAuthorize("hasAuthority('admin:create')")
+    @PostMapping("/create")
+    public ResponseEntity<String> createResource(@RequestBody CreateResourceDto resourceDto) {
+        try {
+            Resource resource = resourceService.createResource(resourceDto);
+            return ResponseEntity.ok(resource.getResourceId().toString());
+        } catch (InvalidDataException otae) {
+            return ResponseEntity.badRequest().body(otae.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasAuthority('admin:update')")
+    @PutMapping("/update")
+    public ResponseEntity<String> updateResource(@RequestBody UpdateResourceDto resourceDto) {
+        try {
+            resourceService.updateResource(resourceDto);
+            return ResponseEntity.ok("Resource updated successfully");
+        } catch (NoSuchResourceException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InvalidDataException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

@@ -1,5 +1,7 @@
 package org.example.backend.service;
 
+import org.example.backend.dto.AdminReservationDto;
+import org.example.backend.dto.AdminUserDto;
 import org.example.backend.dto.UserReservationDto;
 import org.example.backend.model.Reservation;
 import org.example.backend.model.ResourceInstance;
@@ -13,9 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.example.backend.util.ReservationStatus.ACTIVE;
 
 @Service
 public class ReservationService {
@@ -37,12 +40,25 @@ public class ReservationService {
         this.instanceService = instanceService;
     }
 
-    public List<Reservation> getAllReservations() {
-        return reservationRepository.findAll();
+    public List<AdminReservationDto> getAllReservations() {
+        return reservationRepository
+                .findAllWithData()
+                .stream()
+                .map(reservation -> new AdminReservationDto(
+                        reservation.getReservationId(),
+                        reservation.getUser().getEmail(),
+                        reservation.getResourceInstance().getResourceInstanceId(),
+                        reservation.getResourceInstance().getResource().getTitle(),
+                        reservation.getReservationStart(),
+                        reservation.getReservationEnd(),
+                        reservation.getExtensionCount(),
+                        reservation.getReservationStatus()
+                ))
+                .collect(Collectors.toList());
     }
 
     public List<Reservation> getAllActiveReservations() {
-        return reservationRepository.findAllByReservationStatusWithInstances(ReservationStatus.ACTIVE);
+        return reservationRepository.findAllByReservationStatusWithInstances(List.of(ACTIVE));
     }
 
     @Transactional
@@ -65,7 +81,7 @@ public class ReservationService {
                 .countResourceReservationsWithStatus(
                         instance.get().getResource().getResourceId(),
                         user.get().getEmail(),
-                        ReservationStatus.ACTIVE);
+                        Arrays.asList(ReservationStatus.ACTIVE, ReservationStatus.BORROWED));
         if (reservationCount != 0) {
             throw new UserAlreadyReservedResourceException();
         }
@@ -74,7 +90,7 @@ public class ReservationService {
                 .resourceInstance(instance.get())
                 .reservationStart(LocalDate.now())
                 .reservationEnd(LocalDate.now().plusDays(Util.DEFAULT_RESERVATION_TIME))
-                .reservationStatus(ReservationStatus.ACTIVE)
+                .reservationStatus(ACTIVE)
                 .build();
         reservation = reservationRepository.save(reservation);
         user.get().getReservation().add(reservation);
@@ -92,16 +108,25 @@ public class ReservationService {
             throw new NoSuchReservationException();
         }
         Reservation reservation = reservationOptional.get();
-        if (reservation.getReservationStatus() != ReservationStatus.ACTIVE) {
-            throw new OperationNotAvailableException("Can't extend reservation - is not active");
+        int maxExtensions;
+        int extensionLength;
+        if (reservation.getReservationStatus() == ReservationStatus.BORROWED) {
+            maxExtensions = Util.MAX_NUMBER_OF_BORROW_EXTENSIONS;
+            extensionLength = Util.MAX_NUMBER_OF_BORROW_EXTENSIONS;
+        } else if (reservation.getReservationStatus() == ACTIVE) {
+            maxExtensions = Util.MAX_NUMBER_OF_EXTENSIONS;
+            extensionLength = Util.DEFAULT_RESERVATION_EXTENSION;
+        } else {
+            throw new OperationNotAvailableException("Can't extend reservation - is not active or borrowed");
         }
-        if (reservation.getExtensionCount() >= Util.MAX_NUMBER_OF_EXTENSIONS) {
-            throw new OperationNotAvailableException("Can't extend reservation - reached maximal amount of times");
+        if (reservation.getExtensionCount() >= maxExtensions) {
+            throw new OperationNotAvailableException("Can't extend - reached maximal amount of times");
         }
-        reservation.setReservationEnd(reservation.getReservationEnd().plusDays(Util.DEFAULT_RESERVATION_EXTENSION));
+        reservation.setReservationEnd(reservation.getReservationEnd().plusDays(extensionLength));
         reservation.setExtensionCount(reservation.getExtensionCount() + 1);
         reservationRepository.save(reservation);
     }
+
 
     @Transactional
     public void cancelReservation(
@@ -112,7 +137,7 @@ public class ReservationService {
             throw new NoSuchReservationException();
         }
         Reservation reservation = reservationOptional.get();
-        if (reservation.getReservationStatus() != ReservationStatus.ACTIVE) {
+        if (reservation.getReservationStatus() != ACTIVE) {
             throw new OperationNotAvailableException("Can't cancel reservation - is not active");
         }
         reservation.setReservationStatus(ReservationStatus.CANCELLED);
@@ -141,5 +166,46 @@ public class ReservationService {
                     )
                 )
                 .collect(Collectors.toList());
+    }
+
+    public List<Reservation> getActiveReservationsByUserEmail(String userEmail) {
+        return reservationRepository
+                .findAllByUserEmailAndReservationStatusWithInstances(userEmail, ACTIVE);
+    }
+
+    public void changeToBorrow(
+            Integer reservationId
+    ) throws NoSuchReservationException, OperationNotAvailableException {
+        Optional<Reservation> reservationOptional = reservationRepository.findByReservationIdWithInstance(reservationId);
+        if (reservationOptional.isEmpty()) {
+            throw new NoSuchReservationException();
+        }
+        Reservation reservation = reservationOptional.get();
+        if (reservation.getReservationStatus() != ACTIVE) {
+            throw new OperationNotAvailableException("Can't lend resource - reservation not active");
+        }
+        reservation.setReservationStatus(ReservationStatus.BORROWED);
+        reservationRepository.save(reservation);
+    }
+
+    public void updateReservation(
+            AdminReservationDto dto
+    ) throws NoSuchReservationException, OperationNotAvailableException {
+        Optional<Reservation> reservationOptional = reservationRepository.findById(dto.reservationId());
+        if (reservationOptional.isEmpty()) {
+            throw new NoSuchReservationException();
+        }
+        if (dto.end().isBefore(dto.start())) {
+            throw new OperationNotAvailableException("Can't update reservation - invalid dates");
+        }
+        Reservation reservation = reservationOptional.get();
+        reservation.setReservationEnd(dto.end());
+        reservation.setReservationStart(dto.start());
+        if (dto.numberOfExtensions() < 0) {
+            throw new OperationNotAvailableException("Can't update reservation - invalid number of extensions");
+        }
+        reservation.setExtensionCount(dto.numberOfExtensions());
+        reservation.setReservationStatus(dto.status());
+        reservationRepository.save(reservation);
     }
 }

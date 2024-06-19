@@ -154,8 +154,7 @@
 
 .resourceImage {
     width: auto;
-    height: auto;
-    max-height: 20rem; /* Adjust as needed */
+    height: 20rem;
     object-fit: cover;
     border-radius: 1rem;
     margin-bottom: 0 0 1rem 0;

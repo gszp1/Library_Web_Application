@@ -1,8 +1,10 @@
 package org.example.backend.auth;
 
 import lombok.RequiredArgsConstructor;
+import org.example.backend.util.exception.NoSuchUserException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +32,12 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
-        return ResponseEntity.ok(service.authenticate(request));
+        try {
+            AuthenticationResponse response = service.authenticate(request);
+            return ResponseEntity.ok(response);
+        } catch (BadCredentialsException | NoSuchUserException e) {
+            return ResponseEntity.status(401).body(new AuthenticationResponse("Bad credentials"));
+        }
     }
 
 }
