@@ -36,10 +36,16 @@ public class ResourceInstanceController {
     @PreAuthorize("hasAuthority('admin:update')")
     @PutMapping("/update")
     public ResponseEntity<String> updateInstance(
-            @PathVariable Integer id,
             @RequestBody AdminInstanceDto dto
     ) {
-
+        try {
+            resourceInstanceService.updateInstance(dto);
+            return ResponseEntity.ok("Instance updated successfully");
+        } catch (NoSuchInstanceException e) {
+            return ResponseEntity.notFound().build();
+        } catch (OperationNotAvailableException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PreAuthorize("hasAuthority('admin:update')")
