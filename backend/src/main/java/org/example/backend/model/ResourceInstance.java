@@ -2,7 +2,9 @@ package org.example.backend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.backend.util.InstanceStatus;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,10 @@ public class ResourceInstance {
         columnDefinition = "BOOLEAN DEFAULT FALSE"
     )
     private Boolean isReserved;
+
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private InstanceStatus instanceStatus = InstanceStatus.ACTIVE;
 
     @ManyToOne
     @JoinColumn(name = "FK_resource", nullable = false)

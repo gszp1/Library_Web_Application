@@ -1,6 +1,11 @@
 package org.example.backend.dto;
 
-public record AdminInstanceDto(
+import org.example.backend.util.InstanceStatus;
 
+public record AdminInstanceDto(
+    Integer resourceId,
+    Integer id,
+    boolean isReserved,
+    InstanceStatus instanceStatus
 ) {
 }

@@ -1,5 +1,6 @@
 package org.example.backend.service;
 
+import org.example.backend.dto.AdminInstanceDto;
 import org.example.backend.dto.InstanceDto;
 import org.example.backend.model.ResourceInstance;
 import org.example.backend.repository.ResourceInstanceRepository;
@@ -45,6 +46,19 @@ public class ResourceInstanceService {
                 .findByResourceResourceId(id, sort)
                 .stream()
                 .map(instance -> new InstanceDto(instance.getResourceInstanceId(), id, instance.getIsReserved()))
+                .collect(Collectors.toList());
+    }
+
+    public List<AdminInstanceDto> getAllAdminInstancesByResourceId(Integer id, Sort sort) {
+        return resourceInstanceRepository
+                .findByResourceResourceIdWithData(id, sort)
+                .stream()
+                .map(instance -> new AdminInstanceDto(
+                        instance.getResource().getResourceId(),
+                        instance.getResourceInstanceId(),
+                        instance.getIsReserved(),
+                        instance.getInstanceStatus()
+                ))
                 .collect(Collectors.toList());
     }
 

@@ -7,5 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum InstanceStatus {
     ACTIVE,
-    WITHDRAWN
+    WITHDRAWN,
+    AWAITING_WITHDRAWAL
 }
