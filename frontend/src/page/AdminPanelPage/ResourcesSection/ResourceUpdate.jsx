@@ -24,7 +24,7 @@ function ResourceUpdate({resource, fetchDescription, updateResource, updateImage
             imageUrl: resource.imageUrl || '',
             publisher: resource.publisher || '',
             authors: resource.authors || [''],
-            description: '' // Fetch description separately
+            description: ''
         });
         setImgSrc(resource.imageUrl || placeholder);
         fetchDescription(resource, setUpdatedResource);

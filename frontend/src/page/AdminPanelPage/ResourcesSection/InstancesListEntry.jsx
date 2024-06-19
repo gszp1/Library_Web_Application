@@ -8,7 +8,7 @@ function InstancesListEntry({instance, listId, withdrawInstance, updateInstance}
         isReserved: instance.isReserved,
         instanceStatus: instance.instanceStatus || ''
     });
-
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUpdatedInstance((prev) => ({
