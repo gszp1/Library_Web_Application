@@ -218,3 +218,26 @@ box-sizing: border-box;
 .instancesList button:active {
     background-color: hsl(34, 100%, 30%);
 }
+
+.createInstanceButton {
+    width: auto;
+    padding: 0.25rem 0.5rem;
+    height: 2rem;
+    text-align: center;
+    font-size: 1rem;
+    background-color: hsl(34, 100%, 50%);
+    border: 1px solid black;
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.createInstanceButton:hover {
+    background-color: hsl(34, 100%, 40%);
+}
+
+.createInstanceButton:active {
+    background-color: hsl(34, 100%, 30%);
+}

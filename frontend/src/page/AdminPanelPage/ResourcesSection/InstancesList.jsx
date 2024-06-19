@@ -4,6 +4,7 @@ import InstancesListEntry from "./InstancesListEntry";
 
 function InstancesList({instances, withdrawInstance, updateInstance}) {
     return (
+        <>
         <table className='instancesList'>
             <thead>
                 <tr>
@@ -27,6 +28,7 @@ function InstancesList({instances, withdrawInstance, updateInstance}) {
                 ))}
             </tbody>
         </table>
+        </>
     );
 }
 

@@ -94,7 +94,6 @@ function ResourcesSection({setSection}) {
                     'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
                 }
             })
-            console.log(response.data);
             setResources(response.data);
             setError(false);
         } catch (error) {
@@ -112,7 +111,6 @@ function ResourcesSection({setSection}) {
             console.log(response.data);
             setUpdatedResource({...updatedResource, description: response.data.description || ''})
         } catch (error) {
-            console.log(error);
             if (error.resource && error.resource.status === 403) {
                 setSection('Error');
             } else {
@@ -148,8 +146,8 @@ function ResourcesSection({setSection}) {
                 'Content-Type': 'application/json'
             }
             });
+            displayPrompt(false, "Update successful.");
             fetchInstances();
-            displayPrompt(false, "Update successful.")
         } catch (error) {
             if (error.resource) {
                 if (error.resource.status === 403) {
@@ -171,8 +169,8 @@ function ResourcesSection({setSection}) {
                     'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
                 }
                 });
+                displayPrompt(false, "Resource withdrawn.");
                 fetchInstances();
-                displayPrompt(false, "Resource withdrawn.")
         } catch (error) {
             if (error.resource) {
                 if (error.resource.status === 403) {
@@ -182,6 +180,29 @@ function ResourcesSection({setSection}) {
                 }
             } else {
                 displayPrompt(true, "Failed to fetch description.");
+            }
+        }
+    }
+
+    const createInstance = async() => {
+        let url = `http://localhost:9090/api/instances/create/${selectedResource.id}`;
+        try {
+            let response = await axios.post(url, {}, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
+                }
+                });
+                displayPrompt(false, "Instance created.");
+                fetchInstances();
+        } catch (error) {
+            if (error.resource) {
+                if (error.resource.status === 403) {
+                    setSection('Error');
+                } else {
+                    displayPrompt(true, error.resource.data);
+                }
+            } else {
+                displayPrompt(true, "Failed to create instance.");
             }
         }
     }
@@ -230,6 +251,7 @@ function ResourcesSection({setSection}) {
                             )
                         )
                     )}
+                    {selectedResource && (<button className="createInstanceButton" onClick={createInstance}>Create Instance</button>)}
             </div>
             {showPrompt && <ReservationPrompt error={promptContent.error} message={promptContent.message}/>}
         </>

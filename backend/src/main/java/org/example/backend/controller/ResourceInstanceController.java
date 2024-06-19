@@ -4,11 +4,14 @@ import org.example.backend.dto.AdminInstanceDto;
 import org.example.backend.model.ResourceInstance;
 import org.example.backend.service.ResourceInstanceService;
 import org.example.backend.util.exception.NoSuchInstanceException;
+import org.example.backend.util.exception.NoSuchResourceException;
+import org.example.backend.util.exception.NoSuchUserException;
 import org.example.backend.util.exception.OperationNotAvailableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,6 +61,17 @@ public class ResourceInstanceController {
             return ResponseEntity.notFound().build();
         } catch (OperationNotAvailableException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasAuthority('admin:create')")
+    @PostMapping("/create/{id}")
+    public ResponseEntity<String> createInstance(@PathVariable Integer id) {
+        try {
+            resourceInstanceService.createInstance(id);
+            return ResponseEntity.ok("Instance created successfully");
+        } catch (NoSuchResourceException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 }

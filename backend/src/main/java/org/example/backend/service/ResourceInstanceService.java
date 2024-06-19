@@ -3,16 +3,20 @@ package org.example.backend.service;
 import org.example.backend.dto.AdminInstanceDto;
 import org.example.backend.dto.InstanceDto;
 import org.example.backend.model.Reservation;
+import org.example.backend.model.Resource;
 import org.example.backend.model.ResourceInstance;
 import org.example.backend.repository.ReservationRepository;
 import org.example.backend.repository.ResourceInstanceRepository;
+import org.example.backend.repository.ResourceRepository;
 import org.example.backend.util.InstanceStatus;
 import org.example.backend.util.ReservationStatus;
 import org.example.backend.util.exception.NoSuchInstanceException;
+import org.example.backend.util.exception.NoSuchResourceException;
 import org.example.backend.util.exception.OperationNotAvailableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.InstanceNotFoundException;
 import java.util.List;
@@ -26,12 +30,14 @@ public class ResourceInstanceService {
 
     private final ReservationRepository ReservationRepository;
     private final ReservationRepository reservationRepository;
+    private final ResourceRepository resourceRepository;
 
     @Autowired
-    public ResourceInstanceService(ResourceInstanceRepository resourceInstanceRepository, ReservationRepository ReservationRepository, ReservationRepository reservationRepository) {
+    public ResourceInstanceService(ResourceInstanceRepository resourceInstanceRepository, ReservationRepository ReservationRepository, ReservationRepository reservationRepository, ResourceRepository resourceRepository) {
         this.resourceInstanceRepository = resourceInstanceRepository;
         this.ReservationRepository = ReservationRepository;
         this.reservationRepository = reservationRepository;
+        this.resourceRepository = resourceRepository;
     }
 
     public List<InstanceDto> getNotReservedInstancesOfResource(Integer resourceId) {
@@ -134,5 +140,21 @@ public class ResourceInstanceService {
         instance.setIsReserved(dto.isReserved());
         instance.setInstanceStatus(dto.instanceStatus());
         resourceInstanceRepository.save(instance);
+    }
+
+    @Transactional
+    public void createInstance(Integer resourceId) throws NoSuchResourceException{
+        Optional<Resource> resource = resourceRepository.findByResourceId(resourceId);
+        if (resource.isEmpty()) {
+            throw new NoSuchResourceException();
+        }
+        ResourceInstance instance = ResourceInstance.builder()
+                .instanceStatus(InstanceStatus.ACTIVE)
+                .isReserved(false)
+                .resource(resource.get())
+                .build();
+        instance = resourceInstanceRepository.save(instance);
+        resource.get().getResourceInstances().add(instance);
+        resourceRepository.save(resource.get());
     }
 }
