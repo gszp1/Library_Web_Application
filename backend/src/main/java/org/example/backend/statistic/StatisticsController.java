@@ -29,5 +29,5 @@ public class StatisticsController {
     public ResponseEntity<ResourceStatisticsDto> getResourceStatistics() {
         return ResponseEntity.ok(statisticsService.getResourceStatistics());
     }
-    
+
 }

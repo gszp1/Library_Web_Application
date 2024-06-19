@@ -5,9 +5,10 @@ import UsersTile from "./tiles/UsersTile";
 import ResourcesTile from "./tiles/ResourcesTile";
 import ReservationsInTimeTile from "./tiles/ReservationsInTimeTile";
 import RegistrationsInTimeTile from "./tiles/RegistrationsInTimeTile";
+import axios from "axios";
 
 
-function StatisticsSection() {
+function StatisticsSection({setSection}) {
     return (
         <div className="adminPanelSection" style={{marginRight: '2%'}}>
             <h1>Statistics</h1>

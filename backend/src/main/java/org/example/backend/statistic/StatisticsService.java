@@ -1,5 +1,6 @@
 package org.example.backend.statistic;
 
+import org.example.backend.model.Reservation;
 import org.example.backend.repository.ReservationRepository;
 import org.example.backend.repository.ResourceInstanceRepository;
 import org.example.backend.repository.ResourceRepository;
@@ -7,6 +8,9 @@ import org.example.backend.repository.UserRepository;
 import org.example.backend.util.ReservationStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Service
 public class StatisticsService {
@@ -35,12 +39,14 @@ public class StatisticsService {
     public UserStatisticsDto getUserStatistics() {
         long userCount = userRepository.count(),
                 reservationCount = reservationRepository.count();
-        Long reservationsLengthsSum = reservationRepository.sumReservationsLengths();
-
-        if (reservationsLengthsSum == null) {
-            reservationsLengthsSum = 0L;
-        }
-
+        List<Reservation> reservations = reservationRepository.findAll();
+        long reservationsLengthsSum = reservations
+                .stream()
+                .mapToLong(reservation-> ChronoUnit.DAYS.between(
+                            reservation.getReservationStart(),
+                            reservation.getReservationEnd())
+                )
+                .sum();
         return UserStatisticsDto.builder()
                 .numberOfUsers(userCount)
                 .avgNumberOfReservations(userCount == 0 ? 0 : Math.round((double) reservationCount / userCount))
