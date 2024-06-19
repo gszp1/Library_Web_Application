@@ -156,3 +156,65 @@
     object-fit: cover;
     border-radius: 1rem;
 }
+
+.instancesList{
+    width: 90%;
+    height: auto;
+    border: 1px black solid;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+.instancesList th, tr {
+    height: 2rem;
+    width: auto;
+    text-align: center;
+}
+
+.instancesList th {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.instancesList td {
+    height: 3rem;
+    font-size: 1rem;
+}
+
+.instancesList tr {
+    border: 1px black solid;
+}
+
+.instancesList input {
+    text-align: center;
+    width: auto;
+    font-size: 1rem;
+}
+
+.instancesList select {
+    text-align: center;
+    width: auto;
+    font-size: 1rem;
+}
+
+.instancesList button {
+width: auto;
+padding: 0.25rem 0.5rem;
+height: 2rem;
+text-align: center;
+font-size: 1rem;
+background-color: hsl(34, 100%, 50%);
+border: 1px solid black;
+border-radius: 15px;
+margin-bottom: 0;
+transition: background-color 0.3s;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+box-sizing: border-box;
+}
+.instancesList button:hover {
+    background-color: hsl(34, 100%, 40%);
+}
+
+.instancesList button:active {
+    background-color: hsl(34, 100%, 30%);
+}

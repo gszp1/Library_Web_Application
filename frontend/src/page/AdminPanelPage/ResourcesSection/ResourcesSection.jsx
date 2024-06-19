@@ -5,10 +5,13 @@ import ReservationPrompt from "../../../component/ReservationPrompt";
 import axios from "axios";
 import ResourcesList from "./ResourcesList";
 import ResourceUpdate from "./ResourceUpdate";
+import InstancesList from "./InstancesList";
 
 function ResourcesSection({setSection}) {
     const [resources, setResources] = useState([]);
     const [selectedResource, setSelectedResource] = useState(null);
+    const [instances, setInstances] = useState([]);
+    const [instancesError, setInstancesError] = useState(false);
     const [error, setError] = useState();
     const [showPrompt, setShowPrompt] = useState(false);
     const [promptContent, setPromptContent] = useState({
@@ -57,7 +60,7 @@ function ResourcesSection({setSection}) {
             }
         }
     }
-    
+
     const updateImage  = async (newImage, resId) => {
         const url = `http://localhost:9090/api/images/update/${resId}`;
         const formData = new FormData();
@@ -118,9 +121,33 @@ function ResourcesSection({setSection}) {
         }
     }
 
+    const fetchInstances = async () => {
+        const url = `http://localhost:9090/api/instances/all/resource/${selectedResource.id}`;
+        try {
+            const response = await axios.get(url, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
+                }
+            })
+            setInstances(response.data);
+            setInstancesError(false);
+        } catch (error) {
+            if (error.resource && error.resource.status === 403) {
+                setSection('Error');
+            }
+            setInstancesError(true)
+        }
+    }
+
     useEffect(() => {
         fetchResources();
     }, []);
+
+    useEffect(() => {
+        if (selectedResource) {
+            fetchInstances();
+        }
+    }, [selectedResource])
 
     return (
         <>
@@ -148,7 +175,13 @@ function ResourcesSection({setSection}) {
                     {selectedResource === null ? (
                         <p>No resource selected.</p>
                     ) : (
-                        <div/>
+                        instancesError ? (<p>Failed to fetch instances</p>) : (
+                            instances.length === 0 ? (
+                                <p>Resource has no instances.</p>
+                            ) : (
+                                <InstancesList instances={instances}/>
+                            )
+                        )
                     )}
             </div>
             {showPrompt && <ReservationPrompt error={promptContent.error} message={promptContent.message}/>}

@@ -21,4 +21,8 @@ public interface ResourceInstanceRepository extends JpaRepository<ResourceInstan
     @EntityGraph(attributePaths = {"resource"})
     @Query("SELECT i FROM ResourceInstance i")
     List<ResourceInstance> findByResourceResourceIdWithData(Integer resourceId, Sort sort);
+
+    @EntityGraph(attributePaths = {"resource", "reservations"})
+    @Query("SELECT i FROM ResourceInstance i")
+    Optional<ResourceInstance> findByIdWithData(Integer resourceInstanceId);
 }
