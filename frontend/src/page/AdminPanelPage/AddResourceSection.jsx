@@ -167,6 +167,7 @@ function AddResourceSection({setSection}) {
                     <textarea
                         name="description"
                         value={credentials.description}
+                        maxLength={255}
                         onChange={handleChange}
                     />
                     <label>Publisher: </label>

@@ -16,6 +16,20 @@ function ResourceUpdate({resource, fetchDescription, updateResource, updateImage
     const [selectedImage, setSelectedImage] = useState(null);
     const [imgSrc, setImgSrc] = useState(updatedResource.imageUrl || placeholder);
 
+    useEffect(() => {
+        setUpdatedResource({
+            id: resource.id || 0,
+            title: resource.title || '',
+            identifier: resource.identifier || '',
+            imageUrl: resource.imageUrl || '',
+            publisher: resource.publisher || '',
+            authors: resource.authors || [''],
+            description: '' // Fetch description separately
+        });
+        setImgSrc(resource.imageUrl || placeholder);
+        fetchDescription(resource, setUpdatedResource);
+    }, [resource, fetchDescription]);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUpdatedResource((prev) => ({
@@ -115,6 +129,7 @@ function ResourceUpdate({resource, fetchDescription, updateResource, updateImage
             <textarea
                 type='text'
                 name='description'
+                maxLength={255}
                 value={updatedResource.description}
                 onChange={handleChange}
             />

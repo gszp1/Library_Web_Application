@@ -19,7 +19,7 @@ public interface ResourceInstanceRepository extends JpaRepository<ResourceInstan
     List<ResourceInstance> findByResourceResourceId(Integer resourceId, Sort sort);
 
     @EntityGraph(attributePaths = {"resource"})
-    @Query("SELECT i FROM ResourceInstance i")
+    @Query("SELECT i FROM ResourceInstance i WHERE i.resource.resourceId =:id")
     List<ResourceInstance> findByResourceResourceIdWithData(Integer id, Sort sort);
 
     @EntityGraph(attributePaths = {"resource", "reservations"})
