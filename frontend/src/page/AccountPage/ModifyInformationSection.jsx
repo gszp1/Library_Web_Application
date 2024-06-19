@@ -49,6 +49,10 @@ function ModifyInformationSection({credentials, setCredentials, setSection}) {
             phoneNumber: {
                 message: '',
                 color: ''
+            },
+            imageResult: {
+                message: '',
+                color: ''
             }
         };
 
