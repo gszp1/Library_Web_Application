@@ -58,8 +58,8 @@ public class StatisticsService {
         return ResourceStatisticsDto.builder()
                 .numberOfResources(resourceRepository.count())
                 .numberOfInstances(instanceRepository.count())
-                .reservedResources(reservationRepository.countReservationsWithStatus(ReservationStatus.ACTIVE))
-                .borrowedResources(reservationRepository.countReservationsWithStatus(ReservationStatus.BORROWED))
+                .reservedInstances(reservationRepository.countReservationsWithStatus(ReservationStatus.ACTIVE))
+                .borrowedInstances(reservationRepository.countReservationsWithStatus(ReservationStatus.BORROWED))
                 .build();
     }
 

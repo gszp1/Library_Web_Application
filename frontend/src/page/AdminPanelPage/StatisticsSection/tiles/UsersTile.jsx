@@ -37,12 +37,18 @@ function UsersTile({setSection}) {
     return (
         <div className='smallStatTile'>
             <h2>{"Users\t"} <FontAwesomeIcon icon={faUser} style={{fontSize:'1.75rem'}}/></h2>
-            <p>Number of users:</p>
-            <p>{usersStats.numberOfUsers}</p>
-            <p>Average number of reservations per user:</p>
-            <p>{usersStats.avgNumberOfReservations}</p>
-            <p>Average reservation length (days): </p>
-            <p>{usersStats.avgReservationLength}</p>
+            {error ? (
+                <p>Failed to fetch statistics</p>
+            ) : (
+                <>
+                <p className="tileValueHeader">Number of users:</p>
+                <p className="tileValue">{usersStats.numberOfUsers}</p>
+                <p className="tileValueHeader">Average number of reservations per user:</p>
+                <p className="tileValue">{usersStats.avgNumberOfReservations}</p>
+                <p className="tileValueHeader">Average reservation length (days): </p>
+                <p className="tileValue">{usersStats.avgReservationLength}</p>
+                </>
+            )}
         </div>
     );
 }

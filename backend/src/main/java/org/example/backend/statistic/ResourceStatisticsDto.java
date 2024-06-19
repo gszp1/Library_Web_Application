@@ -6,7 +6,7 @@ import lombok.Builder;
 public record ResourceStatisticsDto (
         Long numberOfResources,
         Long numberOfInstances,
-        Long borrowedResources,
-        Long reservedResources
+        Long borrowedInstances,
+        Long reservedInstances
 ){
 }
