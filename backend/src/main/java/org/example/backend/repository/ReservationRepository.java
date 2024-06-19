@@ -3,6 +3,7 @@ package org.example.backend.repository;
 import org.example.backend.model.Reservation;
 import org.example.backend.util.ReservationStatus;
 import org.hibernate.annotations.Parameter;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -53,5 +54,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
     @EntityGraph(attributePaths = {"user", "resourceInstance", "resourceInstance.resource" })
     @Query("SELECT res FROM Reservation res")
-    List<Reservation> findAllWithData();
+    List<Reservation> findAllWithData(Sort sort);
 }

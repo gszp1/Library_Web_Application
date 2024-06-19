@@ -11,6 +11,7 @@ import org.example.backend.util.ReservationStatus;
 import org.example.backend.util.Util;
 import org.example.backend.util.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +43,7 @@ public class ReservationService {
 
     public List<AdminReservationDto> getAllReservations() {
         return reservationRepository
-                .findAllWithData()
+                .findAllWithData(Sort.by(Sort.Direction.DESC, "reservationId"))
                 .stream()
                 .map(reservation -> new AdminReservationDto(
                         reservation.getReservationId(),
