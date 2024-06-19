@@ -36,11 +36,51 @@ function ResourcesSection({setSection}) {
     }
 
     const updateResource = async (updatedResource) => {
-
+        const url = 'http://localhost:9090/api/resources/update';
+        try {
+            let response = await axios.put(url, updatedResource, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            displayPrompt(false, 'Resource updated')
+        } catch (error) {
+            if (error.response) {
+                if (error.response.status === 403){
+                    setSection('Error');
+                } else {
+                    displayPrompt(true, error.response.data);
+                }
+            } else {
+                displayPrompt(true, 'Failed to update resource');
+            }
+        }
     }
     
     const updateImage  = async (newImage, resId) => {
-
+        const url = `http://localhost:9090/api/images/update/${resId}`;
+        const formData = new FormData();
+        formData.append("image", newImage);
+        try {
+            let response = await axios.put(url, formData, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            displayPrompt(false, 'Image updated.');
+        } catch (error) {
+            if (error.response) {
+                if (error.response.status === 403){
+                    setSection('Error');
+                } else {
+                    displayPrompt(true, error.response.data);
+                }
+            } else {
+                displayPrompt(true, 'Failed to update Image');
+            }
+        }
     }
 
     const fetchResources = async() => {
@@ -95,7 +135,13 @@ function ResourcesSection({setSection}) {
                     {selectedResource === null ? (
                             <p>No resource selected.</p>
                         ) : (
-                            <ResourceUpdate resource={selectedResource} fetchDescription={fetchDescription}/>
+                            <ResourceUpdate
+                                resource={selectedResource}
+                                fetchDescription={fetchDescription}
+                                updateResource={updateResource}
+                                updateImage={updateImage}
+                                fetchResources={fetchResources}
+                            />
                         )
                     }
                     <h1>Instances</h1>

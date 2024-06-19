@@ -131,6 +131,7 @@ public class ImageController {
             Files.copy(image.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
             String url = "http://localhost:9090/api/images/" + originalFilename;
+            System.out.println(url);
             resourceService.updateResourceImage(id, url);
             return ResponseEntity.ok("Image saved.");
         } catch (Exception e) {

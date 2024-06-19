@@ -3,7 +3,7 @@ import './ResourcesSectionStyles.css';
 import axios from "axios";
 import placeholder from '../../../assets/image/bookPlaceholder.jpg';
 
-function ResourceUpdate({resource, fetchDescription}) {
+function ResourceUpdate({resource, fetchDescription, updateResource, updateImage, fetchResources}) {
     const [updatedResource, setUpdatedResource] = useState({
         id: resource.id || 0,
         title: resource.title || '',
@@ -66,10 +66,15 @@ function ResourceUpdate({resource, fetchDescription}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        updateResource(updatedResource);
+        if (selectedImage) {
+            updateImage(selectedImage, updatedResource.id);
+        }
+        fetchResources();
     }
 
     return (
-        <form className="resourceUpdateForm">
+        <form className="resourceUpdateForm" onSubmit={handleSubmit}>
             <label>ID</label>
             <input
                 type='text'
