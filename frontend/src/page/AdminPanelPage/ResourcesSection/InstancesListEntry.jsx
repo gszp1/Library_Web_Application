@@ -1,14 +1,12 @@
 import React, {useState} from "react";
 import './ResourcesSectionStyles.css';
 
-function InstancesListEntry({instance, listId}) {
+function InstancesListEntry({instance, listId, withdrawInstance, updateInstance}) {
     const [updatedInstance, setUpdatedInstance] = useState({
         resourceId: instance.resourceId || 0,
         id: instance.id || 0,
         isReserved: instance.isReserved,
         instanceStatus: instance.instanceStatus || ''
-
-
     });
 
     const handleChange = (e) => {
@@ -18,6 +16,14 @@ function InstancesListEntry({instance, listId}) {
             [name]: value
         }));
     };
+
+    const handleUpdate = () => {
+        updateInstance(updatedInstance);
+    }
+
+    const handleWithdraw = () => {
+        withdrawInstance(updatedInstance.id);
+    }
 
     return (
         <tr>
@@ -52,12 +58,12 @@ function InstancesListEntry({instance, listId}) {
                 </select>
             </td>
             <td>
-                <button>
+                <button onClick = {handleWithdraw}>
                     Withdraw
                 </button>
             </td>
             <td>
-                <button>
+                <button onClick = {handleUpdate}>
                     Update
                 </button>
             </td>

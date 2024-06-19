@@ -139,6 +139,53 @@ function ResourcesSection({setSection}) {
         }
     }
 
+    const updateInstance = async (updatedInstance) => {
+        const url = 'http://localhost:9090/api/instances/update';
+        try {
+            let response = await axios.put(url, updatedInstance, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
+                'Content-Type': 'application/json'
+            }
+            });
+            fetchInstances();
+            displayPrompt(false, "Update successful.")
+        } catch (error) {
+            if (error.resource) {
+                if (error.resource.status === 403) {
+                    setSection('Error');
+                } else {
+                    displayPrompt(true, error.resource.data);
+                }
+            } else {
+                displayPrompt(true, "Failed to fetch description.");
+            }
+        }
+    }
+
+    const withdrawInstance = async (id) => {
+        const url = `http://localhost:9090/api/instances/${id}/withdraw`;
+        try {
+            let response = await axios.put(url, {}, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`,
+                }
+                });
+                fetchInstances();
+                displayPrompt(false, "Resource withdrawn.")
+        } catch (error) {
+            if (error.resource) {
+                if (error.resource.status === 403) {
+                    setSection('Error');
+                } else {
+                    displayPrompt(true, error.resource.data);
+                }
+            } else {
+                displayPrompt(true, "Failed to fetch description.");
+            }
+        }
+    }
+
     useEffect(() => {
         fetchResources();
     }, []);
@@ -179,7 +226,7 @@ function ResourcesSection({setSection}) {
                             instances.length === 0 ? (
                                 <p>Resource has no instances.</p>
                             ) : (
-                                <InstancesList instances={instances}/>
+                                <InstancesList instances={instances} updateInstance={updateInstance} withdrawInstance={withdrawInstance}/>
                             )
                         )
                     )}

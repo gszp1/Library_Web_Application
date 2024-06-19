@@ -2,7 +2,7 @@ import React from "react";
 import './ResourcesSectionStyles.css';
 import InstancesListEntry from "./InstancesListEntry";
 
-function InstancesList({instances}) {
+function InstancesList({instances, withdrawInstance, updateInstance}) {
     return (
         <table className='instancesList'>
             <thead>
@@ -21,6 +21,8 @@ function InstancesList({instances}) {
                         key={instance.id}
                         instance={instance}
                         listId = {index}
+                        withdrawInstance={withdrawInstance}
+                        updateInstance={updateInstance}
                     />
                 ))}
             </tbody>
