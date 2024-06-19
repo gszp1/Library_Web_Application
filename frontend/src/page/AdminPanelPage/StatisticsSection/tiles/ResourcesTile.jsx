@@ -7,10 +7,10 @@ function ResourcesTile() {
     return (
         <div className="smallStatTile">
             <h2>{"Resources"} <FontAwesomeIcon icon={faBookOpen} style={{height:'1.75rem'}}/></h2>
-            <p>Resources: </p>
-            <p>Instances: </p>
-            <p>Borrows: </p>
-            <p>Reservations:</p>
+            <p>Number of resources: </p>
+            <p>Number of instances: </p>
+            <p>Borrowed instances: </p>
+            <p>Reserved instances: </p>
             <p></p>
         </div>
     );
