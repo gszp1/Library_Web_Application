@@ -55,9 +55,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     @Query("SELECT res FROM Reservation res")
     List<Reservation> findAllWithData(Sort sort);
 
-    @Query(value = "SELECT SUM((r.reservationEnd - r.reservationStart)) FROM Reservation r")
-    Long sumReservationsLengths();
-
     @Query("SELECT COUNT(r) FROM Reservation r WHERE r.reservationStatus=:status")
     Long countReservationsWithStatus(@Param("status") ReservationStatus status);
+
+    @Query("SELECT COUNT(r) FROM Reservation r WHERE MONTH(r.reservationStart)=:month")
+    Long countReservationsByStartMonth(@Param("month") int month);
 }

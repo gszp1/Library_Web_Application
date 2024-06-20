@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -37,8 +38,8 @@ public class StatisticsService {
     }
 
     public UserStatisticsDto getUserStatistics() {
-        long userCount = userRepository.count(),
-                reservationCount = reservationRepository.count();
+        long userCount = userRepository.countUsers(),
+             reservationCount = reservationRepository.count();
         List<Reservation> reservations = reservationRepository.findAll();
         long reservationsLengthsSum = reservations
                 .stream()
@@ -60,6 +61,40 @@ public class StatisticsService {
                 .numberOfInstances(instanceRepository.count())
                 .reservedInstances(reservationRepository.countReservationsWithStatus(ReservationStatus.ACTIVE))
                 .borrowedInstances(reservationRepository.countReservationsWithStatus(ReservationStatus.BORROWED))
+                .build();
+    }
+
+    public CountsPerMonthDto getReservationCountsPerMonth() {
+        return CountsPerMonthDto.builder()
+                .jan(reservationRepository.countReservationsByStartMonth(1))
+                .feb(reservationRepository.countReservationsByStartMonth(2))
+                .mar(reservationRepository.countReservationsByStartMonth(3))
+                .apr(reservationRepository.countReservationsByStartMonth(4))
+                .may(reservationRepository.countReservationsByStartMonth(5))
+                .jun(reservationRepository.countReservationsByStartMonth(6))
+                .jul(reservationRepository.countReservationsByStartMonth(7))
+                .aug(reservationRepository.countReservationsByStartMonth(8))
+                .sep(reservationRepository.countReservationsByStartMonth(9))
+                .oct(reservationRepository.countReservationsByStartMonth(10))
+                .nov(reservationRepository.countReservationsByStartMonth(11))
+                .dec(reservationRepository.countReservationsByStartMonth(12))
+                .build();
+    }
+
+    public CountsPerMonthDto getUsersRegistrationsCountsPerMonth() {
+        return CountsPerMonthDto.builder()
+                .jan(userRepository.countByRegistrationDateMonth(1))
+                .feb(userRepository.countByRegistrationDateMonth(2))
+                .mar(userRepository.countByRegistrationDateMonth(3))
+                .apr(userRepository.countByRegistrationDateMonth(4))
+                .may(userRepository.countByRegistrationDateMonth(5))
+                .jun(userRepository.countByRegistrationDateMonth(6))
+                .jul(userRepository.countByRegistrationDateMonth(7))
+                .aug(userRepository.countByRegistrationDateMonth(8))
+                .sep(userRepository.countByRegistrationDateMonth(9))
+                .oct(userRepository.countByRegistrationDateMonth(10))
+                .nov(userRepository.countByRegistrationDateMonth(11))
+                .dec(userRepository.countByRegistrationDateMonth(12))
                 .build();
     }
 

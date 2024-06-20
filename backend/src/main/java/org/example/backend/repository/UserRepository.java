@@ -1,8 +1,10 @@
 package org.example.backend.repository;
 
+import org.example.backend.auth.Role;
 import org.example.backend.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,4 +19,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllByEmailKeyword(String keyword);
 
     Optional<User> findByUserId(Integer userId);
+
+    @Query("SELECT COUNT(u) FROM User u WHERE u.role = org.example.backend.auth.Role.USER")
+    Long countUsers();
+
+    @Query("SELECT COUNT(u) FROM User u WHERE MONTH(u.joinDate)=:month AND u.role = org.example.backend.auth.Role.USER")
+    Long countByRegistrationDateMonth(@Param("month") int month);
 }

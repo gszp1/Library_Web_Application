@@ -1,6 +1,9 @@
 package org.example.backend.statistic;
 
-public record ReservationsMonthsDto(
+import lombok.Builder;
+
+@Builder
+public record CountsPerMonthDto(
         Long jan,
         Long feb,
         Long mar,

@@ -30,4 +30,16 @@ public class StatisticsController {
         return ResponseEntity.ok(statisticsService.getResourceStatistics());
     }
 
+    @PreAuthorize("hasAuthority('admin:read')")
+    @GetMapping("/reservationMonthsCounts")
+    public ResponseEntity<CountsPerMonthDto> getReservationCounts() {
+        return ResponseEntity.ok(statisticsService.getReservationCountsPerMonth());
+    }
+
+    @PreAuthorize("hasAuthority('admin:read')")
+    @GetMapping("/registrationMonthsCounts")
+    public ResponseEntity<CountsPerMonthDto> getRegistrationCounts() {
+        return ResponseEntity.ok(statisticsService.getUsersRegistrationsCountsPerMonth());
+    }
+
 }
