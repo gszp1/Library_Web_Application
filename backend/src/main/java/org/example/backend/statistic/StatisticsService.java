@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -95,6 +94,32 @@ public class StatisticsService {
                 .oct(userRepository.countByRegistrationDateMonth(10))
                 .nov(userRepository.countByRegistrationDateMonth(11))
                 .dec(userRepository.countByRegistrationDateMonth(12))
+                .build();
+    }
+
+    public TopThreeResourcesDto getTopThreeResources() {
+        List<Object[]> resourcesCount = reservationRepository.getReservationsWithCounts();
+        String firstName = "", secondName = "", thirdName = "";
+        Long firstCount = 0L, secondCount = 0L, thirdCount = 0L;
+        if (!resourcesCount.isEmpty()) {
+                firstName = (String) resourcesCount.getFirst()[0];
+                firstCount = (Long) resourcesCount.getFirst()[1];
+            if (resourcesCount.size() > 1) {
+                secondName = (String) resourcesCount.get(1)[0];
+                secondCount = (Long) resourcesCount.get(1)[1];
+            }
+            if (resourcesCount.size() > 2) {
+                thirdName = (String) resourcesCount.get(2)[0];
+                thirdCount = (Long) resourcesCount.get(2)[1];
+            }
+        }
+        return TopThreeResourcesDto.builder()
+                .firstName(firstName)
+                .firstCount(firstCount)
+                .secondName(secondName)
+                .secondCount(secondCount)
+                .thirdName(thirdName)
+                .thirdCount(thirdCount)
                 .build();
     }
 

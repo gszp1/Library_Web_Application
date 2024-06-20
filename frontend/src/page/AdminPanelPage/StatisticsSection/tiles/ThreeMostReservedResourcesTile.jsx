@@ -24,6 +24,21 @@ function ThreeMostReservedResources({setSection}) {
     }
 
     const fetchThreeMostReservedResources = async () => {
+        const url = 'http://localhost:9090/api/statistics/reservations/top3';
+        try {
+            let response = await axios.get(url, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
+                }
+            });
+            setResources(response.data);
+            setError(false);
+        } catch (error) {
+            if (error.response && error.response.status === 403) {
+                setSection('Error');
+            }
+            setError(true);
+        }
     }
 
     useEffect(() => {
@@ -44,8 +59,8 @@ function ThreeMostReservedResources({setSection}) {
                 <div className='topResourcesList'>
                     {topResources.map((res) => (
                         <div style={{display:'flex', flexDirection:'row'}}>
-                            <p className='topResourcesHeader'>{`${res[0]}: `}</p>
-                            <p>{`${res[1]}`}</p>
+                            <p className='topResourcesHeader'>{res[0] === '' ? ' ' :`${res[0]}: `}</p>
+                            <p>{res[0] === '' ? ' ' : `${res[1]}`}</p>
                         </div>
                     ))}
                 </div>

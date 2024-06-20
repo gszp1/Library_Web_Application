@@ -39,7 +39,7 @@ function ReservationsInTimeTile({setSection}) {
     ];
 
     const fetchReservationsInTime = async () => {
-        const url = 'http://localhost:9090/api/statistics/reservationMonthsCounts';
+        const url = 'http://localhost:9090/api/statistics/reservations/monthCounts';
         try {
             let response = await axios.get(url, {
                 headers: {

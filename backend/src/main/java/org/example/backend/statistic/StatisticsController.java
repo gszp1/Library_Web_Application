@@ -31,15 +31,20 @@ public class StatisticsController {
     }
 
     @PreAuthorize("hasAuthority('admin:read')")
-    @GetMapping("/reservationMonthsCounts")
+    @GetMapping("/reservations/monthCounts")
     public ResponseEntity<CountsPerMonthDto> getReservationCounts() {
         return ResponseEntity.ok(statisticsService.getReservationCountsPerMonth());
     }
 
     @PreAuthorize("hasAuthority('admin:read')")
-    @GetMapping("/registrationMonthsCounts")
+    @GetMapping("/registrations/monthCounts")
     public ResponseEntity<CountsPerMonthDto> getRegistrationCounts() {
         return ResponseEntity.ok(statisticsService.getUsersRegistrationsCountsPerMonth());
     }
 
+    @PreAuthorize("hasAuthority('admin:read')")
+    @GetMapping("/reservations/top3")
+    public ResponseEntity<TopThreeResourcesDto> getTop3ReservationCounts() {
+        return ResponseEntity.ok(statisticsService.getTopThreeResources());
+    }
 }

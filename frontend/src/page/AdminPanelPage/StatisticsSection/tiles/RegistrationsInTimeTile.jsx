@@ -39,7 +39,7 @@ function RegistrationsInTimeTile({setSection}) {
     ]
 
     const fetchRegInTime = async () => {
-        const url = 'http://localhost:9090/api/statistics/registrationMonthsCounts';
+        const url = 'http://localhost:9090/api/statistics/registrations/monthCounts';
         try {
             let response = await axios.get(url, {
                 headers: {
