@@ -70,13 +70,15 @@
 .month {
     width: 25%;
     height: 100%;
-    text-align:start;
+    text-align:center;
+    font-weight: bold;
+    color:orange;
 }
 
 .value {
     width: 75%;
     height: 100%;
-    text-align: center;
+    text-align: start;
 }
 
 .monthsColumn {
