@@ -22,6 +22,11 @@ function RegistrationsInTimeTile() {
 
     const monthsRegistrations = Object.entries(regInTime);
 
+    const monthsGroups = [
+        monthsRegistrations.slice(0,4),
+        monthsRegistrations.slice(4,8),
+        monthsRegistrations.slice(8,12)
+    ]
     const fetchRegInTime = async () => {
 
     };
@@ -33,10 +38,14 @@ function RegistrationsInTimeTile() {
         <div className='largeStatTile'>
             <h2>Registrations in Time <FontAwesomeIcon icon={faAddressCard} style={{height:'1.75rem'}}/></h2>
             <div className="statsValuesList">
-                {monthsRegistrations.map(([month, value], index) => (
-                    <div key={index} className="monthsGridItem">
-                        <div className="month">{month}</div>
-                        <div className="value">{value}</div>
+                {monthsGroups.map((group, groupIndex) => (
+                    <div key={groupIndex} className="monthsColumn">
+                        {group.map(([month, value], index) => (
+                            <div key={index} className="monthsGridItem">
+                                <div className="month">{month}</div>
+                                <div className="value">{value}</div>
+                            </div>
+                        ))}
                     </div>
                 ))}
             </div>
