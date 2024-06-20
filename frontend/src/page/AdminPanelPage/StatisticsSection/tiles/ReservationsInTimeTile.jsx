@@ -8,26 +8,28 @@ import axios from "axios";
 
 function ReservationsInTimeTile({setSection}) {
     const [resInTime, setResInTime] = useState({
-        Jan: 0,
-        Feb: 0,
-        Mar: 0,
-        Apr: 0,
-        May: 0,
-        Jun: 0,
-        Jul: 0,
-        Aug: 0,
-        Sep: 0,
-        Oct: 0,
-        Nov: 0,
-        Dec: 0,
+        jan: 0,
+        feb: 0,
+        mar: 0,
+        apr: 0,
+        may: 0,
+        jun: 0,
+        jul: 0,
+        aug: 0,
+        sep: 0,
+        oct: 0,
+        nov: 0,
+        dec: 0,
     });
-
+    const [error, setError] = useState(false);
     const monthsReservations = Object.entries(resInTime);
+
+    const capitalizeMonthName = (string) => string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 
     const monthsNames = [];
     const monthsValues = [];
     monthsReservations.forEach((monthRes) => {
-        monthsNames.push(monthRes[0]);
+        monthsNames.push(capitalizeMonthName(monthRes[0]));
         monthsValues.push(monthRes[1]);
     });
     const monthsGroups = [
@@ -37,7 +39,21 @@ function ReservationsInTimeTile({setSection}) {
     ];
 
     const fetchReservationsInTime = async () => {
-
+        const url = 'http://localhost:9090/api/statistics/reservationMonthsCounts';
+        try {
+            let response = await axios.get(url, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('WebLibToken')}`
+                }
+            });
+            setResInTime(response.data);
+            setError(false);
+        } catch (error) {
+            if (error.response && error.response.status === 403) {
+                setSection('Error');
+            }
+            setError(true);
+        }
     };
 
     useEffect(() => {
@@ -46,23 +62,29 @@ function ReservationsInTimeTile({setSection}) {
 
     return (
         <div className='largeStatTile'>
-            <h2>Registrations in Time <FontAwesomeIcon icon={faCalendar} style={{height:'1.75rem'}}/></h2>
-            <BarChart
-                xAxis={[{scaleType: 'band', data: monthsNames, label:'Month'}]}
-                series={[{id: 'reservations', data: monthsValues, label:'Reservations', color: 'orange'}]}
-            />
-            <div className="statsValuesList">
-                {monthsGroups.map((group, groupIndex) => (
-                    <div key={groupIndex} className="monthsColumn">
-                        {group.map(([month, value], index) => (
-                            <div key={index} className="monthsGridItem">
-                                <div className="month">{`${month}: `}</div>
-                                <div className="value">{value}</div>
+            <h2>Reservations in Time <FontAwesomeIcon icon={faCalendar} style={{height:'1.75rem'}}/></h2>
+            {error ? (
+                <p>Failed to fetch reservations</p>
+            ) : (
+                <>
+                    <BarChart
+                    xAxis={[{scaleType: 'band', data: monthsNames, label:'Month'}]}
+                    series={[{id: 'reservations', data: monthsValues, label:'Reservations', color: 'orange'}]}
+                />
+                    <div className="statsValuesList">
+                        {monthsGroups.map((group, groupIndex) => (
+                            <div key={groupIndex} className="monthsColumn">
+                                {group.map(([month, value], index) => (
+                                    <div key={index} className="monthsGridItem">
+                                        <div className="month">{`${capitalizeMonthName(month)}:`}</div>
+                                        <div className="value">{value}</div>
+                                    </div>
+                                ))}
                             </div>
                         ))}
                     </div>
-                ))}
-            </div>
+                </>
+            )}
         </div>
     );
 }

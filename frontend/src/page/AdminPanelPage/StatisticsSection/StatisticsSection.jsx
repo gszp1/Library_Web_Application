@@ -13,14 +13,14 @@ function StatisticsSection({setSection}) {
         <div className="adminPanelSection" style={{marginRight: '2%'}}>
             <h1>Statistics</h1>
             <div className='row'>
-                <UsersTile />
-                <ResourcesTile />
+                <UsersTile setSection={setSection}/>
+                <ResourcesTile setSection={setSection}/>
             </div>
             <div className='row'>
-                <ReservationsInTimeTile />
+                <ReservationsInTimeTile setSection={setSection}/>
             </div>
             <div className='row'>
-                <RegistrationsInTimeTile />
+                <RegistrationsInTimeTile setSection={setSection}/>
             </div>
         </div>
     );
