@@ -88,3 +88,23 @@
     flex-direction: column;
     margin: 0 0 0 3%;
 }
+
+.topResourcesList {
+    width: 100%;
+    height: 10rem;
+    display: flex;
+    flex-direction: column;
+    border-top: orange 1px solid;
+    padding-top: 1rem;
+}
+
+.topResourcesList p {
+    padding-left: 1rem;
+    font-size: 1rem;
+}
+
+.topResourcesHeader {
+    font-weight: bold;
+    color:orange;
+    margin-left: 3rem;
+}

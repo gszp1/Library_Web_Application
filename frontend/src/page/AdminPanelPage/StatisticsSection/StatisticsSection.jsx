@@ -6,6 +6,7 @@ import ResourcesTile from "./tiles/ResourcesTile";
 import ReservationsInTimeTile from "./tiles/ReservationsInTimeTile";
 import RegistrationsInTimeTile from "./tiles/RegistrationsInTimeTile";
 import axios from "axios";
+import ThreeMostReservedResources from "./tiles/ThreeMostReservedResourcesTile";
 
 
 function StatisticsSection({setSection}) {
@@ -21,6 +22,9 @@ function StatisticsSection({setSection}) {
             </div>
             <div className='row'>
                 <RegistrationsInTimeTile setSection={setSection}/>
+            </div>
+            <div className='row'>
+                <ThreeMostReservedResources setSection={setSection}/>
             </div>
         </div>
     );
