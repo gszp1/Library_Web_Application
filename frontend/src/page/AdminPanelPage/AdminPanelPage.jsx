@@ -10,6 +10,7 @@ import AuthorsSection from "./AuthorsSection/AuthorsSection";
 import AddAuthorSection from "./AuthorsSection/AddAuthorSection";
 import AddPublisherSection from "./PublishersSection/AddPublisherSection";
 import PublishersSection from "./PublishersSection/PublishersSection";
+import StatisticsSection from "./StatisticsSection/StatisticsSection.jsx";
 
 function AdminPanelPage() {
     const [section, setSection] = useState('Resources');
@@ -44,6 +45,8 @@ function AdminPanelPage() {
                 return (<PublishersSection setSection={setSection}/>)
             case 'AddPublisher':
                 return (<AddPublisherSection setSection={setSection}/>)
+            case 'Statistics':
+                return (<StatisticsSection setSection={setSection}/>)
             case 'Error':
                 setTimeout(() => {
                     localStorage.removeItem('WebLibToken');
@@ -80,6 +83,9 @@ function AdminPanelPage() {
                 </li>
                 <li id='Reservations' onClick={handleClick}>
                     Reservations
+                </li>
+                <li id='Statistics' onClick={handleClick}>
+                    Statistics
                 </li>
                 <li
                     style={{color: 'red', fontWeight: "bold"}}

@@ -1,8 +1,8 @@
 package org.example.backend.repository;
 
 import org.example.backend.model.Reservation;
+import org.example.backend.model.Resource;
 import org.example.backend.util.ReservationStatus;
-import org.hibernate.annotations.Parameter;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -55,4 +55,16 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     @EntityGraph(attributePaths = {"user", "resourceInstance", "resourceInstance.resource" })
     @Query("SELECT res FROM Reservation res")
     List<Reservation> findAllWithData(Sort sort);
+
+    @Query("SELECT COUNT(r) FROM Reservation r WHERE r.reservationStatus=:status")
+    Long countReservationsWithStatus(@Param("status") ReservationStatus status);
+
+    @Query("SELECT COUNT(r) FROM Reservation r WHERE MONTH(r.reservationStart)=:month")
+    Long countReservationsByStartMonth(@Param("month") int month);
+
+    @Query("SELECT res.resourceInstance.resource.title, COUNT(res) as resCount " +
+            "FROM Reservation res " +
+            "GROUP BY res.resourceInstance.resource.title " +
+            "ORDER BY resCount DESC")
+    List<Object[]> getReservationsWithCounts();
 }
