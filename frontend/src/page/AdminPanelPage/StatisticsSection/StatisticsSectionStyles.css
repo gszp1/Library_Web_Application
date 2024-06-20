@@ -49,3 +49,33 @@
     width: 90%;
 }
 
+.statsValuesList {
+    width: 100%;
+    height: 10rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: orange 1px solid;
+    padding-top: 1rem;
+}
+
+.monthsGridItem {
+    width: 30%;
+    height: calc(25% - 0.25rem);
+    display: flex;
+    flex-direction: row;
+    min-width: 300px;
+    min-height: 40px;
+    margin: 0 0 0 3%;
+}
+
+.month {
+    width: 25%;
+    height: 100%;
+    text-align:start;
+}
+
+.value {
+    width: 75%;
+    height: 100%;
+    text-align: center;
+}
