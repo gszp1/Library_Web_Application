@@ -46,7 +46,7 @@ function UsersTile({setSection}) {
                 <p className="tileValueHeader">Average number of reservations per user:</p>
                 <p className="tileValue">{usersStats.avgNumberOfReservations}</p>
                 <p className="tileValueHeader">Average reservation length (days): </p>
-                <p className="tileValue">{usersStats.avgReservationLength}</p>
+                <p className="tileValue">{usersStats.avgReservationLength.toFixed(2)}</p>
                 </>
             )}
         </div>

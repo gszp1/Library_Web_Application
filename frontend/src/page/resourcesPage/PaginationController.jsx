@@ -17,7 +17,7 @@ function PaginationController({page, setPage, totalPages, pageSize, setPageSize}
 
       const handleInputChange = (e) => {
         const newPage = parseInt(e.target.value, 10) - 1;
-        if (!isNaN && newPage >= 0 && newPage < totalPages) {
+        if (!isNaN(newPage) && newPage >= 0 && newPage < totalPages) {
           setPage(newPage)
         }
       }
@@ -50,7 +50,7 @@ function PaginationController({page, setPage, totalPages, pageSize, setPageSize}
                     value={page + 1}
                     onChange={handleInputChange}
                     min={1}
-                    max={totalPages}
+                    max={totalPages + 1}
                 />
                 {` / ${totalPages}`}
             </div>
