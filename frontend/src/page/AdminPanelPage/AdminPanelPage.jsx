@@ -11,6 +11,9 @@ import AddAuthorSection from "./AuthorsSection/AddAuthorSection";
 import AddPublisherSection from "./PublishersSection/AddPublisherSection";
 import PublishersSection from "./PublishersSection/PublishersSection";
 import StatisticsSection from "./StatisticsSection/StatisticsSection.jsx";
+import SettingsSection from "./SettingsSection.jsx";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGear } from '@fortawesome/free-solid-svg-icons';
 
 function AdminPanelPage() {
     const [section, setSection] = useState('Resources');
@@ -47,6 +50,8 @@ function AdminPanelPage() {
                 return (<AddPublisherSection setSection={setSection}/>)
             case 'Statistics':
                 return (<StatisticsSection setSection={setSection}/>)
+            case 'Settings':
+                return (<SettingsSection setSection={setSection}/>)
             case 'Error':
                 setTimeout(() => {
                     localStorage.removeItem('WebLibToken');
@@ -86,6 +91,9 @@ function AdminPanelPage() {
                 </li>
                 <li id='Statistics' onClick={handleClick}>
                     Statistics
+                </li>
+                <li id='Settings' onClick={handleClick}>
+                    {`Settings `} <FontAwesomeIcon icon={faGear} style={{marginLeft: '0.5rem'}} />
                 </li>
                 <li
                     style={{color: 'red', fontWeight: "bold"}}

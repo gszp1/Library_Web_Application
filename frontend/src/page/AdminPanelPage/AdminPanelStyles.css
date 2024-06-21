@@ -308,3 +308,24 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
 }
+
+.settingsButton {
+    width: 30%;
+    height: 2rem;
+    font-size: 1.25rem;
+    background-color: hsl(34, 100%, 50%);
+    border: 1px solid black;
+    border-radius: 15px;
+    margin-bottom: 3rem;
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor:pointer;
+}
+
+.settingsButton:hover {
+    background-color: hsl(34, 100%, 40%);
+}
+
+.settingsButton:active {
+    background-color: hsl(34, 100%, 30%);
+}

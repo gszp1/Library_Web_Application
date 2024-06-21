@@ -1,36 +1,3 @@
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 14.12 (Ubuntu 14.12-0ubuntu0.22.04.1)
--- Dumped by pg_dump version 14.12 (Ubuntu 14.12-0ubuntu0.22.04.1)
-
--- Started on 2024-06-20 23:57:38 CEST
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
-DROP DATABASE library_db;
---
--- TOC entry 3437 (class 1262 OID 66916)
--- Name: library_db; Type: DATABASE; Schema: -; Owner: postgres
---
-
-CREATE DATABASE library_db WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'en_US.UTF-8';
-
-
-ALTER DATABASE library_db OWNER TO postgres;
-
-\connect library_db
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;

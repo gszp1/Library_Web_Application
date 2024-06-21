@@ -6,7 +6,7 @@ spring:
     open-in-view: false
     show-sql: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         format_sql: true
@@ -25,5 +25,13 @@ spring:
     restart:
       exclude: src/main/resources/static/userImages
       additional-exclude: src/main/resources/static/images
+
 server:
   port: 9090
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
