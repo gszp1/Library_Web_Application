@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  library_db:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: library_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "9092:5432"
+    volumes:
+      - library_db_volume:/var/lib/postgresql/data
+    networks:
+      - library_web_app_network
+
+volumes:
+  library_db_volume:
+
+networks:
+  library_web_app_network:
+    driver: bridge
