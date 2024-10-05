@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: library_service
+    ports:
+      - "9090:9090"
+    networks:
+      - library_web_app_network
+    depends_on:
+      - database
+  database:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    container_name: library_database
+    ports:
+      - "9092:5432"
+    volumes:
+      - library_db_volume:/var/lib/postgresql/data
+    networks:
+      - library_web_app_network
+
+volumes:
+  library_db_volume:
+
+networks:
+  library_web_app_network:
+    driver: bridge

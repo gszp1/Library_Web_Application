@@ -1,6 +1,5 @@
 plugins {
 	java
-	war
 	id("org.springframework.boot") version "3.2.4"
 	id("io.spring.dependency-management") version "1.1.4"
 }
@@ -47,11 +46,19 @@ dependencies {
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
-	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+//	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.bootJar {
+	archiveBaseName.set("LibraryService")
+	archiveVersion.set("1.0.0")
+	archiveClassifier.set("")
+	archiveExtension.set("jar")
+	destinationDirectory.set(file("$buildDir/libs"))
 }
